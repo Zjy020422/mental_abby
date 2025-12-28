@@ -1,0 +1,2253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - MindCare</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+/* Base CSS Variables and General Styles */
+:root {
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --gradient-tertiary: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    --white: #ffffff;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --error-color: #ef4444;
+    --info-color: #3b82f6;
+    --transition-normal: all 0.3s ease;
+    --transition-slow: all 0.5s ease;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+    --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1.5rem;
+    --radius-3xl: 2rem;
+    --radius-full: 9999px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: var(--gray-900);
+    background: var(--gray-50);
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Navigation Bar Styles */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    transition: var(--transition-normal);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--gray-600);
+    font-weight: 500;
+    transition: var(--transition-normal);
+    position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--primary-color);
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary-color);
+    border-radius: 1px;
+}
+
+.nav-toggle {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--gray-600);
+    background: none;
+    border: none;
+}
+
+/* User Menu */
+.user-menu {
+    position: relative;
+}
+
+.user-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-lg);
+    transition: var(--transition-normal);
+}
+
+.user-btn:hover {
+    background: var(--gray-100);
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary-color);
+}
+
+.user-name {
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--white);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    padding: 0.5rem;
+    min-width: 200px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: var(--transition-normal);
+}
+
+.dropdown-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    color: var(--gray-700);
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+    transition: var(--transition-normal);
+    font-weight: 500;
+}
+
+.dropdown-item:hover {
+    background: var(--gray-100);
+    color: var(--gray-900);
+}
+
+.dropdown-item i {
+    width: 16px;
+    text-align: center;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: var(--gray-200);
+    margin: 0.5rem 0;
+}
+
+/* Button Styles */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-normal);
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-outline:hover {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Dashboard Main Styles */
+.dashboard-main {
+    min-height: 100vh;
+    padding-top: 80px;
+    background: var(--gray-50);
+}
+
+/* Welcome Section */
+.welcome-section {
+    padding: 3rem 0;
+    background: var(--white);
+    border-bottom: 1px solid var(--gray-200);
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, transparent 0%, rgba(102, 126, 234, 0.03) 100%);
+    z-index: 1;
+}
+
+.welcome-content {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3rem;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.welcome-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.welcome-title span {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.welcome-subtitle {
+    color: var(--gray-600);
+    margin-bottom: 2rem;
+    font-size: 1.125rem;
+}
+
+.welcome-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.welcome-visual {
+    display: flex;
+    justify-content: center;
+}
+
+/* Slideshow */
+.featured-slider {
+    width: 350px;
+    height: 350px;
+    position: relative;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-2xl);
+}
+
+.slider-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-primary);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    text-align: center;
+    padding: 2rem;
+    transition: var(--transition-slow);
+}
+
+.slide.active {
+    display: flex;
+}
+
+.slide:nth-child(2) {
+    background: var(--gradient-secondary);
+}
+
+.slide:nth-child(3) {
+    background: var(--gradient-tertiary);
+}
+
+.slide-content i {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    display: block;
+    opacity: 0.9;
+    animation: slideIconFloat 3s ease-in-out infinite;
+}
+
+.slide-content h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.slide-content p {
+    opacity: 0.9;
+    font-size: 1.125rem;
+}
+
+@keyframes slideIconFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.slider-dots {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.75rem;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: var(--transition-normal);
+}
+
+.dot.active {
+    background: var(--white);
+    transform: scale(1.2);
+}
+
+/* Section Title */
+.section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section-subtitle {
+    color: var(--gray-600);
+    font-size: 1.125rem;
+    margin-bottom: 2rem;
+}
+
+/* Quick Actions */
+.quick-actions {
+    padding: 4rem 0;
+}
+
+.actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.action-card {
+    background: var(--white);
+    padding: 2.5rem;
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+    cursor: pointer;
+    transition: var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--gray-100);
+}
+
+.action-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+}
+
+.action-card:nth-child(2)::before {
+    background: var(--gradient-secondary);
+}
+
+.action-card:nth-child(3)::before {
+    background: var(--gradient-tertiary);
+}
+
+.action-card:nth-child(4)::before {
+    background: var(--gradient-success);
+}
+
+.action-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-2xl);
+}
+
+.card-icon {
+    width: 70px;
+    height: 70px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-2xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    transition: var(--transition-normal);
+}
+
+.action-card:nth-child(2) .card-icon {
+    background: var(--gradient-secondary);
+}
+
+.action-card:nth-child(3) .card-icon {
+    background: var(--gradient-tertiary);
+}
+
+.action-card:nth-child(4) .card-icon {
+    background: var(--gradient-success);
+}
+
+.action-card:hover .card-icon {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.action-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 0.75rem;
+}
+
+.action-card p {
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-normal);
+    padding: 0.5rem 0;
+}
+
+.action-btn:hover {
+    color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+.action-btn::after {
+    content: '→';
+    margin-left: 0.25rem;
+    transition: var(--transition-normal);
+}
+
+.action-btn:hover::after {
+    transform: translateX(5px);
+}
+
+/* Data Overview */
+.stats-overview {
+    padding: 4rem 0;
+    background: var(--white);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.stat-card {
+    background: var(--gray-50);
+    padding: 2.5rem;
+    border-radius: var(--radius-2xl);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: var(--transition-normal);
+    border: 1px solid var(--gray-100);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--gradient-primary);
+}
+
+.stat-card:nth-child(2)::before {
+    background: var(--gradient-secondary);
+}
+
+.stat-card:nth-child(3)::before {
+    background: var(--gradient-tertiary);
+}
+
+.stat-card:nth-child(4)::before {
+    background: var(--gradient-success);
+}
+
+.stat-card:hover {
+    background: var(--white);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.stat-icon {
+    width: 70px;
+    height: 70px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-2xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 1.75rem;
+    flex-shrink: 0;
+}
+
+.stat-card:nth-child(2) .stat-icon {
+    background: var(--gradient-secondary);
+}
+
+.stat-card:nth-child(3) .stat-icon {
+    background: var(--gradient-tertiary);
+}
+
+.stat-card:nth-child(4) .stat-icon {
+    background: var(--gradient-success);
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--gray-900);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    color: var(--gray-600);
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+/* Recent Activity */
+.recent-activity {
+    padding: 4rem 0;
+    background: var(--gray-50);
+}
+
+.activity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+
+.view-all-btn {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-normal);
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--primary-color);
+}
+
+.view-all-btn:hover {
+    background: var(--primary-color);
+    color: var(--white);
+    transform: translateY(-2px);
+}
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.activity-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: var(--white);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-normal);
+    border: 1px solid var(--gray-100);
+}
+
+.activity-item:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-2px);
+}
+
+.activity-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    flex-shrink: 0;
+    font-size: 1.5rem;
+}
+
+.activity-content {
+    flex: 1;
+}
+
+.activity-content h4 {
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 0.5rem;
+    font-size: 1.125rem;
+}
+
+.activity-content p {
+    color: var(--gray-600);
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+}
+
+.activity-content time {
+    font-size: 0.875rem;
+    color: var(--gray-500);
+    font-weight: 500;
+}
+
+.activity-status {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+    font-weight: 600;
+}
+
+.activity-status.success {
+    background: var(--success-color);
+    color: var(--white);
+}
+
+.activity-status.info {
+    background: var(--info-color);
+    color: var(--white);
+}
+
+/* Health Tips */
+.health-tips {
+    padding: 4rem 0;
+    background: var(--white);
+}
+
+.tips-container {
+    margin-top: 3rem;
+}
+
+.tip-card {
+    background: var(--gradient-primary);
+    color: var(--white);
+    padding: 3rem;
+    border-radius: var(--radius-2xl);
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-xl);
+}
+
+.tip-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 50%);
+    animation: tipBg 10s linear infinite;
+}
+
+@keyframes tipBg {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.tip-icon {
+    width: 70px;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.tip-content {
+    flex: 1;
+    position: relative;
+    z-index: 2;
+}
+
+.tip-content h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.tip-content p {
+    opacity: 0.95;
+    line-height: 1.6;
+    font-size: 1.125rem;
+}
+
+.tip-refresh {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: var(--white);
+    padding: 1rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: var(--transition-normal);
+    font-size: 1.25rem;
+    position: relative;
+    z-index: 2;
+}
+
+.tip-refresh:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(180deg);
+}
+
+/* Footer Styles */
+.footer {
+    background: var(--gray-900);
+    color: var(--white);
+    padding: 4rem 0 2rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.footer-section h4 {
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-section ul li a {
+    color: var(--gray-400);
+    text-decoration: none;
+    transition: var(--transition-normal);
+    font-weight: 500;
+}
+
+.footer-section ul li a:hover {
+    color: var(--white);
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--gray-400);
+}
+
+/* AOS Animations */
+[data-aos] {
+    opacity: 0;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+[data-aos].aos-animate {
+    opacity: 1;
+}
+
+[data-aos="fade-up"] {
+    transform: translateY(30px);
+}
+
+[data-aos="fade-up"].aos-animate {
+    transform: translateY(0);
+}
+
+[data-aos="fade-left"] {
+    transform: translateX(-30px);
+}
+
+[data-aos="fade-left"].aos-animate {
+    transform: translateX(0);
+}
+
+[data-aos="fade-right"] {
+    transform: translateX(30px);
+}
+
+[data-aos="fade-right"].aos-animate {
+    transform: translateX(0);
+}
+
+[data-aos="zoom-in"] {
+    transform: scale(0.8);
+}
+
+[data-aos="zoom-in"].aos-animate {
+    transform: scale(1);
+}
+
+/* Animation Effects */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes numberCount {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Page Load Animation */
+.page-loaded .welcome-title {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.page-loaded .welcome-subtitle {
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.page-loaded .welcome-actions {
+    animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+.page-loaded .featured-slider {
+    animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .welcome-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 2rem;
+    }
+    
+    .actions-grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    
+    .featured-slider {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-menu {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: var(--white);
+        flex-direction: column;
+        padding: 2rem;
+        box-shadow: var(--shadow-lg);
+        transform: translateY(-100%);
+        transition: var(--transition-normal);
+        opacity: 0;
+        visibility: hidden;
+    }
+    
+    .nav-menu.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    .nav-toggle {
+        display: block;
+    }
+    
+    .dashboard-main {
+        padding-top: 70px;
+    }
+    
+    .welcome-section {
+        padding: 2rem 0;
+    }
+    
+    .welcome-title {
+        font-size: 2rem;
+    }
+    
+    .welcome-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .featured-slider {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .actions-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .activity-item {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .activity-icon {
+        align-self: flex-start;
+    }
+    
+    .tip-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+        padding: 2rem;
+    }
+    
+    .activity-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .welcome-title {
+        font-size: 1.75rem;
+    }
+    
+    .welcome-subtitle {
+        font-size: 1rem;
+    }
+    
+    .featured-slider {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .action-card {
+        padding: 1.5rem;
+    }
+    
+    .stat-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .activity-item {
+        padding: 1rem;
+    }
+    
+    .tip-card {
+        padding: 1.5rem;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* Special Animation Effects */
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Loading State */
+.loading {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--gray-300);
+    border-top: 2px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-brain"></i>
+                <span>MindCare</span>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="#" class="nav-link active">Home Page</a>
+                <a href="test.html" class="nav-link">Start testing</a>
+                <a href="history.html" class="nav-link">History</a>
+                <div class="user-menu">
+                    <button class="user-btn" id="userMenuBtn">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b169?w=40&h=40&fit=crop&crop=face" alt="User Avatar" class="user-avatar">
+                        <span class="user-name">User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="dropdown-menu" id="userDropdown">
+                        <a href="history.html" class="dropdown-item">
+                            <i class="fas fa-history"></i>
+                            My records
+                        </a>
+                        <a href="#" class="dropdown-item" id="settingsBtn">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </a>
+                        <a href="#" class="dropdown-item" id="profileBtn">
+                            <i class="fas fa-user"></i>
+                            Personal information
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Log out
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <button class="nav-toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <div class="container">
+                <div class="welcome-content">
+                    <div class="welcome-text">
+                        <h1 class="welcome-title">
+                            Welcome, <span id="welcomeUserName">User</span>!
+                        </h1>
+                        <p class="welcome-subtitle">
+                            Get ready to start a new mental health assessment or check your history. Let's pay attention to your mental health status together.
+                        </p>
+                        <div class="welcome-actions">
+                            <a href="test.html" class="btn btn-primary">
+                                <i class="fas fa-play"></i>
+                                Start testing
+                            </a>
+                            <a href="history.html" class="btn btn-outline">
+                                <i class="fas fa-chart-line"></i>
+                                View history
+                            </a>
+                        </div>
+                    </div>
+                    <div class="welcome-visual">
+                        <div class="featured-slider">
+                            <div class="slider-container">
+                                <div class="slide active">
+                                    <div class="slide-content">
+                                        <i class="fas fa-heart"></i>
+                                        <h3>Pay attention to mental health</h3>
+                                        <p>Regular assessment and timely attention</p>
+                                    </div>
+                                </div>
+                                <div class="slide">
+                                    <div class="slide-content">
+                                        <i class="fas fa-brain"></i>
+                                        <h3>AI intelligent analysis</h3>
+                                        <p>Scientific and accurate, trustworthy</p>
+                                    </div>
+                                </div>
+                                <div class="slide">
+                                    <div class="slide-content">
+                                        <i class="fas fa-chart-line"></i>
+                                        <h3>Trend following</h3>
+                                        <p>Record changes and witness growth</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider-dots">
+                                <span class="dot active" data-slide="0"></span>
+                                <span class="dot" data-slide="1"></span>
+                                <span class="dot" data-slide="2"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+            <div class="container">
+                <h2 class="section-title">Quick Operation</h2>
+                <p class="section-subtitle">Choose the service you need and start your journey of mental health management</p>
+                <div class="actions-grid">
+                    <div class="action-card" data-aos="fade-up" data-aos-delay="0">
+                        <div class="card-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <h3>Evaluate with a questionnaire</h3>
+                        <p>Based on a scientific assessment using professional psychological scales, understand your current psychological state and emotional level</p>
+                        <a href="test.html" class="action-btn">Start evaluation</a>
+                    </div>
+                    
+                    <div class="action-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="card-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Brain analysis</h3>
+                        <p>Upload brain images for AI intelligent analysis to obtain in-depth brain health assessment reports</p>
+                        <a href="test.html#upload" class="action-btn">Upload images</a>
+                    </div>
+                    
+                    <div class="action-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="card-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <h3>History</h3>
+                        <p>The image upload system allows you to view past assessment results and trend analysis, and track the trajectory of your mental health changes</p>
+                        <a href="history.html" class="action-btn">Check history</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Overview -->
+        <section class="stats-overview">
+            <div class="container">
+                <h2 class="section-title">Data overview</h2>
+                <p class="section-subtitle">Overview your mental health management data statistics</p>
+                <div class="stats-grid">
+                    <div class="stat-card" data-aos="fade-up" data-aos-delay="0">
+                        <div class="stat-icon">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="totalTests">0</span>
+                            <span class="stat-label">Finished tests</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="daysSinceFirst">0</span>
+                            <span class="stat-label">Usage days</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="stat-icon">
+                            <i class="fas fa-trend-up"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="improvementScore">0%</span>
+                            <span class="stat-label">Degree of improvement</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="stat-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-number" id="avgScore">0</span>
+                            <span class="stat-label">Average score</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="recent-activity">
+            <div class="container">
+                <div class="activity-header">
+                    <div>
+                        <h2 class="section-title">Recent Activity</h2>
+                        <p class="section-subtitle">Your recent health management record</p>
+                    </div>
+                    <a href="history.html" class="view-all-btn">View all</a>
+                </div>
+                <div class="activity-list" id="activityList">
+                    <!-- Activity items will be dynamically generated through JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Health Tips -->
+        <section class="health-tips">
+            <div class="container">
+                <h2 class="section-title">Daily Health Tips</h2>
+                <p class="section-subtitle">Professional mental health advice to help you stay in good condition</p>
+                <div class="tips-container">
+                    <div class="tip-card" id="dailyTip">
+                        <div class="tip-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="tip-content">
+                            <h3>Today's Tips</h3>
+                            <p id="tipText">Maintaining a regular schedule is helpful for maintaining mental health. Adequate sleep can help the brain recover and enhance emotional stability.</p>
+                        </div>
+                        <button class="tip-refresh" id="refreshTip" title="Get new health tips">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-brain"></i>
+                        <span>MindCare</span>
+                    </div>
+                    <p>A professional mental health assessment platform, safeguarding your mental health with technology. We are committed to providing each user with scientific, accurate and personalized mental health services.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Link</h4>
+                    <ul>
+                        <li><a href="test.html">Start testing</a></li>
+                        <li><a href="history.html">History</a></li>
+                        <li><a href="team.html">Team</a></li>
+                        <li><a href="login.html">Back to Login</a></li>
+                    </ul>
+                </div>
+                
+                
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MindCare. All rights reserved. The content provided on this platform is for reference only and cannot replace professional medical advice.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+// Utility Function Library
+const Utils = {
+    // Local Storage Utility
+    storage: {
+        get: function(key) {
+            try {
+                const item = localStorage.getItem(key);
+                if (!item) return null;
+                
+                const data = JSON.parse(item);
+                if (data.expiry && Date.now() > data.expiry) {
+                    localStorage.removeItem(key);
+                    return null;
+                }
+                return data.value;
+            } catch (e) {
+                console.warn('Unable to read from local storage:', e);
+                return null;
+            }
+        },
+        
+        set: function(key, value, expiry = null) {
+            const data = {
+                value: value,
+                expiry: expiry ? Date.now() + expiry : null
+            };
+            try {
+                localStorage.setItem(key, JSON.stringify(data));
+            } catch (e) {
+                console.warn('Unable to save to local storage:', e);
+            }
+        },
+        
+        remove: function(key) {
+            try {
+                localStorage.removeItem(key);
+            } catch (e) {
+                console.warn('Unable to delete from local storage:', e);
+            }
+        }
+    },
+
+    // Format Number
+    formatNumber: function(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    },
+
+    // Get Random Number
+    getRandomNumber: function(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    },
+
+    // Date Formatting
+    formatDate: function(date) {
+        const options = { 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        return date.toLocaleDateString('zh-CN', options);
+    },
+
+    // Throttle Function
+    throttle: function(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        }
+    }
+};
+
+// Simple Message Notification Component
+const Toast = {
+    container: null,
+
+    init: function() {
+        if (!this.container) {
+            this.container = document.createElement('div');
+            this.container.id = 'toastContainer';
+            this.container.style.cssText = `
+                position: fixed;
+                top: 2rem;
+                right: 2rem;
+                z-index: 10000;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                pointer-events: none;
+            `;
+            document.body.appendChild(this.container);
+        }
+    },
+
+    show: function(message, type = 'info', duration = 3000) {
+        this.init();
+
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.textContent = message;
+        toast.style.cssText = `
+            padding: 1rem 1.5rem;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+            pointer-events: auto;
+            min-width: 250px;
+            font-weight: 500;
+        `;
+
+        // Set styles for different types
+        if (type === 'success') {
+            toast.style.borderLeft = '4px solid var(--success-color)';
+            toast.style.color = 'var(--success-color)';
+        } else if (type === 'error') {
+            toast.style.borderLeft = '4px solid var(--error-color)';
+            toast.style.color = 'var(--error-color)';
+        } else if (type === 'warning') {
+            toast.style.borderLeft = '4px solid var(--warning-color)';
+            toast.style.color = 'var(--warning-color)';
+        } else {
+            toast.style.borderLeft = '4px solid var(--primary-color)';
+            toast.style.color = 'var(--primary-color)';
+        }
+
+        this.container.appendChild(toast);
+
+        // Show animation
+        setTimeout(() => {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(0)';
+        }, 10);
+
+        // Auto hide
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                if (this.container.contains(toast)) {
+                    this.container.removeChild(toast);
+                }
+            }, 300);
+        }, duration);
+    },
+
+    success: function(message, duration) {
+        this.show(message, 'success', duration);
+    },
+
+    error: function(message, duration) {
+        this.show(message, 'error', duration);
+    },
+
+    warning: function(message, duration) {
+        this.show(message, 'warning', duration);
+    },
+
+    info: function(message, duration) {
+        this.show(message, 'info', duration);
+    }
+};
+
+// Dashboard Main Interface Manager
+class DashboardManager {
+    constructor() {
+        this.currentUser = null;
+        this.currentSlide = 0;
+        this.slideInterval = null;
+        this.healthTipsInterval = null;
+        this.init();
+    }
+
+    init() {
+        // 检查登录状态
+        if (!this.checkLoginStatus()) {
+            return; // 如果未登录，会跳转到登录页
+        }
+
+        // 获取用户信息
+        this.currentUser = this.getCurrentUser();
+        
+        // 初始化各个组件
+        this.setupUserMenu();
+        this.setupMobileNav();
+        this.setupSlider();
+        this.loadUserData();
+        this.loadStats();
+        this.loadRecentActivity();
+        this.setupHealthTips();
+        this.setupEventListeners();
+        this.setupAOSAnimations();
+        
+        // Show welcome message
+        setTimeout(() => {
+            if (this.currentUser) {
+                Toast.success(`Welcome back, ${this.currentUser.username}!`);
+            }
+        }, 500);
+
+        // Mark page as loaded
+        setTimeout(() => {
+            document.body.classList.add('page-loaded');
+        }, 100);
+    }
+
+    // Check login status
+    checkLoginStatus() {
+        const isLoggedIn = Utils.storage.get('isLoggedIn');
+        const currentUser = Utils.storage.get('currentUser');
+
+        if (!isLoggedIn || !currentUser) {
+            // Not logged in, redirect to login page
+            Toast.error('Please first log in');
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 1000);
+            return false;
+        }
+        return true;
+    }
+
+    // Get current user information
+    getCurrentUser() {
+        return Utils.storage.get('currentUser') || {
+            username: 'User',
+            email: 'user@example.com',
+            joinDate: new Date(),
+            lastLogin: new Date()
+        };
+    }
+
+    // Setup user menu
+    setupUserMenu() {
+        const userMenuBtn = document.getElementById('userMenuBtn');
+        const userDropdown = document.getElementById('userDropdown');
+        const userNameSpan = document.querySelector('.user-name');
+        const welcomeUserName = document.getElementById('welcomeUserName');
+
+        if (this.currentUser) {
+            const userName = this.currentUser.username || 'User';
+            
+            if (userNameSpan) userNameSpan.textContent = userName;
+            if (welcomeUserName) welcomeUserName.textContent = userName;
+        }
+
+        if (userMenuBtn && userDropdown) {
+            userMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                userDropdown.classList.toggle('active');
+            });
+
+            // 点击外部关闭菜单
+            document.addEventListener('click', () => {
+                userDropdown.classList.remove('active');
+            });
+
+            // 阻止下拉菜单内部点击冒泡
+            userDropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        }
+
+        // 设置菜单项点击事件
+        this.setupMenuActions();
+    }
+
+    // 设置菜单操作
+    setupMenuActions() {
+        const logoutBtn = document.getElementById('logoutBtn');
+        const settingsBtn = document.getElementById('settingsBtn');
+        const profileBtn = document.getElementById('profileBtn');
+
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.logout();
+            });
+        }
+
+        if (settingsBtn) {
+            settingsBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                Toast.info('The Settings function is under development...');
+            });
+        }
+
+        // Personal profile button, redirect to user.html
+        if (profileBtn) {
+            profileBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleNavigation('user.html', 'personal information');
+            });
+        }
+    }
+
+    // Setup mobile navigation
+    setupMobileNav() {
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+        const navToggleIcon = navToggle.querySelector('i');
+
+        if (navToggle && navMenu) {
+            navToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+
+                // Toggle icon
+                if (navMenu.classList.contains('active')) {
+                    navToggleIcon.className = 'fas fa-times';
+                } else {
+                    navToggleIcon.className = 'fas fa-bars';
+                }
+            });
+
+            // Close menu after clicking menu item
+            navMenu.addEventListener('click', (e) => {
+                if (e.target.classList.contains('nav-link')) {
+                    navMenu.classList.remove('active');
+                    navToggleIcon.className = 'fas fa-bars';
+                }
+            });
+        }
+    }
+
+    // Setup slider
+    setupSlider() {
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        
+        if (slides.length === 0) return;
+
+        // Show specified slide
+        const showSlide = (index) => {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        };
+
+        // Click dots to switch
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                this.currentSlide = index;
+                showSlide(this.currentSlide);
+                this.resetSlideInterval();
+            });
+        });
+
+        // Initially show first slide
+        showSlide(0);
+
+        // Auto play
+        this.startSlideInterval();
+
+        // Mouse hover control
+        const sliderContainer = document.querySelector('.featured-slider');
+        if (sliderContainer) {
+            sliderContainer.addEventListener('mouseenter', () => {
+                clearInterval(this.slideInterval);
+            });
+
+            sliderContainer.addEventListener('mouseleave', () => {
+                this.startSlideInterval();
+            });
+        }
+    }
+
+    // Start slide interval
+    startSlideInterval() {
+        this.slideInterval = setInterval(() => {
+            this.currentSlide = (this.currentSlide + 1) % document.querySelectorAll('.slide').length;
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.dot');
+            
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === this.currentSlide);
+            });
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === this.currentSlide);
+            });
+        }, 5000);
+    }
+
+    // Reset slide interval
+    resetSlideInterval() {
+        clearInterval(this.slideInterval);
+        this.startSlideInterval();
+    }
+
+    // Load user data
+    loadUserData() {
+        // Setup welcome message
+        const greeting = this.getGreeting();
+        console.log(`User ${this.currentUser.username} ${greeting}`);
+    }
+
+    // Get greeting
+    getGreeting() {
+        const hour = new Date().getHours();
+        if (hour < 6) return 'Good morning';
+        if (hour < 12) return 'Good morning';
+        if (hour < 14) return 'Good afternoon';
+        if (hour < 18) return 'Good afternoon';
+        if (hour < 22) return 'Good evening';
+        return 'Good evening';
+    }
+
+    // Load statistics data
+    loadStats() {
+        const stats = [
+            {
+                selector: '#totalTests',
+                value: Utils.getRandomNumber(15, 35),
+                description: 'Number of tests completed'
+            },
+            {
+                selector: '#daysSinceFirst',
+                value: Utils.getRandomNumber(30, 120),
+                description: 'Usage days'
+            },
+            {
+                selector: '#improvementScore',
+                value: Utils.getRandomNumber(65, 95),
+                suffix: '%',
+                description: 'Degree of improvement'
+            },
+            {
+                selector: '#avgScore',
+                value: Utils.getRandomNumber(75, 95),
+                description: 'Average score'
+            }
+        ];
+
+        stats.forEach((stat, index) => {
+            const element = document.querySelector(stat.selector);
+            if (element) {
+                setTimeout(() => {
+                    this.animateNumber(element, 0, stat.value, 1500, stat.suffix);
+                }, index * 200);
+            }
+        });
+    }
+
+    // Number animation
+    animateNumber(element, start, end, duration, suffix = '') {
+        const startTime = performance.now();
+        const animate = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+
+            // Use easing function
+            const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+            const current = Math.floor(start + (end - start) * easeOutQuart);
+            
+            element.textContent = Utils.formatNumber(current) + suffix;
+            element.style.animation = 'numberCount 0.5s ease-out';
+            
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            }
+        };
+        requestAnimationFrame(animate);
+    }
+
+    // Load recent activity
+    loadRecentActivity() {
+        const activities = [
+            {
+                icon: '📋',
+                title: 'Complete the mental health assessment',
+                description: 'The emotional state assessment has been completed, and all indicators are performing well. It is recommended to maintain the current pace of life',
+                time: this.getRelativeTime(new Date(Date.now() - 2 * 60 * 60 * 1000)),
+                status: 'success'
+            },
+            {
+                icon: '🧠',
+                title: 'AI analysis of brain images',
+                description: 'AI intelligent analysis shows that the brain structure is normal and all neural activity indicators are within the healthy range',
+                time: this.getRelativeTime(new Date(Date.now() - 1 * 24 * 60 * 60 * 1000)),
+                status: 'success'
+            },
+            {
+                icon: '📊',
+                title: 'Generate personalized reports',
+                description: 'vBased on your assessment results, a personalized health report will be generated, including detailed analysis and improvement suggestions',
+                time: this.getRelativeTime(new Date(Date.now() - 3 * 24 * 60 * 60 * 1000)),
+                status: 'info'
+            }
+        ];
+
+        const activityList = document.querySelector('#activityList');
+        if (activityList) {
+            activityList.innerHTML = activities.map((activity, index) => `
+                <div class="activity-item" data-aos="fade-up" data-aos-delay="${index * 100}">
+                    <div class="activity-icon">${activity.icon}</div>
+                    <div class="activity-content">
+                        <h4>${activity.title}</h4>
+                        <p>${activity.description}</p>
+                        <time>${activity.time}</time>
+                    </div>
+                    <div class="activity-status ${activity.status}">
+                        ${activity.status === 'success' ? '✓' : 'ℹ'}
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+
+    // Get relative time
+    getRelativeTime(date) {
+        const now = new Date();
+        const diffInSeconds = Math.floor((now - date) / 1000);
+        
+        if (diffInSeconds < 60) {
+            return 'just now';
+        } else if (diffInSeconds < 3600) {
+            return `${Math.floor(diffInSeconds / 60)}minutes ago`;
+        } else if (diffInSeconds < 86400) {
+            return `${Math.floor(diffInSeconds / 3600)}hours ago`;
+        } else if (diffInSeconds < 604800) {
+            return `${Math.floor(diffInSeconds / 86400)}days ago`;
+        } else {
+            return Utils.formatDate(date);
+        }
+    }
+
+    // Setup health tips
+    setupHealthTips() {
+        const tips = [
+            'Getting 7 to 8 hours of sufficient sleep every day, which is beneficial for brain health and emotional stability',
+            'Regular deep breathing and meditation exercises, which can effectively relieve daily stress',
+            'Maintaining positive social relationships, sharing happiness and troubles with friends and family',
+            'Moderate aerobic exercise, which not only builds up the body but also significantly improves mood',
+            'Learn to arrange your time reasonably and avoid anxiety caused by overwork',
+            'Cultivate personal interests and hobbies to add joy and a sense of achievement to life'
+        ];
+
+        let currentTipIndex = Utils.getRandomNumber(0, tips.length - 1);
+        const tipElement = document.querySelector('#tipText');
+        const refreshBtn = document.querySelector('#refreshTip');
+
+        // Show random tip
+        const showRandomTip = () => {
+            const randomIndex = Utils.getRandomNumber(0, tips.length - 1);
+            if (tipElement) {
+                tipElement.style.opacity = '0';
+                setTimeout(() => {
+                    tipElement.textContent = tips[randomIndex];
+                    tipElement.style.opacity = '1';
+                }, 150);
+            }
+            currentTipIndex = randomIndex;
+        };
+
+        // Refresh button click event
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', () => {
+                showRandomTip();
+                // Add rotation animation
+                refreshBtn.style.transform = 'rotate(360deg)';
+                setTimeout(() => {
+                    refreshBtn.style.transform = '';
+                }, 300);
+
+                Toast.success('Health tips have been updated');
+            });
+        }
+
+        // Initial display
+        if (tipElement && tips[currentTipIndex]) {
+            tipElement.textContent = tips[currentTipIndex];
+        }
+    }
+
+    // Setup event listeners
+    setupEventListeners() {
+        // Quick action card click
+        this.setupActionCards();
+
+        // Latest report button
+        this.setupLatestReportBtn();
+
+        // Window resize handler
+        this.setupResizeHandler();
+    }
+
+    // Setup action cards
+    setupActionCards() {
+        const actionCards = document.querySelectorAll('.action-card');
+        actionCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                // If not clicking a link, execute card click
+                if (e.target.tagName !== 'A' && !e.target.closest('a')) {
+                    const link = card.querySelector('.action-btn');
+                    if (link) {
+                        this.handleNavigation(link.href, link.textContent);
+                    }
+                }
+            });
+
+            // Add hover effect
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = '';
+            });
+        });
+    }
+
+    // Setup latest report button
+    setupLatestReportBtn() {
+        const latestReportBtn = document.getElementById('latestReportBtn');
+        if (latestReportBtn) {
+            latestReportBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                // Simulate loading report
+                Toast.info('The latest assessment report is being loaded...');
+
+                setTimeout(() => {
+                    Toast.success('The report has been loaded successfully!');
+                }, 1500);
+            });
+        }
+    }
+
+    // Setup resize handler
+    setupResizeHandler() {
+        window.addEventListener('resize', Utils.throttle(() => {
+            this.handleResize();
+        }, 100));
+    }
+
+    // Handle window resize
+    handleResize() {
+        // Adjust layout based on window size
+        const currentWidth = window.innerWidth;
+
+        if (currentWidth <= 768) {
+            // Mobile optimization
+            const slider = document.querySelector('.featured-slider');
+            if (slider) {
+                slider.style.width = '250px';
+                slider.style.height = '250px';
+            }
+        }
+    }
+
+    // Setup AOS animations
+    setupAOSAnimations() {
+        const elements = document.querySelectorAll('[data-aos]');
+        
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const delay = entry.target.dataset.aosDelay || 0;
+                        setTimeout(() => {
+                            entry.target.classList.add('aos-animate');
+                        }, delay);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -10% 0px'
+            });
+
+            elements.forEach(element => {
+                observer.observe(element);
+            });
+        } else {
+            // Fallback handling
+            elements.forEach(element => {
+                element.classList.add('aos-animate');
+            });
+        }
+    }
+
+    // Handle navigation
+    handleNavigation(href, actionName = '') {
+        if (href && href !== '#') {
+            Toast.info(`Jumping to ${actionName || href}...`);
+
+            // Add page transition animation
+            document.body.style.opacity = '0.8';
+
+            setTimeout(() => {
+                if (href.startsWith('http') || href.includes('.html')) {
+                    window.location.href = href;
+                } else {
+                    console.log('Internal routes:', href);
+                }
+            }, 200);
+        }
+    }
+
+    // User logout
+    logout() {
+        if (confirm('Are you sure you want to log out?')) {
+            // Clear user data
+            Utils.storage.remove('currentUser');
+            Utils.storage.remove('isLoggedIn');
+            Utils.storage.remove('rememberedUser');
+
+            // Cleanup timers
+            this.cleanup();
+
+            // Show logout message
+            Toast.success('You have successfully logged out and will soon be redirected to the login page');
+
+            // Delayed redirect
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 1500);
+        }
+    }
+
+    // Cleanup resources
+    cleanup() {
+        if (this.slideInterval) {
+            clearInterval(this.slideInterval);
+            this.slideInterval = null;
+        }
+        
+        if (this.healthTipsInterval) {
+            clearInterval(this.healthTipsInterval);
+            this.healthTipsInterval = null;
+        }
+    }
+
+    // Destroy instance
+    destroy() {
+        this.cleanup();
+        console.log('Dashboard destroyed');
+    }
+}
+
+// Initialize after page load
+document.addEventListener('DOMContentLoaded', () => {
+    try {
+        const dashboard = new DashboardManager();
+
+        // Bind instance to global for debugging and access
+        window.dashboard = dashboard;
+
+        console.log('Dashboard initialization completed');
+
+    } catch (error) {
+        console.error('Dashboard initialization failed:', error);
+        Toast.error('Page initialization failed. Please refresh and try again');
+    }
+});
+
+// Cleanup on page unload
+window.addEventListener('beforeunload', () => {
+    if (window.dashboard) {
+        window.dashboard.destroy();
+    }
+});
+
+// Handle page errors
+window.addEventListener('error', (e) => {
+    console.error('Page error:', e.error);
+    Toast.error('An error occurred on the page. Please refresh and try again');
+});
+    </script>
+</body>
+</html>

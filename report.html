@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Assessment Report - MindCare</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* 基础CSS变量和通用样式 */
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --info-color: #3b82f6;
+            --transition-normal: all 0.3s ease;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+            --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            --radius-3xl: 2rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--gray-900);
+            background: var(--gray-50);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: var(--transition-normal);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--gray-600);
+            font-weight: 500;
+            transition: var(--transition-normal);
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color);
+        }
+
+        /* 按钮样式 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-normal);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: var(--white);
+        }
+
+        .btn-secondary {
+            background: var(--gradient-secondary);
+            color: var(--white);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        /* 主要内容区域 */
+        .report-main {
+            min-height: 100vh;
+            padding-top: 80px;
+            background: var(--gray-50);
+        }
+
+        /* 报告头部 */
+        .report-header {
+            background: var(--gradient-primary);
+            color: var(--white);
+            padding: 3rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .report-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            background-size: 50px 50px;
+            animation: float 30s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-50px) translateY(-50px); }
+        }
+
+        .report-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .report-subtitle {
+            font-size: 1.125rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .report-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        /* 报告内容 */
+        .report-container {
+            padding: 4rem 0;
+        }
+
+        .report-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            gap: 2rem;
+        }
+
+        /* 加载状态 */
+        .loading-section {
+            background: var(--white);
+            border-radius: var(--radius-2xl);
+            padding: 4rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-100);
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--gray-200);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .loading-subtitle {
+            color: var(--gray-600);
+        }
+
+        /* 报告部分样式 */
+        .report-section {
+            background: var(--white);
+            border-radius: var(--radius-2xl);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-100);
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--gray-100);
+        }
+
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--white);
+            background: var(--gradient-primary);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .section-content {
+            color: var(--gray-700);
+            line-height: 1.8;
+        }
+
+        .section-content h3 {
+            color: var(--gray-900);
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-content ul {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .section-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* 报告统计 */
+        .report-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-item {
+            background: var(--gray-50);
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            border: 1px solid var(--gray-200);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        /* 错误状态 */
+        .error-section {
+            background: var(--white);
+            border-radius: var(--radius-2xl);
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--error-color);
+        }
+
+        .error-icon {
+            color: var(--error-color);
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .error-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--error-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .error-message {
+            color: var(--gray-600);
+            margin-bottom: 2rem;
+        }
+
+        /* 操作按钮 */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .report-title {
+                font-size: 2rem;
+            }
+
+            .report-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .report-section {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+
+        /* 隐藏类 */
+        .hidden {
+            display: none;
+        }
+
+        /* 文本样式 */
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 0.2rem 0.4rem;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+        }
+
+        .warning-text {
+            color: var(--warning-color);
+            font-weight: 600;
+        }
+
+        .success-text {
+            color: var(--success-color);
+            font-weight: 600;
+        }
+
+        .error-text {
+            color: var(--error-color);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-brain"></i>
+                <span>MindCare</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">主页</a>
+                <a href="test.html" class="nav-link">开始测试</a>
+                <a href="history.html" class="nav-link">历史记录</a>
+                <a href="#" class="nav-link active">评估报告</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main class="report-main">
+        <!-- 报告头部 -->
+        <section class="report-header">
+            <div class="container">
+                <h1 class="report-title">AI 心理健康评估报告</h1>
+                <p class="report-subtitle">基于专业MDQ问卷的智能分析报告</p>
+                
+                <div class="report-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-calendar"></i>
+                        <span id="reportDate">生成中...</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span id="reportTime">处理中...</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-robot"></i>
+                        <span>DeepSeek AI 分析</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 报告内容 -->
+        <section class="report-container">
+            <div class="container">
+                <div class="report-content">
+                    <!-- 加载状态 -->
+                    <div id="loadingSection" class="loading-section">
+                        <div class="loading-spinner"></div>
+                        <div class="loading-text">正在生成AI分析报告...</div>
+                        <div class="loading-subtitle">请稍候，AI正在深度分析您的测试结果</div>
+                    </div>
+
+                    <!-- 错误状态 -->
+                    <div id="errorSection" class="error-section hidden">
+                        <div class="error-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="error-title">报告生成失败</div>
+                        <div class="error-message" id="errorMessage">
+                            无法生成报告，请稍后重试
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="location.reload()">
+                                <i class="fas fa-redo"></i>
+                                重新生成
+                            </button>
+                            <a href="test.html" class="btn btn-outline">
+                                <i class="fas fa-arrow-left"></i>
+                                返回测试
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 报告统计（成功时显示） -->
+                    <div id="reportStats" class="report-stats hidden">
+                        <div class="stat-item">
+                            <div class="stat-value" id="confidenceScore">--</div>
+                            <div class="stat-label">AI 置信度</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="processingTime">--</div>
+                            <div class="stat-label">处理时间</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="reportLength">--</div>
+                            <div class="stat-label">报告字数</div>
+                        </div>
+                    </div>
+
+                    <!-- 执行摘要 -->
+                    <div id="summarySection" class="report-section hidden">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <div class="section-title">执行摘要</div>
+                        </div>
+                        <div class="section-content" id="executiveSummary">
+                            <!-- AI生成的执行摘要将在这里显示 -->
+                        </div>
+                    </div>
+
+                    <!-- 临床评估 -->
+                    <div id="clinicalSection" class="report-section hidden">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-stethoscope"></i>
+                            </div>
+                            <div class="section-title">临床评估</div>
+                        </div>
+                        <div class="section-content" id="clinicalAssessment">
+                            <!-- AI生成的临床评估将在这里显示 -->
+                        </div>
+                    </div>
+
+                    <!-- 风险评估 -->
+                    <div id="riskSection" class="report-section hidden">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="section-title">风险评估</div>
+                        </div>
+                        <div class="section-content" id="riskEvaluation">
+                            <!-- AI生成的风险评估将在这里显示 -->
+                        </div>
+                    </div>
+
+                    <!-- 治疗建议 -->
+                    <div id="treatmentSection" class="report-section hidden">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-pills"></i>
+                            </div>
+                            <div class="section-title">治疗建议</div>
+                        </div>
+                        <div class="section-content" id="treatmentRecommendations">
+                            <!-- AI生成的治疗建议将在这里显示 -->
+                        </div>
+                    </div>
+
+                    <!-- 生活方式建议 -->
+                    <div id="lifestyleSection" class="report-section hidden">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                            <div class="section-title">生活方式建议</div>
+                        </div>
+                        <div class="section-content" id="lifestyleRecommendations">
+                            <!-- AI生成的生活方式建议将在这里显示 -->
+                        </div>
+                    </div>
+
+                    <!-- 监测计划 -->
+                    <div id="monitoringSection" class="report-section hidden">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="section-title">监测计划</div>
+                        </div>
+                        <div class="section-content" id="monitoringPlan">
+                            <!-- AI生成的监测计划将在这里显示 -->
+                        </div>
+                    </div>
+
+                    <!-- 紧急预案 -->
+                    <div id="emergencySection" class="report-section hidden">
+                        <div class="section-header">
+                            <div class="section-icon">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div class="section-title">紧急预案</div>
+                        </div>
+                        <div class="section-content" id="emergencyProtocols">
+                            <!-- AI生成的紧急预案将在这里显示 -->
+                        </div>
+                    </div>
+
+                    <!-- 操作按钮 -->
+                    <div id="actionButtons" class="action-buttons hidden">
+                        <button class="btn btn-primary" onclick="window.print()">
+                            <i class="fas fa-print"></i>
+                            打印报告
+                        </button>
+                        <button class="btn btn-secondary" onclick="shareReport()">
+                            <i class="fas fa-share"></i>
+                            分享报告
+                        </button>
+                        <a href="history.html" class="btn btn-outline">
+                            <i class="fas fa-history"></i>
+                            查看历史
+                        </a>
+                        <a href="test.html" class="btn btn-outline">
+                            <i class="fas fa-plus"></i>
+                            新测试
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // API配置
+        const API_BASE_URL = '/api';
+
+        // 工具函数
+        const Utils = {
+            // 格式化日期
+            formatDate: function(date) {
+                return new Intl.DateTimeFormat('zh-CN', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                }).format(date);
+            },
+
+            // 格式化时间
+            formatTime: function(date) {
+                return new Intl.DateTimeFormat('zh-CN', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                }).format(date);
+            },
+
+            // 格式化处理时间
+            formatProcessingTime: function(seconds) {
+                if (seconds < 1) {
+                    return (seconds * 1000).toFixed(0) + 'ms';
+                } else {
+                    return seconds.toFixed(1) + 's';
+                }
+            },
+
+            // 解析文本内容，将标记转换为HTML
+            parseContent: function(text) {
+                if (!text) return '';
+                
+                // 处理换行
+                let html = text.replace(/\n/g, '<br>');
+                
+                // 处理项目符号列表（以 - 开头的行）
+                html = html.replace(/- ([^<\n]+)/g, '<li>$1</li>');
+                
+                // 如果有li标签，包装在ul中
+                if (html.includes('<li>')) {
+                    html = html.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
+                    // 合并连续的ul标签
+                    html = html.replace(/<\/ul><br><ul>/g, '');
+                }
+                
+                // 处理数字列表（以数字. 开头的行）
+                html = html.replace(/(\d+)\. ([^<\n]+)/g, '<li>$2</li>');
+                if (html.includes('<li>') && !html.includes('<ul>')) {
+                    html = html.replace(/(<li>.*<\/li>)/g, '<ol>$1</ol>');
+                    html = html.replace(/<\/ol><br><ol>/g, '');
+                }
+                
+                // 处理强调文本
+                html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                
+                return html;
+            }
+        };
+
+        // API请求函数
+        const API = {
+            async request(endpoint, options = {}) {
+                const url = `${API_BASE_URL}${endpoint}`;
+                const config = {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    ...options
+                };
+
+                try {
+                    const response = await fetch(url, config);
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(data.message || '请求失败');
+                    }
+                    
+                    return data;
+                } catch (error) {
+                    console.error(`API请求失败 [${endpoint}]:`, error);
+                    throw error;
+                }
+            },
+
+            async post(endpoint, data) {
+                return this.request(endpoint, {
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                });
+            },
+
+            async generateAIReport(reportType = 'single') {
+                return this.post('/ai/report', { type: reportType });
+            },
+
+            async getAIReport(reportId) {
+                return this.request(`/ai/report/${reportId}`);
+            }
+        };
+
+        // 报告管理器
+        class ReportManager {
+            constructor() {
+                this.reportData = null;
+                this.analysisId = null;
+                this.testId = null;
+                this.init();
+            }
+
+            async init() {
+                // 获取URL参数
+                const urlParams = new URLSearchParams(window.location.search);
+                this.testId = urlParams.get('testId');
+                this.analysisId = urlParams.get('analysisId');
+                
+                // 设置初始显示
+                this.updateDateTime();
+                
+                // 生成报告
+                await this.generateReport();
+            }
+
+            updateDateTime() {
+                const now = new Date();
+                document.getElementById('reportDate').textContent = Utils.formatDate(now);
+                document.getElementById('reportTime').textContent = Utils.formatTime(now);
+            }
+
+            async generateReport() {
+                try {
+                    console.log('开始生成AI报告...');
+                    
+                    // 如果没有analysisId，先获取最新的分析记录
+                    if (!this.analysisId) {
+                        try {
+                            const latestAnalysis = await API.request('/analysis/latest');
+                            if (latestAnalysis.success && latestAnalysis.analysis) {
+                                this.analysisId = latestAnalysis.analysis.analysis_id;
+                                console.log('获取到最新分析ID:', this.analysisId);
+                            }
+                        } catch (error) {
+                            console.warn('无法获取最新分析记录:', error);
+                        }
+                    }
+                    
+                    // 调用API生成报告
+                    const result = await API.generateAIReport('single');
+                    
+                    if (result.success && result.reports && result.reports.single_test_report) {
+                        const reportId = result.reports.single_test_report.report_id;
+                        console.log('报告生成成功，报告ID:', reportId);
+                        
+                        // 获取完整的报告数据
+                        const reportDetail = await API.getAIReport(reportId);
+                        
+                        if (reportDetail.success) {
+                            this.reportData = reportDetail.report;
+                            this.displayReport();
+                        } else {
+                            throw new Error('获取报告详情失败');
+                        }
+                    } else {
+                        throw new Error(result.message || '报告生成失败');
+                    }
+                    
+                } catch (error) {
+                    console.error('生成报告失败:', error);
+                    this.showError(error.message);
+                }
+            }
+
+            displayReport() {
+                if (!this.reportData) {
+                    this.showError('报告数据不存在');
+                    return;
+                }
+
+                console.log('显示报告数据:', this.reportData);
+
+                // 隐藏加载状态
+                document.getElementById('loadingSection').classList.add('hidden');
+
+                // 显示报告统计
+                this.displayStats();
+
+                // 显示各个部分
+                this.displaySection('summarySection', 'executiveSummary', this.reportData.executive_summary);
+                this.displaySection('clinicalSection', 'clinicalAssessment', this.reportData.clinical_assessment);
+                this.displaySection('riskSection', 'riskEvaluation', this.reportData.risk_evaluation);
+                this.displayTreatmentRecommendations();
+                this.displayLifestyleRecommendations();
+                this.displaySection('monitoringSection', 'monitoringPlan', this.reportData.monitoring_plan);
+                this.displaySection('emergencySection', 'emergencyProtocols', this.reportData.emergency_protocols);
+
+                // 显示操作按钮
+                document.getElementById('actionButtons').classList.remove('hidden');
+
+                // 添加显示动画
+                this.animateSections();
+            }
+
+            displayStats() {
+                const statsSection = document.getElementById('reportStats');
+                
+                // 置信度
+                const confidence = this.reportData.confidence_score || 0;
+                document.getElementById('confidenceScore').textContent = (confidence * 100).toFixed(0) + '%';
+                
+                // 处理时间
+                const processingTime = this.reportData.processing_time || 0;
+                document.getElementById('processingTime').textContent = Utils.formatProcessingTime(processingTime);
+                
+                // 报告字数
+                const reportLength = this.calculateReportLength();
+                document.getElementById('reportLength').textContent = reportLength;
+                
+                statsSection.classList.remove('hidden');
+            }
+
+            calculateReportLength() {
+                if (!this.reportData) return 0;
+                
+                const sections = [
+                    this.reportData.executive_summary,
+                    this.reportData.clinical_assessment,
+                    this.reportData.risk_evaluation,
+                    this.reportData.monitoring_plan,
+                    this.reportData.emergency_protocols
+                ];
+                
+                const recommendations = [
+                    ...(this.reportData.treatment_recommendations || []),
+                    ...(this.reportData.lifestyle_recommendations || [])
+                ];
+                
+                const totalLength = sections.join('').length + recommendations.join('').length;
+                return Math.round(totalLength / 100) * 100 + '+';
+            }
+
+            displaySection(sectionId, contentId, content) {
+                if (!content) return;
+                
+                const sectionElement = document.getElementById(sectionId);
+                const contentElement = document.getElementById(contentId);
+                
+                if (sectionElement && contentElement) {
+                    contentElement.innerHTML = Utils.parseContent(content);
+                    sectionElement.classList.remove('hidden');
+                }
+            }
+
+            displayTreatmentRecommendations() {
+                const recommendations = this.reportData.treatment_recommendations;
+                if (!recommendations || !Array.isArray(recommendations)) return;
+                
+                const content = recommendations.map(rec => `- ${rec}`).join('\n');
+                this.displaySection('treatmentSection', 'treatmentRecommendations', content);
+            }
+
+            displayLifestyleRecommendations() {
+                const recommendations = this.reportData.lifestyle_recommendations;
+                if (!recommendations || !Array.isArray(recommendations)) return;
+                
+                const content = recommendations.map(rec => `- ${rec}`).join('\n');
+                this.displaySection('lifestyleSection', 'lifestyleRecommendations', content);
+            }
+
+            animateSections() {
+                const sections = document.querySelectorAll('.report-section:not(.hidden)');
+                sections.forEach((section, index) => {
+                    section.style.animationDelay = `${index * 0.2}s`;
+                });
+            }
+
+            showError(message) {
+                // 隐藏加载状态
+                document.getElementById('loadingSection').classList.add('hidden');
+                
+                // 显示错误信息
+                document.getElementById('errorMessage').textContent = message;
+                document.getElementById('errorSection').classList.remove('hidden');
+            }
+        }
+
+        // 分享报告功能
+        function shareReport() {
+            if (navigator.share) {
+                navigator.share({
+                    title: '心理健康评估报告 - MindCare',
+                    text: '我刚完成了心理健康评估，查看我的AI分析报告。',
+                    url: window.location.href
+                }).catch(console.error);
+            } else {
+                // 备用方案：复制链接
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(window.location.href).then(() => {
+                        alert('报告链接已复制到剪贴板');
+                    }).catch(() => {
+                        alert('无法复制链接，请手动复制地址栏中的链接');
+                    });
+                } else {
+                    alert('请手动复制地址栏中的链接进行分享');
+                }
+            }
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                // 检查登录状态
+                checkLoginStatus();
+                
+                // 初始化报告管理器
+                const reportManager = new ReportManager();
+                
+                // 将实例绑定到全局，方便调试
+                window.reportManager = reportManager;
+                
+                console.log('报告页面初始化完成');
+                
+            } catch (error) {
+                console.error('报告页面初始化失败:', error);
+                showError('页面初始化失败，请刷新重试');
+            }
+        });
+
+        // 检查登录状态
+        async function checkLoginStatus() {
+            try {
+                const response = await API.request('/user/profile');
+                if (!response.success) {
+                    throw new Error('未登录');
+                }
+            } catch (error) {
+                console.warn('用户未登录或会话已过期');
+                // 可以选择重定向到登录页面
+                // window.location.href = 'login.html';
+            }
+        }
+
+        // 处理页面错误
+        window.addEventListener('error', (e) => {
+            console.error('页面错误:', e.error);
+            showError('页面出现错误，请刷新重试');
+        });
+
+        // 处理未捕获的Promise拒绝
+        window.addEventListener('unhandledrejection', (e) => {
+            console.error('未处理的Promise拒绝:', e.reason);
+            showError('网络请求失败，请检查网络连接');
+        });
+
+        // 全局错误显示函数
+        function showError(message) {
+            const loadingSection = document.getElementById('loadingSection');
+            const errorSection = document.getElementById('errorSection');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (loadingSection) loadingSection.classList.add('hidden');
+            if (errorMessage) errorMessage.textContent = message;
+            if (errorSection) errorSection.classList.remove('hidden');
+        }
+
+        // 打印样式
+        const printStyles = `
+            @media print {
+                .navbar, .action-buttons { display: none !important; }
+                .report-header { background: white !important; color: black !important; }
+                .report-section { break-inside: avoid; }
+                body { background: white !important; }
+                .report-main { padding-top: 0 !important; }
+            }
+        `;
+        
+        // 添加打印样式
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = printStyles;
+        document.head.appendChild(styleSheet);
+    </script>
+</body>
+</html>

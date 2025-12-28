@@ -1,0 +1,2439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History - MindCare</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Chart.js library (local) -->
+    <script src="static/js/chart.min.js?v=3.9.1"></script>
+    <script src="static/js/chartjs-adapter-date-fns.bundle.min.js?v=2.0.0"></script>
+    <style>
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --gradient-warning: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --info-color: #3b82f6;
+            --transition-normal: all 0.3s ease;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+            --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+            --radius-sm: 0.25rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            --radius-full: 9999px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: var(--gray-900);
+            background: var(--gray-50);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Navigation bar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-normal);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--gray-600);
+            font-weight: 500;
+            transition: var(--transition-normal);
+            position: relative;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color);
+        }
+
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-color);
+            border-radius: 1px;
+        }
+
+        /* Button styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-normal);
+            border: none;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-secondary {
+            background: var(--gradient-secondary);
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-success {
+            background: var(--gradient-success);
+            color: var(--white);
+        }
+
+        .btn-warning {
+            background: var(--gradient-warning);
+            color: var(--white);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        /* Main content */
+        .main-content {
+            min-height: 100vh;
+            padding-top: 80px;
+            background: var(--gray-50);
+        }
+
+        .page-header {
+            background: var(--gradient-primary);
+            color: var(--white);
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .page-subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .history-container {
+            padding: 4rem 0;
+        }
+
+        .history-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Statistics cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: var(--radius-2xl);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-100);
+            transition: var(--transition-normal);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-2xl);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon.primary {
+            background: var(--gradient-primary);
+            color: var(--white);
+        }
+
+        .stat-icon.success {
+            background: var(--gradient-success);
+            color: var(--white);
+        }
+
+        .stat-icon.warning {
+            background: var(--gradient-warning);
+            color: var(--white);
+        }
+
+        .stat-icon.secondary {
+            background: var(--gradient-secondary);
+            color: var(--white);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+
+        /* Chart area */
+        .trend-chart {
+            background: var(--white);
+            border-radius: var(--radius-2xl);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-100);
+            margin-bottom: 2rem;
+        }
+
+        .chart-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .chart-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .chart-container {
+            height: 300px;
+            position: relative;
+        }
+
+        .chart-placeholder {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-500);
+            border: 2px dashed var(--gray-200);
+            border-radius: var(--radius-lg);
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Filters */
+        .filter-bar {
+            background: var(--white);
+            border-radius: var(--radius-2xl);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-100);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-select {
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            background: var(--white);
+            font-size: 0.875rem;
+            transition: var(--transition-normal);
+            min-width: 150px;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .search-input {
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius-lg);
+            background: var(--white);
+            font-size: 0.875rem;
+            transition: var(--transition-normal);
+            min-width: 200px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        /* History list */
+        .history-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .history-item {
+            background: var(--white);
+            border-radius: var(--radius-2xl);
+            padding: 2rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-100);
+            transition: var(--transition-normal);
+        }
+
+        .history-item:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-2px);
+        }
+
+        .history-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .history-date {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray-600);
+            font-size: 0.875rem;
+        }
+
+        .history-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+
+        .status-incomplete {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+
+        .history-content-grid {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .history-details {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--gray-600);
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .detail-value {
+            color: var(--gray-900);
+            font-weight: 600;
+        }
+
+        .score-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .score-negative {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+
+        .score-positive-mild {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+
+        .score-positive-moderate {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error-color);
+        }
+
+        .score-positive-high {
+            background: rgba(155, 28, 28, 0.1);
+            color: #9b1c1c;
+        }
+
+        .history-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            min-width: 200px;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: var(--white);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-100);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            color: var(--gray-300);
+            margin-bottom: 1.5rem;
+        }
+
+        .empty-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: 1rem;
+        }
+
+        .empty-description {
+            color: var(--gray-600);
+            margin-bottom: 2rem;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Loading state */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            backdrop-filter: blur(5px);
+        }
+
+        .loading-overlay.show {
+            display: flex;
+        }
+
+        .loading-content {
+            text-align: center;
+            background: var(--white);
+            padding: 3rem;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-2xl);
+            max-width: 400px;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid var(--gray-200);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1.5rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .loading-subtitle {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        /* Toast notifications */
+        .toast-container {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 10001;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            pointer-events: none;
+        }
+
+        .toast {
+            padding: 1rem 1.5rem;
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+            pointer-events: auto;
+            min-width: 250px;
+            font-weight: 500;
+            max-width: 400px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success-color);
+            color: var(--success-color);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--error-color);
+            color: var(--error-color);
+        }
+
+        .toast.warning {
+            border-left: 4px solid var(--warning-color);
+            color: var(--warning-color);
+        }
+
+        .toast.info {
+            border-left: 4px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .main-content {
+                padding-top: 70px;
+            }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-group {
+                flex-direction: column;
+            }
+            
+            .filter-select,
+            .search-input {
+                min-width: auto;
+                width: 100%;
+            }
+            
+            .history-content-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .history-actions {
+                flex-direction: row;
+                flex-wrap: wrap;
+                min-width: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .history-item {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-brain"></i>
+                <span>MindCare</span>
+            </div>
+            <div class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Home Page</a>
+                <a href="test.html" class="nav-link">Start Test</a>
+                <a href="#" class="nav-link active">History</a>
+                <a href="#" class="nav-link" id="logoutLink">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="main-content">
+        <!-- Page header -->
+        <section class="page-header">
+            <div class="container">
+                <h1 class="page-title">Test History</h1>
+                <p class="page-subtitle">
+                    View your test history, analyze trends, and get personalized health recommendations
+                </p>
+            </div>
+        </section>
+
+        <!-- History content -->
+        <section class="history-container">
+            <div class="container">
+                <div class="history-content">
+                    <!-- Statistics cards -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon primary">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <div class="stat-value" id="totalTests">-</div>
+                            <div class="stat-label">Total Tests</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon success">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="stat-value" id="avgScore">-</div>
+                            <div class="stat-label">Average Score</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon warning">
+                                <i class="fas fa-calendar"></i>
+                            </div>
+                            <div class="stat-value" id="lastTestDate">-</div>
+                            <div class="stat-label">Last Test</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon secondary">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <div class="stat-value" id="positiveRate">-</div>
+                            <div class="stat-label">Positive Rate</div>
+                        </div>
+                    </div>
+
+                    <!-- Trend chart -->
+                    <div class="trend-chart">
+                        <div class="chart-header">
+                            <h3 class="chart-title">MDQ Score Trend</h3>
+                            <div class="filter-group">
+                                <select class="filter-select" id="chartTimeRange">
+                                    <option value="all">All Time</option>
+                                    <option value="month">Last Month</option>
+                                    <option value="quarter">Last Quarter</option>
+                                    <option value="year">Last Year</option>
+                                </select>
+                                <button class="btn btn-outline btn-sm" id="generateHistoricalReport">
+                                    <i class="fas fa-chart-bar"></i>
+                                    Generate Historical Report
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="trendChart"></canvas>
+                            <div class="chart-placeholder" id="chartPlaceholder" style="display: none;">
+                                <i class="fas fa-chart-line" style="font-size: 3rem; color: var(--gray-300);"></i>
+                                <span>Not enough data to display trend chart</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filter and action bar -->
+                    <div class="filter-bar">
+                        <div class="filter-group">
+                            <select class="filter-select" id="timeFilter">
+                                <option value="all">All Time</option>
+                                <option value="week">Last Week</option>
+                                <option value="month">Last Month</option>
+                                <option value="quarter">Last Quarter</option>
+                                <option value="year">Last Year</option>
+                            </select>
+                            <select class="filter-select" id="statusFilter">
+                                <option value="all">All Status</option>
+                                <option value="completed">Completed</option>
+                                <option value="incomplete">Incomplete</option>
+                            </select>
+                            <input type="text" class="search-input" id="searchInput" placeholder="Search test records...">
+                        </div>
+                        <div class="filter-group">
+                            <button class="btn btn-outline btn-sm" id="refreshBtn">
+                                <i class="fas fa-sync-alt"></i>
+                                Refresh
+                            </button>
+                            <button class="btn btn-secondary btn-sm" id="exportBtn">
+                                <i class="fas fa-download"></i>
+                                Export Data
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- History list -->
+                    <div class="history-list" id="historyList">
+                        <!-- History items will be dynamically generated through JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <div class="loading-text" id="loadingText">Loading...</div>
+            <div class="loading-subtitle" id="loadingSubtitle">Please wait</div>
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Global configuration
+        const API_BASE_URL = '/api';
+
+        // Utility functions
+        const Utils = {
+            // Format date
+            formatDate(dateString) {
+                if (!dateString) return '-';
+                
+                try {
+                    const date = new Date(dateString);
+                    if (isNaN(date.getTime())) return '-';
+                    
+                    const now = new Date();
+                    const diffTime = Math.abs(now - date);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    
+                    if (diffDays === 0) {
+                        return 'Today';
+                    } else if (diffDays === 1) {
+                        return 'Yesterday';
+                    } else if (diffDays <= 7) {
+                        return `${diffDays} days ago`;
+                    } else {
+                        return date.toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric'
+                        });
+                    }
+                } catch (error) {
+                    console.error('Date formatting failed:', error);
+                    return '-';
+                }
+            },
+
+            // Get MDQ score
+            getScoreFromItem(item) {
+                return parseInt(
+                    item.mdq_score || 
+                    item.total_score || 
+                    item.raw_score || 
+                    item.score || 
+                    0
+                );
+            },
+
+            // Format test score
+            formatScore(score) {
+                let num = parseInt(score) || 0;
+                if (num > 13) num = Math.round(num / 4); // Convert 0-52 to 0-13
+                num = Math.max(0, Math.min(13, num));
+                return {
+                    score: num,
+                    level: this.getScoreLevel(num),
+                    color: this.getScoreColor(num),
+                    description: this.getScoreDescription(num)
+                };
+            },
+
+            // Get score level
+            getScoreLevel(score) {
+                let validScore = parseInt(score) || 0;
+                if (validScore > 13) validScore = Math.round(validScore / 4);
+                validScore = Math.max(0, Math.min(13, validScore));
+                if (validScore < 7) return 'negative';
+                if (validScore <= 9) return 'positive_mild';
+                if (validScore <= 12) return 'positive_moderate';
+                return 'positive_high';
+            },
+
+            // Get score color
+            getScoreColor(score) {
+                const level = this.getScoreLevel(score);
+                
+                switch (level) {
+                    case 'negative': return 'score-negative';
+                    case 'positive_mild': return 'score-positive-mild';
+                    case 'positive_moderate': return 'score-positive-moderate';
+                    case 'positive_high': return 'score-positive-high';
+                    default: return 'score-negative';
+                }
+            },
+
+            // Get score description
+            getScoreDescription(score) {
+                const level = this.getScoreLevel(score);
+
+                switch (level) {
+                    case 'negative': return 'MDQ Negative';
+                    case 'positive_mild': return 'MDQ Mild Positive';
+                    case 'positive_moderate': return 'MDQ Moderate Positive';
+                    case 'positive_high': return 'MDQ High Positive';
+                    default: return 'MDQ Negative';
+                }
+            },
+
+            // Format completion time
+            formatCompletionTime(seconds) {
+                const validSeconds = parseInt(seconds) || 0;
+                if (validSeconds === 0) return '-';
+                
+                const mins = Math.floor(validSeconds / 60);
+                const secs = validSeconds % 60;
+
+                if (mins === 0) {
+                    return `${secs}s`;
+                } else {
+                    return `${mins}m ${secs}s`;
+                }
+            },
+
+            // Debounce function
+            debounce(func, delay) {
+                let timeoutId;
+                return function() {
+                    const context = this;
+                    const args = arguments;
+                    clearTimeout(timeoutId);
+                    timeoutId = setTimeout(() => func.apply(context, args), delay);
+                };
+            }
+        };
+
+        // Toast notification component
+        const Toast = {
+            container: null,
+
+            init() {
+                if (!this.container) {
+                    this.container = document.getElementById('toastContainer');
+                    if (!this.container) {
+                        this.container = document.createElement('div');
+                        this.container.className = 'toast-container';
+                        this.container.id = 'toastContainer';
+                        document.body.appendChild(this.container);
+                    }
+                }
+            },
+
+            show(message, type = 'info', duration = 3000) {
+                this.init();
+
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                toast.textContent = message;
+
+                this.container.appendChild(toast);
+
+                // Show animation
+                setTimeout(() => {
+                    toast.classList.add('show');
+                }, 10);
+
+                // Auto hide
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => {
+                        if (this.container.contains(toast)) {
+                            this.container.removeChild(toast);
+                        }
+                    }, 300);
+                }, duration);
+            },
+
+            success(message, duration) {
+                this.show(message, 'success', duration);
+            },
+
+            error(message, duration) {
+                this.show(message, 'error', duration);
+            },
+
+            warning(message, duration) {
+                this.show(message, 'warning', duration);
+            },
+
+            info(message, duration) {
+                this.show(message, 'info', duration);
+            }
+        };
+
+        // API request wrapper
+        const API = {
+            async request(endpoint, options = {}) {
+                const url = `${API_BASE_URL}${endpoint}`;
+                const config = {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    ...options
+                };
+
+                try {
+                    const response = await fetch(url, config);
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(data.message || 'Request failed');
+                    }
+
+                    return data;
+                } catch (error) {
+                    console.error(`API request failed [${endpoint}]:`, error);
+                    throw error;
+                }
+            },
+
+            async get(endpoint) {
+                return this.request(endpoint, { method: 'GET' });
+            },
+
+            async post(endpoint, data) {
+                return this.request(endpoint, {
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                });
+            },
+
+            async generateAIReport(type = 'single') {
+                return this.post('/ai/report', { type });
+            },
+
+            async getAIReport(reportId) {
+                return this.get(`/ai/report/${reportId}`);
+            },
+
+            async getTestHistory(params = {}) {
+                const queryString = new URLSearchParams(params).toString();
+                const endpoint = `/test/history${queryString ? '?' + queryString : ''}`;
+                return this.get(endpoint);
+            },
+
+            async getTestDetail(testId) {
+                return this.get(`/test/${testId}/detail`);
+            },
+
+            async getUserStatistics() {
+                return this.get('/user/statistics');
+            },
+
+            async getUserProfile() {
+                return this.get('/user/profile');
+            },
+
+            async logout() {
+                return this.post('/logout');
+            }
+        };
+
+        // Chart manager
+        class ChartManager {
+            constructor() {
+                this.trendChart = null;
+                this.isInitialized = false;
+                this.initCharts();
+            }
+
+            initCharts() {
+                try {
+                    if (typeof Chart === 'undefined') {
+                        console.error('Chart.js not loaded');
+                        return false;
+                    }
+
+                    Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif';
+                    Chart.defaults.color = '#6b7280';
+                    Chart.defaults.plugins.tooltip.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                    Chart.defaults.plugins.tooltip.titleColor = '#ffffff';
+                    Chart.defaults.plugins.tooltip.bodyColor = '#ffffff';
+                    Chart.defaults.plugins.tooltip.cornerRadius = 8;
+
+                    this.isInitialized = true;
+                    console.log('Chart manager initialized successfully');
+                    return true;
+                } catch (error) {
+                    console.error('Chart initialization failed:', error);
+                    this.isInitialized = false;
+                    return false;
+                }
+            }
+
+            createTrendChart(data) {
+                if (!this.isInitialized) {
+                    console.warn('Chart manager not initialized');
+                    this.showChartPlaceholder();
+                    return;
+                }
+
+                const canvas = document.getElementById('trendChart');
+                const placeholder = document.getElementById('chartPlaceholder');
+
+                if (!canvas || !placeholder) {
+                    console.error('Chart container element does not exist');
+                    return;
+                }
+
+                if (!data || data.length < 1) {
+                    console.log('Insufficient data, showing placeholder');
+                    canvas.style.display = 'none';
+                    placeholder.style.display = 'flex';
+                    return;
+                }
+
+                try {
+                    canvas.style.display = 'block';
+                    placeholder.style.display = 'none';
+
+                    if (this.trendChart) {
+                        this.trendChart.destroy();
+                    }
+                    
+                    // Use category axis to avoid time adapter dependencies
+                    const sorted = data.slice().reverse();
+                    const labels = sorted.map((item, index) => {
+                        const dateStr = item.test_date || item.test_timestamp;
+                        try {
+                            if (!dateStr) return `Test ${index + 1}`;
+                            const d = new Date(dateStr);
+                            return isNaN(d.getTime())
+                                ? `Test ${index + 1}`
+                                : d.toLocaleString('en-US', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+                        } catch (_) {
+                            return `Test ${index + 1}`;
+                        }
+                    });
+                    const values = sorted.map(item => {
+                        const v = Utils.getScoreFromItem(item);
+                        const num = parseInt(v) || 0;
+                        // If backend returns 0-52 total score, convert to 0-13 range
+                        const normalized = num > 13 ? Math.round(num / 4) : num;
+                        return Math.max(0, Math.min(13, normalized));
+                    });
+
+                    // If all are 0 and no valid points, at least render one point
+                    const hasAny = values.some(x => !isNaN(x));
+                    if (!hasAny) {
+                        console.warn('No valid score data, showing placeholder');
+                        canvas.style.display = 'none';
+                        placeholder.style.display = 'flex';
+                        return;
+                    }
+
+                    console.log('Creating trend chart (category axis), data points:', values.length);
+
+                    const ctx = canvas.getContext('2d');
+                    this.trendChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels,
+                            datasets: [{
+                                label: 'MDQ Score',
+                                data: values,
+                                borderColor: '#667eea',
+                                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0.4,
+                                pointBackgroundColor: '#667eea',
+                                pointBorderColor: '#ffffff',
+                                pointBorderWidth: 2,
+                                pointRadius: 5,
+                                pointHoverRadius: 7
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            interaction: {
+                                intersect: false,
+                                mode: 'index'
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        title: function(context) {
+                                            try {
+                                                const idx = context[0].dataIndex;
+                                                return context[0].chart.data.labels[idx];
+                                            } catch (e) {
+                                                return `Test ${context[0].dataIndex + 1}`;
+                                            }
+                                        },
+                                        label: function(context) {
+                                            const score = context.parsed.y;
+                                            const scoreInfo = Utils.formatScore(score);
+                                            return `Score: ${score}/13 (${scoreInfo.description})`;
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    type: 'category',
+                                    title: { display: true, text: 'Test Date' },
+                                    grid: { display: false }
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    max: 13,
+                                    ticks: {
+                                        stepSize: 1,
+                                        callback: function(value) {
+                                            return value + ' pts';
+                                        }
+                                    },
+                                    grid: {
+                                        color: 'rgba(0, 0, 0, 0.05)'
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'MDQ Score'
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    // Add threshold line
+                    this.addThresholdLine();
+
+                    console.log('Trend chart created successfully');
+                } catch (error) {
+                    console.error('Failed to create trend chart:', error);
+                    this.showChartError('Chart loading failed');
+                }
+            }
+
+            addThresholdLine() {
+                if (!this.trendChart) return;
+
+                try {
+                    const originalDraw = this.trendChart.draw;
+                    this.trendChart.draw = function() {
+                        originalDraw.call(this);
+                        
+                        const ctx = this.ctx;
+                        const chartArea = this.chartArea;
+                        
+                        if (chartArea) {
+                            ctx.save();
+                            ctx.strokeStyle = '#f59e0b';
+                            ctx.lineWidth = 2;
+                            ctx.setLineDash([5, 5]);
+                            
+                            const yScale = this.scales.y;
+                            const thresholdY = yScale.getPixelForValue(7);
+                            
+                            ctx.beginPath();
+                            ctx.moveTo(chartArea.left, thresholdY);
+                            ctx.lineTo(chartArea.right, thresholdY);
+                            ctx.stroke();
+                            
+                            ctx.fillStyle = '#f59e0b';
+                            ctx.font = '12px Arial';
+                            ctx.fillText('Threshold (7 pts)', chartArea.right - 90, thresholdY - 5);
+
+                            ctx.restore();
+                        }
+                    };
+                } catch (error) {
+                    console.warn('Failed to add threshold line:', error);
+                }
+            }
+
+            showChartPlaceholder() {
+                const ctx = document.getElementById('trendChart');
+                const placeholder = document.getElementById('chartPlaceholder');
+                
+                if (ctx && placeholder) {
+                    ctx.style.display = 'none';
+                    placeholder.style.display = 'flex';
+                }
+            }
+
+            showChartError(message) {
+                const placeholder = document.getElementById('chartPlaceholder');
+                if (placeholder) {
+                    placeholder.innerHTML = `
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: var(--error-color);"></i>
+                        <span>${message}</span>
+                    `;
+                    placeholder.style.display = 'flex';
+                }
+            }
+
+            updateCharts(data, timeRange = 'all') {
+                if (!this.isInitialized) {
+                    console.warn('Chart manager not initialized, skipping chart update');
+                    return;
+                }
+
+                try {
+                    console.log('Starting chart update, data size:', data ? data.length : 0);
+
+                    const filteredData = this.filterDataByTimeRange(data, timeRange);
+                    console.log('Filtered data size:', filteredData.length);
+
+                    this.createTrendChart(filteredData);
+
+                    console.log('Chart update complete');
+                } catch (error) {
+                    console.error('Error occurred during chart update:', error);
+                    Toast.warning('Chart loading failed, but data loaded successfully');
+                }
+            }
+
+            filterDataByTimeRange(data, timeRange) {
+                if (timeRange === 'all' || !data || data.length === 0) return data;
+
+                const now = new Date();
+                let startDate;
+
+                switch (timeRange) {
+                    case 'month':
+                        startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+                        break;
+                    case 'quarter':
+                        startDate = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+                        break;
+                    case 'year':
+                        startDate = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+                        break;
+                    default:
+                        return data;
+                }
+
+                return data.filter(item => {
+                    try {
+                        const dateStr = item.test_date || item.test_timestamp;
+                        if (!dateStr) return false;
+
+                        const testDate = new Date(dateStr);
+                        return !isNaN(testDate.getTime()) && testDate >= startDate;
+                    } catch (error) {
+                        console.warn('Date parsing failed while filtering data:', item);
+                        return false;
+                    }
+                });
+            }
+
+            destroy() {
+                try {
+                    if (this.trendChart) {
+                        this.trendChart.destroy();
+                        this.trendChart = null;
+                    }
+                    console.log('Chart resources cleaned up');
+                } catch (error) {
+                    console.error('Error destroying chart:', error);
+                }
+            }
+        }
+
+        // History manager
+        class HistoryManager {
+            constructor() {
+                this.historyData = [];
+                this.filteredData = [];
+                this.currentPage = 1;
+                this.pageSize = 10;
+                this.filters = {
+                    time: 'all',
+                    status: 'all',
+                    search: ''
+                };
+                this.isLoggedIn = false;
+                this.chartManager = null;
+            }
+
+            async init() {
+                try {
+                    await this.checkLoginStatus();
+
+                    if (!this.isLoggedIn) {
+                        this.showLoginPrompt();
+                        return;
+                    }
+
+                    this.initChartManager();
+                    this.setupEventListeners();
+                    await this.loadData();
+
+                    console.log('History page initialization complete');
+                } catch (error) {
+                    console.error('Initialization failed:', error);
+                    Toast.error('Page loading failed, please refresh and try again');
+                }
+            }
+
+            initChartManager() {
+                try {
+                    this.chartManager = new ChartManager();
+                    if (!this.chartManager.isInitialized) {
+                        console.warn('Chart manager initialization failed, continuing with data processing');
+                        this.chartManager = null;
+                    }
+                } catch (error) {
+                    console.error('Chart manager creation failed:', error);
+                    this.chartManager = null;
+                }
+            }
+
+            async checkLoginStatus() {
+                try {
+                    const profile = await API.getUserProfile();
+                    this.isLoggedIn = true;
+                    this.userProfile = profile.profile;
+                } catch (error) {
+                    this.isLoggedIn = false;
+                    console.log('User not logged in');
+                }
+            }
+
+            showLoginPrompt() {
+                const historyList = document.getElementById('historyList');
+                historyList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-user-lock"></i>
+                        </div>
+                        <h3 class="empty-title">Please Log In</h3>
+                        <p class="empty-description">
+                            You need to log in to view test history
+                        </p>
+                        <button class="btn btn-primary" onclick="window.location.href='login.html'">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Log In Now
+                        </button>
+                    </div>
+                `;
+            }
+
+            async loadData() {
+                this.showLoading('Loading history...', 'Please wait');
+
+                try {
+                    console.log('Starting to load history data...');
+
+                    const [historyResult, statsResult] = await Promise.all([
+                        API.getTestHistory({ limit: 100 }),
+                        API.getUserStatistics()
+                    ]);
+
+                    console.log('History API response:', historyResult);
+                    console.log('Statistics API response:', statsResult);
+
+                    if (historyResult.success) {
+                        this.historyData = historyResult.history || [];
+                        console.log(`Successfully loaded ${this.historyData.length} history records`);
+
+                        // **New: Print detailed history records**
+                        if (this.historyData.length > 0) {
+                            console.log('=== History Record Details ===');
+                            this.historyData.forEach((item, index) => {
+                                console.log(`[${index + 1}] Test ID: ${item.test_id}, Date: ${item.test_date || item.test_timestamp}, Score: ${item.total_score}, Status: ${item.completion_status}`);
+                            });
+                            console.log('===============================');
+                        } else {
+                            console.warn('⚠️ History is empty! Possible reasons: 1) User has not completed any tests 2) API returned no data 3) No records in database');
+                        }
+
+                        this.applyFilters();
+
+                        if (this.historyData.length > 0 && this.chartManager) {
+                            try {
+                                console.log('Starting chart update...');
+                                this.chartManager.updateCharts(this.historyData);
+                                console.log('Chart update complete');
+                            } catch (chartError) {
+                                console.error('Chart update failed:', chartError);
+                                Toast.warning('Chart loading failed, but data loaded successfully');
+                            }
+                        }
+                    } else {
+                        console.error('Failed to get history:', historyResult.message);
+                        Toast.error('Failed to get history: ' + (historyResult.message || 'Unknown error'));
+                    }
+
+                    if (statsResult.success) {
+                        console.log('Statistics data:', statsResult.statistics);
+                        this.updateStatistics(statsResult.statistics);
+                    } else {
+                        console.error('Failed to get statistics:', statsResult.message);
+                        Toast.warning('Statistics loading failed, but history loaded successfully');
+                    }
+
+                    this.hideLoading();
+                    
+                    if (this.historyData.length === 0) {
+                        this.showEmptyState();
+                    }
+
+                } catch (error) {
+                    this.hideLoading();
+                    console.error('Data loading failed:', error);
+
+                    let errorMessage = 'Data loading failed, please try again';
+                    if (error.message) {
+                        if (error.message.includes('Failed to fetch')) {
+                            errorMessage = 'Network connection failed, please check network and try again';
+                        } else {
+                            errorMessage = `Loading failed: ${error.message}`;
+                        }
+                    }
+
+                    Toast.error(errorMessage);
+                }
+            }
+
+            updateStatistics(stats) {
+                try {
+                    console.log('Updating statistics:', stats);
+                    
+                    const totalTests = stats.total_tests || stats.completed_tests || 0;
+                    document.getElementById('totalTests').textContent = totalTests;
+                    
+                    let avgScore = parseFloat(
+                        stats.average_score || 
+                        stats.avg_score || 
+                        (stats.latest_test && stats.latest_test.score) || 
+                        0
+                    );
+                    if (avgScore > 13) avgScore = avgScore / 4; // 0-52 转 0-13
+                    avgScore = Math.max(0, Math.min(13, avgScore));
+                    document.getElementById('avgScore').textContent = avgScore > 0 ? 
+                        `${avgScore.toFixed(1)}/13` : '-';
+                    
+                    const lastTestDate = stats.last_test_date || 
+                                         (stats.latest_test && stats.latest_test.date);
+                    document.getElementById('lastTestDate').textContent = lastTestDate ? 
+                        Utils.formatDate(lastTestDate) : '-';
+                    
+                    let positiveRate = 0;
+                    if (this.historyData && this.historyData.length > 0) {
+                        const positiveCount = this.historyData.filter(item => {
+                            const score = Utils.getScoreFromItem(item);
+                            return Utils.getScoreLevel(score) !== 'negative';
+                        }).length;
+                        positiveRate = (positiveCount / this.historyData.length) * 100;
+                    }
+                    document.getElementById('positiveRate').textContent = `${positiveRate.toFixed(1)}%`;
+                    
+                    console.log('统计信息更新完成');
+                } catch (error) {
+                    console.error('更新统计信息失败:', error);
+                    document.getElementById('totalTests').textContent = '-';
+                    document.getElementById('avgScore').textContent = '-';
+                    document.getElementById('lastTestDate').textContent = '-';
+                    document.getElementById('positiveRate').textContent = '-';
+                }
+            }
+
+            renderHistoryItem(item) {
+                try {
+                    console.log('渲染历史记录项:', item);
+                    
+                    const testId = item.test_id || '';
+                    const testDate = item.test_date || item.test_timestamp || '';
+                    const mdqScore = Utils.getScoreFromItem(item);
+                    const completionTime = parseInt(item.completion_time || 0);
+                    const coOccurrence = item.co_occurrence || 'no';
+                    const severity = item.severity || 'no';
+                    const completionStatus = item.completion_status || 
+                        (item.completed_questions >= 13 ? 'completed' : 'incomplete');
+                    
+                    const isCompleted = completionStatus === 'completed' || 
+                        (item.questions && Object.keys(item.questions).length >= 13) ||
+                        (item.completed_questions && item.completed_questions >= 13);
+                    
+                    const scoreInfo = Utils.formatScore(mdqScore);
+                    const formattedCompletionTime = Utils.formatCompletionTime(completionTime);
+                    const formattedDate = Utils.formatDate(testDate);
+
+                    console.log(`格式化完成 - MDQ分数: ${mdqScore}/13, 级别: ${scoreInfo.level}, 状态: ${isCompleted ? '已完成' : '未完成'}`);
+
+                    return `
+                        <div class="history-item" data-test-id="${testId}">
+                            <div class="history-header">
+                                <div class="history-date">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>${formattedDate}</span>
+                                    <span class="history-status ${isCompleted ? 'status-completed' : 'status-incomplete'}">
+                                        ${isCompleted ? '已完成' : '未完成'}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <div class="history-content-grid">
+                                <div class="history-details">
+                                    <div class="detail-row">
+                                        <span class="detail-label">测试ID</span>
+                                        <span class="detail-value">${testId.substring(0, 8)}...</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">MDQ得分</span>
+                                        <span class="detail-value">
+                                            <span class="score-badge ${scoreInfo.color}">
+                                                <i class="fas fa-chart-pie"></i>
+                                                ${scoreInfo.score}/13 (${scoreInfo.description})
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Completion Time</span>
+                                        <span class="detail-value">${formattedCompletionTime}</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Symptom Co-occurrence</span>
+                                        <span class="detail-value">${this.formatCoOccurrence(coOccurrence)}</span>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span class="detail-label">Impact Level</span>
+                                        <span class="detail-value">${this.formatSeverity(severity)}</span>
+                                    </div>
+                                </div>
+
+                                <div class="history-actions">
+                                    <button class="btn btn-primary btn-sm" onclick="historyManager.viewDetail('${testId}')">
+                                        <i class="fas fa-eye"></i>
+                                        View Details
+                                    </button>
+                                    <button class="btn btn-secondary btn-sm" onclick="historyManager.generateReport('${testId}')">
+                                        <i class="fas fa-robot"></i>
+                                        AI Analysis
+                                    </button>
+                                    <button class="btn btn-outline btn-sm" onclick="historyManager.compareWithPrevious('${testId}')">
+                                        <i class="fas fa-balance-scale"></i>
+                                        Compare
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } catch (error) {
+                    console.error('Failed to render history item:', error);
+                    return `
+                        <div class="history-item">
+                            <div style="text-align: center; padding: 2rem; color: #ef4444;">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                数据显示异常，请刷新重试
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            formatCoOccurrence(value) {
+                const mapping = {
+                    'yes': 'Yes',
+                    'no': 'No',
+                    'sometimes': 'Sometimes'
+                };
+                return mapping[value] || value || '-';
+            }
+
+            formatSeverity(value) {
+                const mapping = {
+                    'no': 'No problem',
+                    'minor': 'Minor problem',
+                    'moderate': 'Moderate problem',
+                    'serious': 'Serious problem'
+                };
+                return mapping[value] || value || '-';
+            }
+
+            applyFilters() {
+                try {
+                    let filtered = [...this.historyData];
+
+                    if (this.filters.time !== 'all') {
+                        const now = new Date();
+                        let startDate;
+
+                        switch (this.filters.time) {
+                            case 'week':
+                                startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                                break;
+                            case 'month':
+                                startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+                                break;
+                            case 'quarter':
+                                startDate = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+                                break;
+                            case 'year':
+                                startDate = new Date(now.getTime() - 365 * 24 * 60 * 60 * 1000);
+                                break;
+                        }
+
+                        if (startDate) {
+                            filtered = filtered.filter(item => {
+                                const testDate = item.test_date || item.test_timestamp;
+                                return testDate && new Date(testDate) >= startDate;
+                            });
+                        }
+                    }
+
+                    if (this.filters.status !== 'all') {
+                        filtered = filtered.filter(item => {
+                            const isCompleted = item.completion_status === 'completed' || 
+                                (item.questions && Object.keys(item.questions).length >= 13) ||
+                                (item.completed_questions && item.completed_questions >= 13);
+                            return this.filters.status === 'completed' ? isCompleted : !isCompleted;
+                        });
+                    }
+
+                    if (this.filters.search) {
+                        const searchTerm = this.filters.search.toLowerCase();
+                        filtered = filtered.filter(item => {
+                            const testId = (item.test_id || '').toLowerCase();
+                            const testDate = Utils.formatDate(item.test_date || item.test_timestamp).toLowerCase();
+                            const score = Utils.getScoreFromItem(item);
+                            const scoreInfo = Utils.formatScore(score);
+                            
+                            return testId.includes(searchTerm) ||
+                                   testDate.includes(searchTerm) ||
+                                   scoreInfo.description.toLowerCase().includes(searchTerm);
+                        });
+                    }
+
+                    this.filteredData = filtered;
+                    this.currentPage = 1;
+
+                    // **新增: 详细打印过滤结果**
+                    console.log(`过滤完成: ${this.historyData.length} -> ${filtered.length}`);
+                    console.log('当前过滤器设置:', this.filters);
+                    if (filtered.length === 0 && this.historyData.length > 0) {
+                        console.warn('⚠️ 过滤后数据为空! 请检查过滤器设置是否过于严格');
+                    }
+
+                    this.renderHistory();
+                } catch (error) {
+                    console.error('应用过滤器失败:', error);
+                    Toast.error('Data filtering failed');
+                }
+            }
+
+            renderHistory() {
+                const historyList = document.getElementById('historyList');
+
+                if (this.filteredData.length === 0) {
+                    console.log('没有数据需要渲染,显示空状态页面');
+                    this.showEmptyState();
+                    return;
+                }
+
+                const startIndex = (this.currentPage - 1) * this.pageSize;
+                const endIndex = startIndex + this.pageSize;
+                const pageData = this.filteredData.slice(startIndex, endIndex);
+
+                console.log(`渲染历史记录: 第${this.currentPage}页, 显示 ${startIndex}-${endIndex} 项, 共 ${pageData.length} 条`);
+                console.log('页面数据详情:', pageData);
+
+                // **新增: 检查渲染元素是否存在**
+                if (!historyList) {
+                    console.error('❌ 错误: historyList 元素不存在! 请检查HTML中是否有 id="historyList" 的元素');
+                    return;
+                }
+
+                try {
+                    historyList.innerHTML = pageData.map(item => this.renderHistoryItem(item)).join('');
+                    console.log('✅ 历史记录渲染完成');
+                } catch (error) {
+                    console.error('❌ 渲染历史记录失败:', error);
+                    historyList.innerHTML = '<div class="error-message">渲染数据失败,请刷新页面重试</div>';
+                }
+            }
+
+            showEmptyState() {
+                const historyList = document.getElementById('historyList');
+                const hasFilters = this.filters.time !== 'all' || 
+                                  this.filters.status !== 'all' || 
+                                  this.filters.search !== '';
+
+                historyList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-${hasFilters ? 'search' : 'clipboard-list'}"></i>
+                        </div>
+                        <h3 class="empty-title">
+                            ${hasFilters ? 'No matching records found' : 'No test records yet'}
+                        </h3>
+                        <p class="empty-description">
+                            ${hasFilters ?
+                                'Try adjusting filter conditions or clearing search keywords' :
+                                'You haven\'t taken any mental health tests yet. Start your first test now!'
+                            }
+                        </p>
+                        ${hasFilters ?
+                            '<button class="btn btn-outline" onclick="historyManager.clearFilters()"><i class="fas fa-times"></i> Clear Filters</button>' :
+                            '<button class="btn btn-primary" onclick="window.location.href=\'test.html\'"><i class="fas fa-plus"></i> Start Test</button>'
+                        }
+                    </div>
+                `;
+            }
+
+            setupEventListeners() {
+                // Filters
+                document.getElementById('timeFilter').addEventListener('change', (e) => {
+                    this.filters.time = e.target.value;
+                    this.applyFilters();
+                });
+
+                document.getElementById('statusFilter').addEventListener('change', (e) => {
+                    this.filters.status = e.target.value;
+                    this.applyFilters();
+                });
+
+                // 搜索（防抖）
+                const searchInput = document.getElementById('searchInput');
+                searchInput.addEventListener('input', Utils.debounce((e) => {
+                    this.filters.search = e.target.value.trim();
+                    this.applyFilters();
+                }, 300));
+
+                // 图表时间范围
+                document.getElementById('chartTimeRange').addEventListener('change', (e) => {
+                    if (this.chartManager) {
+                        this.chartManager.updateCharts(this.historyData, e.target.value);
+                    }
+                });
+
+                // 按钮事件
+                document.getElementById('refreshBtn').addEventListener('click', () => {
+                    this.loadData();
+                });
+
+                document.getElementById('exportBtn').addEventListener('click', () => {
+                    this.exportData();
+                });
+
+                document.getElementById('generateHistoricalReport').addEventListener('click', () => {
+                    this.generateHistoricalReport();
+                });
+
+                // 登出按钮
+                document.getElementById('logoutLink').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.logout();
+                });
+            }
+
+            clearFilters() {
+                this.filters = { time: 'all', status: 'all', search: '' };
+                document.getElementById('timeFilter').value = 'all';
+                document.getElementById('statusFilter').value = 'all';
+                document.getElementById('searchInput').value = '';
+                document.getElementById('chartTimeRange').value = 'all';
+                this.applyFilters();
+                if (this.chartManager) {
+                    this.chartManager.updateCharts(this.historyData, 'all');
+                }
+            }
+
+            async viewDetail(testId) {
+                try {
+                    console.log('查看测试详情:', testId);
+                    this.showLoading('正在加载测试详情...', '请稍候');
+                    const result = await API.getTestDetail(testId);
+                    this.hideLoading();
+
+                    console.log('测试详情结果:', result);
+
+                    if (result.success) {
+                        this.showDetailModal(result.detail);
+                    } else {
+                        Toast.error('获取测试详情失败: ' + (result.message || '未知错误'));
+                    }
+                } catch (error) {
+                    this.hideLoading();
+                    console.error('获取详情失败:', error);
+                    Toast.error('获取测试详情失败，请重试: ' + error.message);
+                }
+            }
+
+            showDetailModal(detail) {
+                try {
+                    console.log('显示详情模态框:', detail);
+                    
+                    const testId = detail.test_id || '';
+                    const testDate = detail.test_date || detail.test_timestamp || '';
+                    const mdqScore = Utils.getScoreFromItem(detail);
+                    const completionTime = parseInt(detail.completion_time || 0);
+                    const questions = detail.questions || {};
+                    const questionCount = Object.keys(questions).length;
+                    
+                    const scoreInfo = Utils.formatScore(mdqScore);
+                    const formattedDate = Utils.formatDate(testDate);
+                    const formattedCompletionTime = Utils.formatCompletionTime(completionTime);
+
+                    const modal = document.createElement('div');
+                    modal.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        background: rgba(0, 0, 0, 0.5);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 10001;
+                        padding: 2rem;
+                    `;
+
+                    modal.innerHTML = `
+                        <div style="
+                            background: white;
+                            padding: 2rem;
+                            border-radius: 1rem;
+                            max-width: 800px;
+                            width: 100%;
+                            max-height: 80vh;
+                            overflow-y: auto;
+                            position: relative;
+                        ">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                                <h2 style="color: #1f2937; margin: 0;">MDQ测试详情</h2>
+                                <button onclick="document.body.removeChild(this.closest('div').parentElement)" 
+                                    style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #6b7280;">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            
+                            <div style="display: grid; gap: 1.5rem;">
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                                    <div style="padding: 1rem; background: #f9fafb; border-radius: 0.5rem;">
+                                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem;">测试时间</div>
+                                        <div style="font-weight: 600;">${formattedDate}</div>
+                                    </div>
+                                    <div style="padding: 1rem; background: #f9fafb; border-radius: 0.5rem;">
+                                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem;">MDQ得分</div>
+                                        <div style="font-weight: 600;">${mdqScore}/13 (${scoreInfo.description})</div>
+                                    </div>
+                                    <div style="padding: 1rem; background: #f9fafb; border-radius: 0.5rem;">
+                                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem;">完成问题</div>
+                                        <div style="font-weight: 600;">${questionCount}/13</div>
+                                    </div>
+                                    <div style="padding: 1rem; background: #f9fafb; border-radius: 0.5rem;">
+                                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem;">完成时间</div>
+                                        <div style="font-weight: 600;">${formattedCompletionTime}</div>
+                                    </div>
+                                </div>
+                                
+                                <div style="padding: 1.5rem; background: #f9fafb; border-radius: 0.75rem;">
+                                    <h3 style="margin: 0 0 1rem 0; color: #1f2937;">问卷答案</h3>
+                                    <div style="display: grid; gap: 0.5rem; font-size: 0.875rem;">
+                                        ${Object.entries(questions).map(([key, value]) => `
+                                            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #e5e7eb;">
+                                                <span>问题${key.replace('q', '')}</span>
+                                                <span style="font-weight: 600;">${this.formatAnswer(value)}</span>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
+                                
+                                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                                    <button class="btn btn-outline" onclick="document.body.removeChild(this.closest('div').parentElement)">
+                                        关闭
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    document.body.appendChild(modal);
+
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) {
+                            document.body.removeChild(modal);
+                        }
+                    });
+                } catch (error) {
+                    console.error('显示详情模态框失败:', error);
+                    Toast.error('显示测试详情失败');
+                }
+            }
+
+            formatAnswer(value) {
+                const mapping = {
+                    'no': '从未',
+                    'rarely': '很少',
+                    'sometimes': '有时',
+                    'often': '经常',
+                    'always': '总是',
+                    'yes': '是',
+                    'minor': '轻微',
+                    'moderate': '中等',
+                    'serious': '严重'
+                };
+                return mapping[value] || value || '-';
+            }
+
+            generateReport(testId) {
+                this.showAnalysisModal('AI正在分析中...', '大约需要数秒，请耐心等待');
+
+                (async () => {
+                    try {
+                        const gen = await API.generateAIReport('single');
+                        if (!gen.success || !gen.reports || !gen.reports.single_test_report) {
+                            throw new Error(gen.message || '报告生成失败');
+                        }
+
+                        const reportId = gen.reports.single_test_report.report_id;
+                        const detail = await API.getAIReport(reportId);
+                        if (!detail.success || !detail.report) {
+                            throw new Error(detail.message || '获取报告详情失败');
+                        }
+
+                        this.updateAnalysisModalWithSingle(detail.report);
+                    } catch (e) {
+                        console.error(e);
+                        this.updateAnalysisModalWithError(e.message || 'AI分析失败，请稍后重试');
+                    }
+                })();
+            }
+
+            generateHistoricalReport() {
+                if (this.historyData.length < 1) {
+                    Toast.warning('需要至少1次测试记录才能生成历史分析报告');
+                    return;
+                }
+                this.showAnalysisModal('正在生成历史分析报告...', '这将基于您的历史测试进行综合分析', '历史分析报告');
+
+                (async () => {
+                    try {
+                        const gen = await API.generateAIReport('historical');
+                        if (!gen.success || !gen.reports || !gen.reports.historical_report) {
+                            throw new Error(gen.message || '历史报告生成失败');
+                        }
+
+                        const reportId = gen.reports.historical_report.report_id;
+                        const detail = await API.getAIReport(reportId);
+                        if (!detail.success || !detail.report) {
+                            throw new Error(detail.message || '获取历史报告详情失败');
+                        }
+
+                        this.updateAnalysisModalWithHistorical(detail.report);
+                    } catch (e) {
+                        console.error(e);
+                        this.updateAnalysisModalWithError(e.message || '生成历史分析报告失败，请稍后重试');
+                    }
+                })();
+            }
+
+            compareWithPrevious(testId) {
+                const currentIndex = this.historyData.findIndex(item => item.test_id === testId);
+                if (currentIndex === -1 || currentIndex === this.historyData.length - 1) {
+                    Toast.warning('没有更早的测试记录进行对比');
+                    return;
+                }
+
+                const currentTest = this.historyData[currentIndex];
+                const previousTest = this.historyData[currentIndex + 1];
+
+                const currentScore = Utils.getScoreFromItem(currentTest);
+                const previousScore = Utils.getScoreFromItem(previousTest);
+                const scoreDiff = currentScore - previousScore;
+                
+                const currentScoreInfo = Utils.formatScore(currentScore);
+                const previousScoreInfo = Utils.formatScore(previousScore);
+                
+                let message = `当前得分: ${currentScore}/13 (${currentScoreInfo.description})\n`;
+                message += `上次得分: ${previousScore}/13 (${previousScoreInfo.description})\n`;
+                
+                if (scoreDiff > 0) {
+                    message += `得分上升了 ${scoreDiff} 分`;
+                } else if (scoreDiff < 0) {
+                    message += `得分下降了 ${Math.abs(scoreDiff)} 分`;
+                } else {
+                    message += '得分保持不变';
+                }
+                
+                Toast.info(message);
+            }
+
+            exportData() {
+                if (this.historyData.length === 0) {
+                    Toast.warning('没有数据可以导出');
+                    return;
+                }
+
+                try {
+                    const data = this.historyData.map(item => {
+                        const mdqScore = Utils.getScoreFromItem(item);
+                        const scoreInfo = Utils.formatScore(mdqScore);
+                        
+                        return {
+                            '测试ID': item.test_id,
+                            '测试时间': Utils.formatDate(item.test_date || item.test_timestamp),
+                            'MDQ得分': mdqScore,
+                            '得分级别': scoreInfo.description,
+                            '完成时间': Utils.formatCompletionTime(item.completion_time),
+                            '症状同现': this.formatCoOccurrence(item.co_occurrence),
+                            '影响程度': this.formatSeverity(item.severity),
+                            '完成状态': item.completion_status === 'completed' ? '已完成' : '未完成'
+                        };
+                    });
+
+                    const csv = this.convertToCSV(data);
+                    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+                    const link = document.createElement('a');
+                    
+                    if (link.download !== undefined) {
+                        const url = URL.createObjectURL(blob);
+                        link.setAttribute('href', url);
+                        link.setAttribute('download', `MDQ测试记录_${new Date().toISOString().split('T')[0]}.csv`);
+                        link.style.visibility = 'hidden';
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        
+                        Toast.success('数据导出成功！');
+                    }
+                } catch (error) {
+                    console.error('导出失败:', error);
+                    Toast.error('数据导出失败，请重试');
+                }
+            }
+
+            convertToCSV(data) {
+                if (data.length === 0) return '';
+
+                const headers = Object.keys(data[0]);
+                const csvContent = [
+                    headers.join(','),
+                    ...data.map(row => headers.map(header => `"${row[header]}"`).join(','))
+                ].join('\n');
+
+                return '\uFEFF' + csvContent;
+            }
+
+            async logout() {
+                try {
+                    await API.logout();
+                    Toast.success('已成功退出登录');
+                    window.location.href = 'login.html';
+                } catch (error) {
+                    console.error('登出失败:', error);
+                    Toast.error('登出失败，请重试');
+                }
+            }
+
+            showLoading(text, subtitle) {
+                const overlay = document.getElementById('loadingOverlay');
+                const loadingText = document.getElementById('loadingText');
+                const loadingSubtitle = document.getElementById('loadingSubtitle');
+                
+                if (overlay) {
+                    overlay.classList.add('show');
+                    if (loadingText) loadingText.textContent = text;
+                    if (loadingSubtitle) loadingSubtitle.textContent = subtitle;
+                }
+            }
+
+            hideLoading() {
+                const overlay = document.getElementById('loadingOverlay');
+                if (overlay) {
+                    overlay.classList.remove('show');
+                }
+            }
+
+            // ===== 分析弹窗相关 =====
+            showAnalysisModal(titleText = '正在分析...', subtitleText = '请稍候', modalTitle = 'AI分析') {
+                if (this.analysisModal && document.body.contains(this.analysisModal)) {
+                    document.body.removeChild(this.analysisModal);
+                }
+
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    inset: 0;
+                    background: rgba(0,0,0,0.45);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10002;
+                    padding: 1.5rem;
+                `;
+
+                modal.innerHTML = `
+                    <div style="background:white; width:100%; max-width:860px; border-radius:16px; box-shadow: var(--shadow-2xl); overflow:hidden;">
+                        <div style="padding:20px 24px; border-bottom:1px solid var(--gray-100); display:flex; align-items:center; justify-content:space-between;">
+                            <h3 style="margin:0; font-size:18px; color:#111827;">${modalTitle}</h3>
+                            <button id="analysisCloseBtn" style="background:none; border:none; font-size:18px; color:#6b7280; cursor:pointer;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div id="analysisBody" style="padding:24px; max-height:70vh; overflow:auto;">
+                            <div style="text-align:center; padding:24px 0;">
+                                <div class="loading-spinner" style="margin-bottom:12px;"></div>
+                                <div class="loading-text">${titleText}</div>
+                                <div class="loading-subtitle">${subtitleText}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                modal.querySelector('#analysisCloseBtn').addEventListener('click', () => {
+                    if (document.body.contains(modal)) document.body.removeChild(modal);
+                });
+
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        if (document.body.contains(modal)) document.body.removeChild(modal);
+                    }
+                });
+
+                document.body.appendChild(modal);
+                this.analysisModal = modal;
+            }
+
+            updateAnalysisModalWithSingle(report) {
+                const body = this.analysisModal && this.analysisModal.querySelector('#analysisBody');
+                if (!body) return;
+
+                const list = (arr) => (Array.isArray(arr) ? arr : (arr ? [arr] : [])).map(i => `<li>${i}</li>`).join('');
+
+                body.innerHTML = `
+                    <div style="display:grid; gap:16px;">
+                        <div style="padding:16px; background:#f9fafb; border-radius:12px;">
+                            <div style="font-weight:700; margin-bottom:6px;">执行摘要</div>
+                            <div>${report.executive_summary || '无'}</div>
+                        </div>
+                        <div style="display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
+                            <div style="padding:16px; background:#ffffff; border:1px solid var(--gray-100); border-radius:12px;">
+                                <div style="font-weight:700; margin-bottom:6px;">临床评估</div>
+                                <div>${report.clinical_assessment || '无'}</div>
+                            </div>
+                            <div style="padding:16px; background:#ffffff; border:1px solid var(--gray-100); border-radius:12px;">
+                                <div style="font-weight:700; margin-bottom:6px;">风险评估</div>
+                                <div>${report.risk_evaluation || '无'}</div>
+                            </div>
+                        </div>
+                        <div style="display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
+                            <div style="padding:16px; background:#ffffff; border:1px solid var(--gray-100); border-radius:12px;">
+                                <div style="font-weight:700; margin-bottom:6px;">治疗建议</div>
+                                <ul style="padding-left:20px; margin:0;">${list(report.treatment_recommendations)}</ul>
+                            </div>
+                            <div style="padding:16px; background:#ffffff; border:1px solid var(--gray-100); border-radius:12px;">
+                                <div style="font-weight:700; margin-bottom:6px;">生活方式建议</div>
+                                <ul style="padding-left:20px; margin:0;">${list(report.lifestyle_recommendations)}</ul>
+                            </div>
+                        </div>
+                        <div style="padding:16px; background:#ffffff; border:1px solid var(--gray-100); border-radius:12px;">
+                            <div style="font-weight:700; margin-bottom:6px;">监测计划</div>
+                            <div>${report.monitoring_plan || '无'}</div>
+                        </div>
+                        <div style="padding:16px; background:#fff7ed; border:1px solid #ffedd5; border-radius:12px;">
+                            <div style="font-weight:700; margin-bottom:6px;">紧急处理</div>
+                            <div>${report.emergency_protocols || '无'}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            updateAnalysisModalWithHistorical(report) {
+                const body = this.analysisModal && this.analysisModal.querySelector('#analysisBody');
+                if (!body) return;
+
+                body.innerHTML = `
+                    <div style="display:grid; gap:16px;">
+                        <div style="padding:16px; background:#f9fafb; border-radius:12px;">
+                            <div style="font-weight:700; margin-bottom:6px;">进展分析</div>
+                            <div>${report.progress_analysis || '无'}</div>
+                        </div>
+                        <div style="padding:16px; background:#ffffff; border:1px solid var(--gray-100); border-radius:12px;">
+                            <div style="font-weight:700; margin-bottom:6px;">趋势解读</div>
+                            <div>${report.trend_interpretation || '无'}</div>
+                        </div>
+                        <div style="padding:16px; background:#ffffff; border:1px solid var(--gray-100); border-radius:12px;">
+                            <div style="font-weight:700; margin-bottom:6px;">预后评估</div>
+                            <div>${report.prognosis_assessment || '无'}</div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            updateAnalysisModalWithError(message) {
+                const body = this.analysisModal && this.analysisModal.querySelector('#analysisBody');
+                if (!body) return;
+                body.innerHTML = `
+                    <div style="text-align:center; padding:32px; color: var(--error-color);">
+                        <i class="fas fa-exclamation-triangle" style="font-size:28px; margin-bottom:12px;"></i>
+                        <div>${message}</div>
+                    </div>
+                `;
+            }
+
+            destroy() {
+                if (this.chartManager) {
+                    this.chartManager.destroy();
+                }
+            }
+        }
+
+        // 全局变量
+        let historyManager;
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // 检查是否为移动设备
+                const isMobile = window.innerWidth <= 768;
+                if (isMobile) {
+                    document.body.classList.add('mobile');
+                }
+
+                // 检查Chart.js是否加载
+                if (typeof Chart === 'undefined') {
+                    console.warn('Chart.js 未加载，图表功能将不可用');
+                    Toast.warning('图表组件加载失败，但基本功能正常');
+                } else {
+                    try {
+                        const version = Chart && Chart.version ? Chart.version : 'unknown';
+                        console.log('Chart.js 版本:', version);
+                        Toast.info(`Chart.js 已加载 v${version}`);
+                    } catch (e) {
+                        console.log('Chart.js 检测异常', e);
+                    }
+                }
+
+                // 初始化历史记录管理器
+                historyManager = new HistoryManager();
+                await historyManager.init();
+                
+                console.log('历史记录页面加载完成');
+                
+            } catch (error) {
+                console.error('页面初始化失败:', error);
+                Toast.error('页面加载失败，请刷新重试');
+            }
+        });
+
+        // 处理页面错误
+        window.addEventListener('error', (e) => {
+            console.error('页面错误:', e.error);
+            
+            if (e.error && e.error.message && e.error.message.includes('Chart')) {
+                Toast.warning('图表功能暂时不可用，但数据显示正常');
+            } else {
+                Toast.error('页面出现错误，请刷新重试');
+            }
+        });
+
+        // 处理未捕获的Promise拒绝
+        window.addEventListener('unhandledrejection', (e) => {
+            console.error('未处理的Promise拒绝:', e.reason);
+            
+            if (e.reason && e.reason.message && e.reason.message.includes('fetch')) {
+                Toast.error('网络请求失败，请检查网络连接');
+            } else if (e.reason && e.reason.message && e.reason.message.includes('Chart')) {
+                Toast.warning('图表加载失败，但数据已正常加载');
+            } else {
+                Toast.error('系统出现异常，请重试');
+            }
+        });
+
+        // 处理页面卸载
+        window.addEventListener('beforeunload', () => {
+            if (historyManager) {
+                historyManager.destroy();
+            }
+        });
+
+        // 响应式处理
+        window.addEventListener('resize', Utils.debounce(() => {
+            const isMobile = window.innerWidth <= 768;
+            if (isMobile) {
+                document.body.classList.add('mobile');
+            } else {
+                document.body.classList.remove('mobile');
+            }
+            
+            if (historyManager && historyManager.chartManager && historyManager.chartManager.isInitialized) {
+                setTimeout(() => {
+                    try {
+                        historyManager.chartManager.updateCharts(historyManager.historyData);
+                    } catch (error) {
+                        console.warn('响应式图表更新失败:', error);
+                    }
+                }, 100);
+            }
+        }, 250));
+    </script>
+</body>
+</html>

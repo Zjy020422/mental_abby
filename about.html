@@ -1,0 +1,2012 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心理疾病科普 - MindCare</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+/* 基础CSS变量和通用样式 */
+:root {
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-secondary: linear-gradient(135deg,#ced5f8 0%,#ffffff 100%);
+    --white: #ffffff;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #6b7280;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --error-color: #ef4444;
+    --info-color: #3b82f6;
+    --transition-normal: all 0.3s ease;
+    --transition-slow: all 0.5s ease;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+    --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1rem;
+    --radius-3xl: 1.5rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    line-height: 1.7;
+    color: var(--gray-900);
+    background: var(--white);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* 导航栏样式 */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    transition: var(--transition-normal);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--gray-600);
+    font-weight: 500;
+    transition: var(--transition-normal);
+    position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--primary-color);
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary-color);
+    border-radius: 1px;
+}
+
+.nav-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-normal);
+}
+
+.nav-btn.primary {
+    background: var(--gradient-primary);
+    color: var(--white);
+}
+
+.nav-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.nav-toggle {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* 页脚样式 */
+.footer {
+    background: var(--gray-900);
+    color: var(--white);
+    padding: 3rem 0 1rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h4 {
+    margin-bottom: 1rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section ul li a {
+    color: var(--gray-400);
+    text-decoration: none;
+    transition: var(--transition-normal);
+}
+
+.footer-section ul li a:hover {
+    color: var(--white);
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--gray-400);
+}
+
+/* 关于页面特定样式 */
+main {
+    padding-top: 80px;
+}
+
+/* 页面头部 */
+.about-hero {
+    background: var(--gradient-primary);
+    color: var(--white);
+    padding: 6rem 0;
+    text-align: center;
+}
+
+.about-hero-content .hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.about-hero-content .hero-subtitle {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    line-height: 1.6;
+}
+
+/* 疾病导航 */
+.disease-nav {
+    padding: 2rem 0;
+    background: var(--gray-50);
+    position: sticky;
+    top: 80px;
+    z-index: 100;
+}
+
+.nav-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.nav-tab {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-lg);
+    background: var(--white);
+    color: var(--gray-600);
+    text-decoration: none;
+    font-weight: 500;
+    border: 2px solid transparent;
+    transition: var(--transition-normal);
+    box-shadow: var(--shadow-sm);
+}
+
+.nav-tab:hover,
+.nav-tab.active {
+    background: var(--primary-color);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* 疾病介绍区域 */
+.diseases-section {
+    padding: 6rem 0;
+    background: var(--white);
+}
+
+.disease-article {
+    margin-bottom: 6rem;
+    padding: 3rem;
+    background: var(--gray-50);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+}
+
+.disease-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.disease-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.disease-subtitle {
+    font-size: 1.25rem;
+    color: var(--gray-600);
+    margin-bottom: 1.5rem;
+}
+
+.prevalence-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: var(--gradient-primary);
+    color: var(--white);
+    border-radius: var(--radius-lg);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.disease-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.content-section {
+    margin-bottom: 3rem;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.section-title i {
+    color: var(--primary-color);
+}
+
+.content-text {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--gray-700);
+    margin-bottom: 1.5rem;
+}
+
+.symptoms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.symptom-category {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+}
+
+.symptom-category h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.symptom-list {
+    list-style: none;
+}
+
+.symptom-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--gray-600);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.symptom-list li::before {
+    content: '•';
+    color: var(--primary-color);
+    font-weight: bold;
+    width: 12px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: 50%;
+    flex-shrink: 0;
+    font-size: 0.75rem;
+}
+
+.stats-box {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    border-left: 4px solid var(--primary-color);
+}
+
+.stats-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+}
+
+.stats-content {
+    color: var(--gray-700);
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* 参考文献区域 */
+.references-section {
+    padding: 6rem 0;
+    background: var(--gray-50);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header .section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section-subtitle {
+    font-size: 1.25rem;
+    color: var(--gray-600);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.references-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.reference-category {
+    background: var(--white);
+    padding: 2.5rem;
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+    transition: var(--transition-normal);
+}
+
+.reference-category:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+}
+
+.category-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.category-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 1.5rem;
+}
+
+.category-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+}
+
+.reference-list {
+    list-style: none;
+}
+
+.reference-item {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--gray-50);
+    border-radius: var(--radius-md);
+    transition: var(--transition-normal);
+}
+
+.reference-item:hover {
+    background: var(--gray-100);
+}
+
+.reference-title {
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+}
+
+.reference-authors {
+    color: var(--gray-600);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.reference-journal {
+    color: var(--gray-500);
+    font-size: 0.85rem;
+    font-style: italic;
+    margin-bottom: 0.75rem;
+}
+
+.reference-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    transition: var(--transition-normal);
+}
+
+.reference-link:hover {
+    color: var(--secondary-color);
+    transform: translateX(2px);
+}
+
+/* AOS 动画 */
+[data-aos] {
+    opacity: 0;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+[data-aos].aos-animate {
+    opacity: 1;
+}
+
+[data-aos="fade-up"] {
+    transform: translateY(30px);
+}
+
+[data-aos="fade-up"].aos-animate {
+    transform: translateY(0);
+}
+
+[data-aos="fade-left"] {
+    transform: translateX(-30px);
+}
+
+[data-aos="fade-left"].aos-animate {
+    transform: translateX(0);
+}
+
+[data-aos="fade-right"] {
+    transform: translateX(30px);
+}
+
+[data-aos="fade-right"].aos-animate {
+    transform: translateX(0);
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    .references-grid {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+    
+    .symptoms-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+    
+    .nav-toggle {
+        display: block;
+    }
+    
+    .about-hero {
+        padding: 4rem 0;
+    }
+    
+    .about-hero-content .hero-title {
+        font-size: 2rem;
+    }
+    
+    .about-hero-content .hero-subtitle {
+        font-size: 1.125rem;
+    }
+    
+    .nav-tabs {
+        gap: 0.5rem;
+    }
+    
+    .nav-tab {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .diseases-section {
+        padding: 4rem 0;
+    }
+    
+    .disease-article {
+        padding: 2rem;
+        margin-bottom: 4rem;
+    }
+    
+    .disease-title {
+        font-size: 2rem;
+    }
+    
+    .content-text {
+        font-size: 1rem;
+    }
+    
+    .symptoms-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .references-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .reference-category {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .about-hero-content .hero-title {
+        font-size: 1.75rem;
+    }
+    
+    .disease-article {
+        padding: 1.5rem;
+    }
+    
+    .disease-title {
+        font-size: 1.75rem;
+    }
+    
+    .section-header .section-title {
+        font-size: 2rem;
+    }
+    
+    .category-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+    }
+    
+    .category-title {
+        font-size: 1.25rem;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-brain"></i>
+                <span>MindCare</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home Page</a>
+                <a href="#about" class="nav-link active">Mental Disorders</a>
+                <a href="team.html" class="nav-link">Team</a>
+                <a href="login.html" class="nav-btn primary">Enter The System</a>
+            </div>
+            <div class="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main>
+        <!-- 页面头部 -->
+        <section class="about-hero">
+            <div class="container">
+                <div class="about-hero-content">
+                    <h1 class="hero-title">Knowledge about mental disorders</h1>
+                    <p class="hero-subtitle">
+                        Gain a thorough understanding of the symptoms, causes and treatment methods of common mental disorders.
+                        A correct understanding of mental health issues is the first step to achieving effective treatment.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 疾病导航 -->
+        <section class="disease-nav">
+            <div class="container">
+                <div class="nav-tabs">
+                    <a href="#bipolar" class="nav-tab active">Bipolar Disorder</a>
+                    <a href="#adhd" class="nav-tab">ADHD</a>
+                    <a href="#schizophrenia" class="nav-tab">Schizophrenia</a>
+                    <a href="#depression" class="nav-tab">Depressive Disorder</a>
+                    <a href="#references" class="nav-tab">References</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 疾病介绍 -->
+        <section class="diseases-section">
+            <div class="container">
+                <!-- 双相情感障碍 -->
+                <article id="bipolar" class="disease-article" data-aos="fade-up">
+                    <div class="disease-header">
+                        <h2 class="disease-title">Bipolar Disorder</h2>
+                        <span class="prevalence-badge">Global prevalence rate: 2.4% - 4.7%</span>
+                    </div>
+                    
+                    <div class="disease-content">
+                        <div class="content-section">
+                            <h3 class="section-title">
+                                <i class="fas fa-info-circle"></i>
+                                Brief introduction
+                            </h3>
+                            <div class="content-text">
+                                Bipolar disorder is a chronic mental illness characterized by extreme fluctuations in mood, energy and activity levels. The patient will experience alternating episodes of mania or hypomanic episodes with depressive episodes. This disease usually begins in adolescence or early adulthood and affects approximately 2.4% to 4.7% of the global population.
+                            </div>
+                            <div class="content-text">
+                                Bipolar disorder is classified into several types: Type I bipolar disorder (with at least one manic episode), Type II bipolar disorder (with at least one hypomanic episode and one major depressive episode), and cyclothymic disorder (with hypomanic and mild depressive symptoms lasting for at least two years). If left untreated, this disease may lead to severe functional impairment and a decline in quality of life.
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <h3 class="section-title">
+                                <i class="fas fa-list-ul"></i>
+                                Cardinal symptoms
+                            </h3>
+                            <div class="symptoms-grid">
+                                <div class="symptom-category">
+                                    <h4>Symptoms of a manic episode</h4>
+                                    <ul class="symptom-list">
+                                        <li>Abnormally elevated mood or irritability</li>
+                                        <li>Excessive inflation of self-esteem</li>
+                                        <li>Significantly decreased demand for sleep</li>
+                                        <li>Being talkative and speaking fast</li>
+                                        <li>Wandering thoughts and scattered attention</li>
+                                        <li>Increased goal-oriented activities</li>
+                                        <li>Participating in high-risk activities</li>
+                                    </ul>
+                                </div>
+                                <div class="symptom-category">
+                                    <h4>Symptoms of a depressive episode</h4>
+                                    <ul class="symptom-list">
+                                        <li>Persistent low mood</li>
+                                        <li>Loss of interest or pleasure</li>
+                                        <li>Significant changes in body weight</li>
+                                        <li>Insomnia or excessive sleepiness</li>
+                                        <li>Psychomotor agitation or retardation</li>
+                                        <li>Fatigue or lack of energy</li>
+                                        <li>Feeling of worthlessness or excessive guilt</li>
+                                        <li>Reduced thinking or attention</li>
+                                        <li>Keep thinking of death</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <h3 class="section-title">
+                                <i class="fas fa-chart-bar"></i>
+                                Epidemiological data
+                            </h3>
+                            <div class="stats-box">
+                                <h4 class="stats-title">Prevalence statistics</h4>
+                                <div class="stats-content">
+                                    • Global lifetime prevalence: For type I bipolar disorder, it is approximately 0.6% to 1.0%, and for type II, it is about 0.4% to 1.1%<br>
+                                    • Prevalence rate in China: Approximately 0.4% to 1.0%, with an estimated 4 to 10 million patients<br>
+                                    • Age of onset: The first onset usually occurs between the ages of 15 and 25<br>
+                                    • Gender difference: The prevalence rates of men and women are basically equal<br>
+                                    • Suicide risk: The suicide rate among patients with bipolar disorder is 15 to 20 times higher than that of the general population
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <h3 class="section-title">
+                                <i class="fas fa-stethoscope"></i>
+                                Treatment and Management
+                            </h3>
+                            <div class="content-text">
+                                The treatment of bipolar disorder usually involves a combination of medication and psychotherapy. Mood stabilizers (such as lithium salts, valproic acid, and lamotrigine) are at the core of treatment and can prevent the recurrence of manic and depressive episodes. Antipsychotic drugs and antidepressants may also be used depending on specific circumstances.
+                            </div>
+                            <div class="content-text">
+                                In terms of psychotherapy, cognitive behavioral therapy (CBT), interpersonal and social rhythm therapy (IPSRT), and family-focused therapy have all been proven effective. Patient education and family support are equally important, helping to identify early warning signs, maintain treatment compliance and establish a healthy lifestyle.
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 多动症 -->
+                <article id="adhd" class="disease-article" data-aos="fade-up">
+                    <div class="disease-header">
+                        <h2 class="disease-title">Attention Deficit Hyperactivity Disorder (ADHD)</h2>
+                        <span class="prevalence-badge">Prevalence rate of children: 5.9% - 7.1%</span>
+                    </div>
+                    
+                    <div class="disease-content">
+                        <div class="content-section">
+                            <h3 class="section-title">
+                                <i class="fas fa-info-circle"></i>
+                                Brief introduction
+                            </h3>
+                            <div class="content-text">
+                                ADHD is a neurodevelopmental disorder characterized by persistent inattention, hyperactivity and impulsive behavior patterns, which can interfere with function and development. ADHD usually begins to manifest in childhood, but many people are not diagnosed until adulthood.
+                            </div>
+                            <div class="content-text">
+                                ADHD is divided into three types of manifestations: inattentive type, hyperactive-impulsive type and mixed type. Symptoms must occur in two or more Settings (such as home and school) and significantly affect social, academic or occupational functions. Although ADHD cannot be cured, its symptoms can be effectively managed through appropriate treatment.
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <h3 class="section-title">
+                                <i class="fas fa-list-ul"></i>
+                                Cardinal symptoms
+                            </h3>
+                            <div class="symptoms-grid">
+                                <div class="symptom-category">
+                                    <h4>Inattention</h4>
+                                    <ul class="symptom-list">
+                                        <li>Difficulty in maintaining attention</li>
+                                        <li>Not paying attention to details, often making careless mistakes</li>
+                                        <li>Hard to complete tasks and instructions</li>
+                                        <li>Hard to organize tasks and activities</li>
+                                        <li>Avoid tasks that require continuous attention</li>
+                                        <li>Often lose items</li>
+                                        <li>Easily distracted by external stimuli</li>
+                                        <li>Forgetfulness in daily activity</li>
+                                    </ul>
+                                </div>
+                                <div class="symptom-category">
+                                    <h4>Hyperactivity - impulsiveness</h4>
+                                    <ul class="symptom-list">
+                                        <li>Restlessness or twisting of the hands and feet</li>
+                                        <li>Leaving seat when should be sitting</li>
+                                        <li>Running around in inappropriate situations</li>
+                                        <li>Hard to play or take part in activities quietly</li>
+                                        <li>Always "busy non-stop"</li>
+                                        <li>Excessively talkative</li>
+                                        <li>Answering questions before they are fully asked</li>
+                                        <li>Hard to wait for turns</li>
+                                        <li>Interrupting or disturbing others</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <h3 class="section-title">
+                                <i class="fas fa-chart-bar"></i>
+                                Epidemiological data
+                            </h3>
+                            <div class="stats-box">
+                                <h4 class="stats-title">Prevalence statistics</h4>
+                                <div class="stats-content">
+                                    • Global prevalence rate: among children it is 5.9% to 7.1%, and among adults, it is approximately 2.5% to 4.4%<br>
+                                    • Prevalence rate among Chinese children is approximately 6.26%, with an estimated 23 million child patients<br>
+                                    • Gender difference: The prevalence rate among boys is approximately 2 to 3 times that of girls<br>
+                                    • Genetic factors: The heritability is approximately 76%, making it a highly hereditary disease<br>
+                                    • Comorbidity: Approximately 65% of ADHD patients are accompanied by other mental disorders
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <h3 class="section-title">
+                                <i class="fas fa-stethoscope"></i>
+                                Treatment and Management
+                            </h3>
+                            <div class="content-text">
+                                The treatment of ADHD adopts a multimodal approach, including medication, behavioral intervention, educational support and family training. For children over 6 years old, stimulant drugs (such as methylphenidate and amphetamine) are the first-line treatment options, with an effective rate of 70% to 80%. Non-stimulant drugs (such as tomoxetine and guanfaxin) are suitable for patients who cannot tolerate stimulants.
+                            </div>
+                            <div class="content-text">
+                                Behavioral therapy includes training in behavioral management skills, social skills training and cognitive behavioral therapy. The adjustment of the school environment, such as seat arrangement, task breakdown, and extra time, is also very important. Parent training helps to implement consistent behavior management strategies in the family environment.
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 精神分裂症 -->
+                <article id="schizophrenia" class="disease-article" data-aos="fade-up">
+                    <div class="disease-header">
+                        <h2 class="disease-title">Schizophrenia</h2>
+                        <span class="prevalence-badge">Global prevalence rate: 0.3% - 0.7%</span>
+                    </div>
+                    
+                    <div class="disease-content">
+                        <div class="content-section">
+                            <h3 class="section-title">
+                                <i class="fas fa-info-circle"></i>
+                                Brief introduction
+                            </h3>
+                            <div class="content-text">
+                                Schizophrenia is a serious chronic mental disorder that affects an individual's thinking, perception, emotions and behaviors. The characteristic of this disease is impaired ability to verify reality, manifested as hallucinations, delusions, disordered thinking and abnormal behavior. Schizophrenia usually occurs in late adolescence or early adulthood, having a significant impact on patients' social functions and quality of life.
+                            </div>
+                            <div class="content-text">
+                                Although the exact cause of schizophrenia remains unclear, studies have shown that genetic factors, environmental factors and abnormal brain structure and function may all be involved. Early identification and treatment are crucial for improving the long-term prognosis of patients. Although it cannot be cured at present, many patients can lead a relatively normal life through comprehensive treatment.
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <h3 class="section-title">
+                                <i class="fas fa-list-ul"></i>
+                                Cardinal symptoms
+                            </h3>
+                            <div class="symptoms-grid">
+                                <div class="symptom-category">
+                                    <h4>Positive symptoms</h4>
+                                    <ul class="symptom-list">
+                                        <li>Auditory hallucinations (most common)</li>
+                                        <li>Visual hallucinations or other sensory hallucinations</li>
+                                        <li>Persecutory delusion</li>
+                                        <li>Delusion of relation</li>
+                                        <li>Delusion of grandeur</li>
+                                        <li>Thoughts wander or break down</li>
+                                        <li>Lalopathy</li>
+                                        <li>Behavioral disorders or tension-related behaviors</li>
+                                    </ul>
+                                </div>
+                                <div class="symptom-category">
+                                    <h4>Negative symptoms</h4>
+                                    <ul class="symptom-list">
+                                        <li>Emotions dull or uncoordinated</li>
+                                        <li>Poverty of speech</li>
+                                        <li>Lack of willful activity</li>
+                                        <li>Social withdrawal</li>
+                                        <li>Anhedonia</li>
+                                        <li>Attention deficit</li>
+                                        <li>Declined ability of abstract thinking</li>
+                                    </ul>
+                                </div>
+                                <div class="symptom-category">
+                                    <h4>Cognitive symptoms</h4>
+                                    <ul class="symptom-list">
+                                        <li>Working memory defect</li>
+                                        <li>Executive dysfunction</li>
+                                        <li>Decreased attention and alertness</li>
+                                        <li>The processing speed slows down.</li>
+                                        <li>Language learning and memory problems</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <h3 class="section-title">
+                                <i class="fas fa-chart-bar"></i>
+                                Epidemiological data
+                            </h3>
+                            <div class="stats-box">
+                                <h4 class="stats-title">Prevalence statistics</h4>
+                                <div class="stats-content">
+                                    • Global lifetime prevalence rate: approximately 0.3% to 0.7%, affecting about 24 million people worldwide<br>
+                                    • Prevalence rate in China: approximately 0.6% to 0.8%, with an estimated 6 to 8 million patients<br>
+                                    • Age of onset: usually between 18 and 25 years old for men and between 25 and 35 years old for women<br>
+                                    • Gender difference: The prevalence rates of men and women are basically the same, but men develop the disease earlier<br>
+                                    • Mortality rate: The average lifespan of patients is 15 to 20 years shorter than that of the general population<br>
+                                    • Suicide risk: Approximately 10% of patients die by suicide
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <h3 class="section-title">
+                                <i class="fas fa-stethoscope"></i>
+                                Treatment and Management
+                            </h3>
+                            <div class="content-text">
+                                The treatment of schizophrenia centers on antipsychotic drugs, combined with psychosocial intervention. Second-generation antipsychotic drugs (such as olanzapine, risperidone, and aripiprazole) are usually the first choice because they have relatively fewer side effects. Drug treatment requires long-term maintenance. Even after symptoms are relieved, medication should still be continued to prevent recurrence.
+                            </div>
+                            <div class="content-text">
+                                Psychosocial intervention includes cognitive behavioral therapy, family education, social skills training, vocational rehabilitation, etc. Early intervention plans are particularly important for first-time patients and can significantly improve long-term prognosis. Community rehabilitation services help patients reintegrate into society, improve their quality of life and functional level.
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- 抑郁症 -->
+                <article id="depression" class="disease-article" data-aos="fade-up">
+                    <div class="disease-header">
+                        <h2 class="disease-title">Major Depressive Disorder</h2>
+                        <p class="disease-subtitle">Major Depressive Disorder</p>
+                        <span class="prevalence-badge">Global prevalence rate: 4.4% - 5.0%</span>
+                    </div>
+                    
+                    <div class="disease-content">
+                        <div class="content-section">
+                            <h3 class="section-title">
+                                <i class="fas fa-info-circle"></i>
+                                Brief introduction
+                            </h3>
+                            <div class="content-text">
+                                Major depressive disorder is one of the most common mental illnesses, characterized by persistent sadness, a sense of despair and a loss of interest in daily activities. This disease not only affects the patient's mood, but also influences their thinking, behavior and physical health. Depression can affect people of any age and is one of the main causes of the global disease burden.
+                            </div>
+                            <div class="content-text">
+                                The pathogenesis of depression is complex, involving the interaction of genetic, biochemical, environmental and psychological factors. Neurotransmitter imbalance (especially serotonin, norepinephrine and dopamine) is regarded as a key factor. Stressful life events, chronic diseases, and certain drug and substance abuses may also trigger depression.
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <h3 class="section-title">
+                                <i class="fas fa-list-ul"></i>
+                                Cardinal symptoms
+                            </h3>
+                            <div class="symptoms-grid">
+                                <div class="symptom-category">
+                                    <h4>Core symptoms</h4>
+                                    <ul class="symptom-list">
+                                        <li>Persistent sadness or a sense of emptiness</li>
+                                        <li>Losing interest or pleasure in the activity</li>
+                                        <li>Significant fatigue or lack of energy</li>
+                                        <li>Low self-worth or excessive guilt</li>
+                                        <li>Slow thinking or inability to concentrate</li>
+                                    </ul>
+                                </div>
+                                <div class="symptom-category">
+                                    <h4>Physical symptoms</h4>
+                                    <ul class="symptom-list">
+                                        <li>Sleep disorders (insomnia or excessive sleepiness)</li>
+                                        <li>Significant changes in appetite or weight</li>
+                                        <li>Psychomotor agitation or retardation</li>
+                                        <li>Headache, digestive problems</li>
+                                        <li>Chronic pain</li>
+                                    </ul>
+                                </div>
+                                <div class="symptom-category">
+                                    <h4>Severe symptoms</h4>
+                                    <ul class="symptom-list">
+                                        <li>Keep thinking of death</li>
+                                        <li>Suicidal thoughts or behaviors</li>
+                                        <li>Despair and a sense of helplessness</li>
+                                        <li>Social functions have been severely impaired</li>
+                                        <li>Psychotic characteristics (severe cases)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <h3 class="section-title">
+                                <i class="fas fa-chart-bar"></i>
+                                Epidemiological data
+                            </h3>
+                            <div class="stats-box">
+                                <h4 class="stats-title">Prevalence statistics</h4>
+                                <div class="stats-content">
+                                    • Global annual prevalence rate: approximately 4.4%, and the lifetime prevalence rate can reach 16.6%<br>
+                                    • Prevalence rate in China: approximately 3.4% to 4.2%, with an estimated 54 million patients<br>
+                                    • Gender difference: The prevalence rate among women is approximately twice that of men<br>
+                                    • Age of onset: The first onset usually occurs between the ages of 20 and 30<br>
+                                    • Recurrence rate: Approximately 50% to 85% of patients will experience multiple episodes<br>
+                                    • Suicide risk: Approximately 15% of patients with major depressive disorder die by suicide
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content-section">
+                            <h3 class="section-title">
+                                <i class="fas fa-stethoscope"></i>
+                                Treatment and Management
+                            </h3>
+                            <div class="content-text">
+                                The treatment of depression usually includes medication, psychotherapy, or a combination of both. Antidepressant drugs include selective serotonin reuptake inhibitors (SSRIs), serotonin-norepinephrine reuptake inhibitors (SNRIs), etc. Drug treatment usually takes 4 to 6 weeks to show obvious effects, and the maintenance treatment period is recommended to be at least 6 to 12 months.
+                            </div>
+                            <div class="content-text">
+                                In terms of psychotherapy, cognitive behavioral therapy (CBT), interpersonal therapy (IPT), and psychodynamic therapy have all been proven effective. For severe depression, electroconvulsive therapy (ECT) and repetitive transcranial magnetic stimulation (rTMS) are also effective treatment options. Lifestyle changes, such as regular exercise, a healthy diet and sufficient sleep, can also help improve symptoms.
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- 参考文献 -->
+        <section id="references" class="references-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">References</h2>
+                    <p class="section-subtitle">Authoritative academic research and clinical guidelines</p>
+                </div>
+                
+                <div class="references-grid">
+                    <!-- 双相情感障碍文献 -->
+                    <div class="reference-category" data-aos="fade-up" data-aos-delay="0">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3 class="category-title">Bipolar Disorder</h3>
+                        </div>
+                        <ul class="reference-list">
+                            <li class="reference-item">
+                                <div class="reference-title">Bipolar disorder</div>
+                                <div class="reference-authors">Vieta, E., Berk, M., Schulze, T. G., et al.</div>
+                                <div class="reference-journal">Nature Reviews Disease Primers, 2018; 4: 18008</div>
+                                <a href="https://www.nature.com/articles/nrdp20188" class="reference-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    View citing articles
+                                </a>
+                            </li>
+                            <li class="reference-item">
+                                <div class="reference-title">The global burden of bipolar disorder: results from the Global Burden of Disease Study 2013</div>
+                                <div class="reference-authors">Ferrari, A. J., Stockings, E., Khoo, J. P., et al.</div>
+                                <div class="reference-journal">European Neuropsychopharmacology, 2016; 26(5): 808-817</div>
+                                <a href="https://www.sciencedirect.com/science/article/pii/S0924977X16000435" class="reference-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    View citing articles
+                                </a>
+                            </li>
+                            <li class="reference-item">
+                                <div class="reference-title">International Society for Bipolar Disorders Guidelines for the management of bipolar disorder</div>
+                                <div class="reference-authors">Yatham, L. N., Kennedy, S. H., Parikh, S. V., et al.</div>
+                                <div class="reference-journal">Bipolar Disorders, 2018; 20(2): 97-170</div>
+                                <a href="https://onlinelibrary.wiley.com/doi/10.1111/bdi.12609" class="reference-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    View citing articles
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 多动症文献 -->
+                    <div class="reference-category" data-aos="fade-up" data-aos-delay="100">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-running"></i>
+                            </div>
+                            <h3 class="category-title">ADHD</h3>
+                        </div>
+                        <ul class="reference-list">
+                            <li class="reference-item">
+                                <div class="reference-title">Attention-deficit/hyperactivity disorder: a selective overview.</div>
+                                <div class="reference-authors">FBiederman, J. (2005). 
+</div>
+                                <div class="reference-journal">Biological psychiatry, 57(11), 1215-1220.</div>
+                                <a href="https://www.sciencedirect.com/science/article/abs/pii/S000632230401100X" class="reference-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    View citing articles
+                                </a>
+                            </li>
+                            <li class="reference-item">
+                                <div class="reference-title">The worldwide prevalence of ADHD: a systematic review and metaregression analysis</div>
+                                <div class="reference-authors">Polanczyk, G., de Lima, M. S., Horta, B. L., et al.</div>
+                                <div class="reference-journal">American Journal of Psychiatry, 2007; 164(6): 942-948</div>
+                                <a href="https://ajp.psychiatryonline.org/doi/10.1176/ajp.2007.164.6.942" class="reference-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    View citing articles
+                                </a>
+                            </li>
+                        
+                            <li class="reference-item">
+                                <div class="reference-title">Clinical Practice Guideline for the Diagnosis, Evaluation, and Treatment of ADHD in Children and Adolescents</div>
+                                <div class="reference-authors">American Academy of Pediatrics</div>
+                                <div class="reference-journal">Pediatrics, 2011; 128(5): 1007-1022</div>
+                                <a href="https://pediatrics.aappublications.org/content/128/5/1007" class="reference-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    View citing articles
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 精神分裂症文献 -->
+                    <div class="reference-category" data-aos="fade-up" data-aos-delay="200">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h3 class="category-title">Schizophrenia</h3>
+                        </div>
+                        <ul class="reference-list">
+                            <li class="reference-item">
+                                <div class="reference-title">Schizophrenia</div>
+                                <div class="reference-authors">Owen, M. J., Sawa, A., & Mortensen, P. B.</div>
+                                <div class="reference-journal">The Lancet, 2016; 388(10039): 86-97</div>
+                                <a href="https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(15)01121-6/fulltext" class="reference-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    View citing articles
+                                </a>
+                            </li>
+                            <li class="reference-item">
+                                <div class="reference-title">Global epidemiology and burden of schizophrenia: findings from the Global Burden of Disease Study 2016</div>
+                                <div class="reference-authors">Charlson, F. J., Ferrari, A. J., Santomauro, D. F., et al.</div>
+                                <div class="reference-journal">Schizophrenia Bulletin, 2018; 44(6): 1195-1203</div>
+                                <a href="https://academic.oup.com/schizophreniabulletin/article/44/6/1195/5049333" class="reference-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    View citing articles
+                                </a>
+                            </li>
+                            
+                            <li class="reference-item">
+                                <div class="reference-title">The American Psychiatric Association Practice Guideline for the Treatment of Patients With Schizophrenia</div>
+                                <div class="reference-authors">American Psychiatric Association</div>
+                                <div class="reference-journal">American Journal of Psychiatry, 2020; 177(9): 868-872</div>
+                                <a href="https://ajp.psychiatryonline.org/doi/10.1176/appi.ajp.2020.177901" class="reference-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    View citing articles
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 抑郁症文献 -->
+                    <div class="reference-category" data-aos="fade-up" data-aos-delay="300">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-cloud-rain"></i>
+                            </div>
+                            <h3 class="category-title">Major Depressive Disorder</h3>
+                        </div>
+                        <ul class="reference-list">
+                            <li class="reference-item">
+                                <div class="reference-title">Major depressive disorder</div>
+                                <div class="reference-authors">Otte, C., Gold, S. M., Penninx, B. W., et al.</div>
+                                <div class="reference-journal">Nature Reviews Disease Primers, 2016; 2: 16065</div>
+                                <a href="https://www.nature.com/articles/nrdp201665" class="reference-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    View citing articles
+                                </a>
+                            </li>
+                            <li class="reference-item">
+                                <div class="reference-title">Global, regional, and national incidence, prevalence, and years lived with disability for 354 diseases and injuries</div>
+                                <div class="reference-authors">GBD 2017 Disease and Injury Incidence and Prevalence Collaborators</div>
+                                <div class="reference-journal">The Lancet, 2018; 392(10159): 1789-1858</div>
+                                <a href="https://www.thelancet.com/journals/lancet/article/PIIS0140-6736(18)32279-7/fulltext" class="reference-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    View citing articles
+                                </a>
+                            </li>
+                            
+                            <li class="reference-item">
+                                <div class="reference-title">Practice Guideline for the Treatment of Patients With Major Depressive Disorder</div>
+                                <div class="reference-authors">American Psychiatric Association</div>
+                                <div class="reference-journal">American Journal of Psychiatry, 2010; 167(10): 1-152</div>
+                                <a href="https://www.psychiatry.org/psychiatrists/practice/clinical-practice-guidelines" class="reference-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    View citing articles
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 综合资源 -->
+                    <div class="reference-category" data-aos="fade-up" data-aos-delay="400">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <h3 class="category-title">Integrated Resource</h3>
+                        </div>
+                        <ul class="reference-list">
+                            <li class="reference-item">
+                                <div class="reference-title">DSM-5-TR: Diagnostic and Statistical Manual of Mental Disorders</div>
+                                <div class="reference-authors">American Psychiatric Association</div>
+                                <div class="reference-journal">The fifth revised edition of the text, 2022</div>
+                                <a href="https://www.psychiatry.org/psychiatrists/practice/dsm" class="reference-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    official website
+                                </a>
+                            </li>
+                            <li class="reference-item">
+                                <div class="reference-title">World Health Organization: Mental Disorders</div>
+                                <div class="reference-authors">World Health Organization</div>
+                                <div class="reference-journal">WHO-Global Mental Health Report, 2022</div>
+                                <a href="https://www.who.int/news-room/fact-sheets/detail/mental-disorders" class="reference-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    WHO-official website
+                                </a>
+                            </li>
+                            <li class="reference-item">
+                                <div class="reference-title">China Mental Health Survey</div>
+                                <div class="reference-authors">Huang Yueqin, Liu Zhaorui, Li Xianyun, etc</div>
+                                <div class="reference-journal">The Lancet Psychiatry, 2019; 6(3): 211-224</div>
+                                <a href="https://www.thelancet.com/journals/lanpsy/article/PIIS2215-0366(18)30511-X/fulltext" class="reference-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    View citing articles
+                                </a>
+                            </li>
+                            <li class="reference-item">
+                                <div class="reference-title">PubMed - NCBI</div>
+                                <div class="reference-authors">National Center for Biotechnology Information</div>
+                                <a href="https://pubmed.ncbi.nlm.nih.gov/" class="reference-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    PubMed Database
+                                </a>
+                            </li>
+                            <li class="reference-item">
+                                <div class="reference-title">Cochrane Library</div>
+                                <div class="reference-authors">Cochrane Collaboration</div>
+                                <a href="https://www.cochranelibrary.com/" class="reference-link">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    Cochrane Library
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-brain"></i>
+                        <span>MindCare</span>
+                    </div>
+                    <p>A professional mental health assessment platform, safeguarding mental health with technology</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Menu</h4>
+                    <ul>
+                        <li><a href="#home">Home page</a></li>
+                        <li><a href="#features">Functions</a></li>
+                        <li><a href="team.html">Team introduction</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Information about disorders</h4>
+                    <ul>
+                        <li><a href="#bipolar">Bipolar Disorder</a></li>
+                        <li><a href="#adhd">ADHD</a></li>
+                        <li><a href="#schizophrenia">Schizophrenia</a></li>
+                        <li><a href="#depression">Depressive Disorder</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Academic Resource</h4>
+                    <ul>
+                        <li><a href="#references">References</a></li>
+                        <li><a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank">PubMed Database</a></li>
+                        <li><a href="https://www.who.int/health-topics/mental-disorders" target="_blank">WHO Mental Health</a></li>
+                        <li><a href="https://www.psychiatry.org/" target="_blank">American Psychiatric Association</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MindCare. All rights reserved. The content of this website is for educational reference only and cannot replace professional medical advice</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+// 工具函数库
+const Utils = {
+    // 节流函数
+    throttle: function(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        }
+    },
+
+    // 防抖函数
+    debounce: function(func, delay) {
+        let timeoutId;
+        return function() {
+            const args = arguments;
+            const context = this;
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => func.apply(context, args), delay);
+        }
+    },
+
+    // 平滑滚动
+    smoothScrollTo: function(target, duration = 1000) {
+        const targetElement = typeof target === 'string' ? document.querySelector(target) : target;
+        if (!targetElement) return;
+
+        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - 100;
+        const startPosition = window.pageYOffset;
+        const distance = targetPosition - startPosition;
+        let startTime = null;
+
+        function animation(currentTime) {
+            if (startTime === null) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            const run = ease(timeElapsed, startPosition, distance, duration);
+            window.scrollTo(0, run);
+            if (timeElapsed < duration) requestAnimationFrame(animation);
+        }
+
+        function ease(t, b, c, d) {
+            t /= d / 2;
+            if (t < 1) return c / 2 * t * t + b;
+            t--;
+            return -c / 2 * (t * (t - 2) - 1) + b;
+        }
+
+        requestAnimationFrame(animation);
+    }
+};
+
+// 简单的消息提示组件
+const toast = {
+    show: function(message, type = 'info', duration = 3000) {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.textContent = message;
+        toast.style.cssText = `
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            background: var(--white);
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-lg);
+            z-index: 10000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+            max-width: 400px;
+        `;
+
+        if (type === 'success') {
+            toast.style.borderLeft = '4px solid var(--success-color)';
+        } else if (type === 'error') {
+            toast.style.borderLeft = '4px solid var(--error-color)';
+        } else if (type === 'warning') {
+            toast.style.borderLeft = '4px solid var(--warning-color)';
+        } else {
+            toast.style.borderLeft = '4px solid var(--primary-color)';
+        }
+
+        document.body.appendChild(toast);
+
+        // 显示动画
+        setTimeout(() => {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(0)';
+        }, 10);
+
+        // 自动隐藏
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                if (document.body.contains(toast)) {
+                    document.body.removeChild(toast);
+                }
+            }, 300);
+        }, duration);
+    },
+
+    success: function(message) {
+        this.show(message, 'success');
+    },
+
+    error: function(message) {
+        this.show(message, 'error');
+    },
+
+    warning: function(message) {
+        this.show(message, 'warning');
+    },
+
+    info: function(message) {
+        this.show(message, 'info');
+    }
+};
+
+// 疾病导航
+class DiseaseNavigation {
+    constructor() {
+        this.navTabs = document.querySelectorAll('.nav-tab');
+        this.sections = document.querySelectorAll('.disease-article, #references');
+        this.init();
+    }
+
+    init() {
+        this.setupClickHandlers();
+        this.setupScrollSpy();
+    }
+
+    setupClickHandlers() {
+        this.navTabs.forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = tab.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    this.setActiveTab(tab);
+                    Utils.smoothScrollTo(targetSection);
+                }
+            });
+        });
+    }
+
+    setupScrollSpy() {
+        const options = {
+            threshold: 0.3,
+            rootMargin: '-150px 0px -150px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const targetTab = document.querySelector(`.nav-tab[href="#${entry.target.id}"]`);
+                    if (targetTab) {
+                        this.setActiveTab(targetTab);
+                    }
+                }
+            });
+        }, options);
+
+        this.sections.forEach(section => {
+            observer.observe(section);
+        });
+    }
+
+    setActiveTab(activeTab) {
+        this.navTabs.forEach(tab => {
+            tab.classList.remove('active');
+        });
+        activeTab.classList.add('active');
+    }
+}
+
+// 平滑滚动导航
+class SmoothNavigation {
+    constructor() {
+        this.navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+        this.init();
+    }
+
+    init() {
+        this.navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href === '#') return;
+
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    Utils.smoothScrollTo(target);
+                }
+            });
+        });
+    }
+}
+
+// 文献链接处理
+class ReferenceLinkHandler {
+    constructor() {
+        this.referenceLinks = document.querySelectorAll('.reference-link');
+        this.init();
+    }
+
+    init() {
+        this.referenceLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const linkText = link.textContent.trim();
+                const referenceTitle = link.closest('.reference-item').querySelector('.reference-title').textContent;
+                
+                // 如果是外部链接，显示跳转提示
+                if (link.getAttribute('href').startsWith('http')) {
+                    toast.info(`Jumping to: ${linkText}`);
+                    // 让链接正常工作，不阻止默认行为
+                } else {
+                    e.preventDefault();
+                    toast.warning('The link to this literature is temporarily unavailable');
+                }
+            });
+
+            // 添加悬停效果
+            link.addEventListener('mouseenter', () => {
+                const referenceItem = link.closest('.reference-item');
+                referenceItem.style.transform = 'translateX(5px)';
+                referenceItem.style.backgroundColor = 'var(--gray-100)';
+            });
+
+            link.addEventListener('mouseleave', () => {
+                const referenceItem = link.closest('.reference-item');
+                referenceItem.style.transform = '';
+                referenceItem.style.backgroundColor = '';
+            });
+        });
+    }
+}
+
+// 疾病文章交互
+class DiseaseArticleInteractions {
+    constructor() {
+        this.articles = document.querySelectorAll('.disease-article');
+        this.init();
+    }
+
+    init() {
+        this.articles.forEach(article => {
+
+            // 患病率徽章点击
+            const prevalenceBadge = article.querySelector('.prevalence-badge');
+            if (prevalenceBadge) {
+                prevalenceBadge.addEventListener('click', () => {
+                    const diseaseName = article.querySelector('.disease-title').textContent;
+                    toast.info(`The prevalence data of ${diseaseName} is derived from the latest epidemiological survey`);
+                });
+            }
+        });
+    }
+}
+
+// AOS动画观察器
+class AOSAnimations {
+    constructor() {
+        this.elements = document.querySelectorAll('[data-aos]');
+        this.init();
+    }
+
+    init() {
+        if ('IntersectionObserver' in window) {
+            this.observer = new IntersectionObserver(
+                this.handleIntersection.bind(this),
+                {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -10% 0px'
+                }
+            );
+
+            this.elements.forEach(element => {
+                this.observer.observe(element);
+            });
+        } else {
+            // 降级处理 - 直接显示所有元素
+            this.elements.forEach(element => {
+                element.classList.add('aos-animate');
+            });
+        }
+    }
+
+    handleIntersection(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const delay = entry.target.dataset.aosDelay || 0;
+                setTimeout(() => {
+                    entry.target.classList.add('aos-animate');
+                }, delay);
+                this.observer.unobserve(entry.target);
+            }
+        });
+    }
+}
+
+// 移动端导航处理
+class MobileNavigation {
+    constructor() {
+        this.navToggle = document.querySelector('.nav-toggle');
+        this.navMenu = document.querySelector('.nav-menu');
+        this.init();
+    }
+
+    init() {
+        if (!this.navToggle || !this.navMenu) return;
+
+        this.navToggle.addEventListener('click', () => {
+            this.toggleMenu();
+        });
+
+        // 点击导航链接时关闭菜单
+        const navLinks = this.navMenu.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                this.closeMenu();
+            });
+        });
+
+        // 点击外部区域关闭菜单
+        document.addEventListener('click', (e) => {
+            if (!this.navToggle.contains(e.target) && !this.navMenu.contains(e.target)) {
+                this.closeMenu();
+            }
+        });
+    }
+
+    toggleMenu() {
+        this.navMenu.classList.toggle('active');
+        const icon = this.navToggle.querySelector('i');
+        
+        if (this.navMenu.classList.contains('active')) {
+            icon.className = 'fas fa-times';
+            this.showMobileMenu();
+        } else {
+            icon.className = 'fas fa-bars';
+            this.hideMobileMenu();
+        }
+    }
+
+    showMobileMenu() {
+        this.navMenu.style.display = 'flex';
+        this.navMenu.style.flexDirection = 'column';
+        this.navMenu.style.position = 'absolute';
+        this.navMenu.style.top = '100%';
+        this.navMenu.style.left = '0';
+        this.navMenu.style.right = '0';
+        this.navMenu.style.background = 'var(--white)';
+        this.navMenu.style.boxShadow = 'var(--shadow-lg)';
+        this.navMenu.style.padding = '1rem';
+        this.navMenu.style.gap = '1rem';
+    }
+
+    hideMobileMenu() {
+        this.navMenu.style.display = '';
+        this.navMenu.style.flexDirection = '';
+        this.navMenu.style.position = '';
+        this.navMenu.style.top = '';
+        this.navMenu.style.left = '';
+        this.navMenu.style.right = '';
+        this.navMenu.style.background = '';
+        this.navMenu.style.boxShadow = '';
+        this.navMenu.style.padding = '';
+        this.navMenu.style.gap = '';
+    }
+
+    closeMenu() {
+        this.navMenu.classList.remove('active');
+        const icon = this.navToggle.querySelector('i');
+        icon.className = 'fas fa-bars';
+        this.hideMobileMenu();
+    }
+}
+
+// 导航栏滚动效果
+class NavbarScrollEffect {
+    constructor() {
+        this.navbar = document.querySelector('.navbar');
+        this.lastScrollTop = 0;
+        this.init();
+    }
+
+    init() {
+        if (!this.navbar) return;
+
+        window.addEventListener('scroll', Utils.throttle(() => {
+            this.handleScroll();
+        }, 100));
+    }
+
+    handleScroll() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // 滚动超过100px时改变导航栏样式
+        if (scrollTop > 100) {
+            this.navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+            this.navbar.style.backdropFilter = 'blur(20px)';
+        } else {
+            this.navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+            this.navbar.style.backdropFilter = 'blur(10px)';
+        }
+        
+        // 向下滚动时隐藏导航栏，向上滚动时显示
+        if (scrollTop > this.lastScrollTop && scrollTop > 200) {
+            // 向下滚动，隐藏导航栏
+            this.navbar.style.transform = 'translateY(-100%)';
+        } else {
+            // 向上滚动，显示导航栏
+            this.navbar.style.transform = 'translateY(0)';
+        }
+        
+        this.lastScrollTop = scrollTop;
+    }
+}
+
+// 阅读进度指示器
+class ReadingProgress {
+    constructor() {
+        this.progressBar = null;
+        this.init();
+    }
+
+    init() {
+        this.createProgressBar();
+        this.setupScrollListener();
+    }
+
+    createProgressBar() {
+        this.progressBar = document.createElement('div');
+        this.progressBar.style.cssText = `
+            position: fixed;
+            top: 80px;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--gradient-primary);
+            z-index: 1001;
+            transition: width 0.1s ease;
+        `;
+        document.body.appendChild(this.progressBar);
+    }
+
+    setupScrollListener() {
+        window.addEventListener('scroll', Utils.throttle(() => {
+            this.updateProgress();
+        }, 50));
+    }
+
+    updateProgress() {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        
+        this.progressBar.style.width = scrolled + '%';
+    }
+}
+
+// 返回顶部按钮
+class BackToTop {
+    constructor() {
+        this.backToTopBtn = null;
+        this.init();
+    }
+
+    init() {
+        this.createButton();
+        this.setupScrollListener();
+    }
+
+    createButton() {
+        this.backToTopBtn = document.createElement('button');
+        this.backToTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+        this.backToTopBtn.className = 'back-to-top';
+        this.backToTopBtn.style.cssText = `
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: var(--white);
+            border: none;
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        `;
+
+        this.backToTopBtn.addEventListener('click', () => {
+            Utils.smoothScrollTo(document.body, 800);
+        });
+
+        this.backToTopBtn.addEventListener('mouseenter', () => {
+            this.backToTopBtn.style.transform = 'scale(1.1)';
+        });
+
+        this.backToTopBtn.addEventListener('mouseleave', () => {
+            this.backToTopBtn.style.transform = 'scale(1)';
+        });
+
+        document.body.appendChild(this.backToTopBtn);
+    }
+
+    setupScrollListener() {
+        window.addEventListener('scroll', Utils.throttle(() => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (scrollTop > 500) {
+                this.backToTopBtn.style.opacity = '1';
+                this.backToTopBtn.style.visibility = 'visible';
+            } else {
+                this.backToTopBtn.style.opacity = '0';
+                this.backToTopBtn.style.visibility = 'hidden';
+            }
+        }, 100));
+    }
+}
+
+// 页面初始化
+document.addEventListener('DOMContentLoaded', function() {
+    // 初始化所有功能模块
+    const diseaseNav = new DiseaseNavigation();
+    const smoothNav = new SmoothNavigation();
+    const referenceLinks = new ReferenceLinkHandler();
+    const articleInteractions = new DiseaseArticleInteractions();
+    const aos = new AOSAnimations();
+    const mobileNav = new MobileNavigation();
+    const navbarScroll = new NavbarScrollEffect();
+    const readingProgress = new ReadingProgress();
+    const backToTop = new BackToTop();
+
+    // 添加页面加载完成的动画
+    setTimeout(() => {
+        document.body.classList.add('page-loaded');
+    }, 100);
+
+    // 页面特定的事件处理
+    setupPageSpecificEvents();
+});
+
+function setupPageSpecificEvents() {
+    // 文献分类卡片点击效果
+    const referenceCategories = document.querySelectorAll('.reference-category');
+    referenceCategories.forEach(category => {
+        const header = category.querySelector('.category-header');
+        header.addEventListener('click', () => {
+            const title = category.querySelector('.category-title').textContent;
+            toast.info(`view references related to ${title}`);
+        });
+    });
+
+    // 键盘快捷键支持
+    document.addEventListener('keydown', function(e) {
+        // 数字键1-4跳转到对应疾病
+        if (e.key >= '1' && e.key <= '4') {
+            const diseases = ['#bipolar', '#adhd', '#schizophrenia', '#depression'];
+            const targetId = diseases[parseInt(e.key) - 1];
+            const target = document.querySelector(targetId);
+            if (target) {
+                Utils.smoothScrollTo(target);
+                toast.info(`jump to${target.querySelector('.disease-title').textContent}`);
+            }
+        }
+        
+        // R键跳转到参考文献
+        if (e.key.toLowerCase() === 'r') {
+            const references = document.querySelector('#references');
+            if (references) {
+                Utils.smoothScrollTo(references);
+                toast.info('Jump to the references');
+            }
+        }
+    });
+
+    // 复制文献引用功能
+    const referenceItems = document.querySelectorAll('.reference-item');
+    referenceItems.forEach(item => {
+        item.addEventListener('dblclick', () => {
+            const title = item.querySelector('.reference-title').textContent;
+            const authors = item.querySelector('.reference-authors').textContent;
+            const journal = item.querySelector('.reference-journal').textContent;
+            const citation = `${title}. ${authors}. ${journal}`;
+            
+            navigator.clipboard.writeText(citation).then(() => {
+                toast.success('The references citations have been copied to the clipboard');
+            }).catch(() => {
+                toast.error('Copy failed. Please copy manually');
+            });
+        });
+    });
+
+    // 打印友好的样式
+    window.addEventListener('beforeprint', () => {
+        // 隐藏不需要打印的元素
+        const elementsToHide = document.querySelectorAll('.navbar, .footer, .back-to-top, .disease-nav');
+        elementsToHide.forEach(el => {
+            el.style.display = 'none';
+        });
+    });
+
+    window.addEventListener('afterprint', () => {
+        // 恢复隐藏的元素
+        const elementsToShow = document.querySelectorAll('.navbar, .footer, .back-to-top, .disease-nav');
+        elementsToShow.forEach(el => {
+            el.style.display = '';
+        });
+    });
+}
+
+// 页面性能监控
+window.addEventListener('load', function() {
+    if ('performance' in window) {
+        setTimeout(() => {
+            const perfData = performance.timing;
+            const loadTime = perfData.loadEventEnd - perfData.navigationStart;
+            console.log('Regarding page loading time:', loadTime + 'ms');
+        }, 100);
+    }
+});
+
+// 错误处理
+window.addEventListener('error', function(e) {
+    console.error('Page error:', e.error);
+    toast.error('There is a problem with the page loading. Please refresh and try again');
+});
+    </script>
+</body>
+</html>

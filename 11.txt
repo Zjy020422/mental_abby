@@ -1,0 +1,97 @@
+// 图像画廊组件
+class ImageGallery {
+    constructor(selector) {
+        this.gallery = document.querySelector(selector);
+        if (!this.gallery) return;
+        
+        this.track = this.gallery.querySelector('.gallery-track');
+        this.items = this.gallery.querySelectorAll('.gallery-item');
+        this.isPaused = false;
+        
+        this.init();
+    }
+
+    init() {
+        this.addEventListeners();
+    }
+
+    addEventListeners() {
+        // 鼠标悬停时暂停动画
+        this.gallery.addEventListener('mouseenter', () => {
+            this.track.style.animationPlayState = 'paused';
+            this.isPaused = true;
+        });
+
+        this.gallery.addEventListener('mouseleave', () => {
+            this.track.style.animationPlayState = 'running';
+            this.isPaused = false;
+        });
+
+        // 点击切换暂停/播放
+        this.gallery.addEventListener('click', () => {
+            if (this.isPaused) {
+                this.track.style.animationPlayState = 'running';
+                this.isPaused = false;
+                toast.info('图片滚动已继续');
+            } else {
+                this.track.style.animationPlayState = 'paused';
+                this.isPaused = true;
+                toast.info('图片滚动已暂停');
+            }
+        });
+
+        // 键盘控制
+        document.addEventListener('keydown', (e) => {
+            if (e.key === ' ') { // 空格键暂停/播放
+                e.preventDefault();
+                if (this.isPaused) {
+                    this.track.style.animationPlayState = 'running';
+                    this.isPaused = false;
+                    toast.info('图片滚动已继续');
+                } else {
+                    this.track.style.animationPlayState = 'paused';
+                    this.isPaused = true;
+                    toast.info('图片滚动已暂停');
+                }
+            }
+        });
+
+        // 图片加载错误处理
+        this.items.forEach((item, index) => {
+            const img = item.querySelector('img');
+            if (img) {
+                img.addEventListener('error', () => {
+                    console.warn(`图片 ${index + 1} 加载失败`);
+                    // 使用默认渐变背景
+                    item.style.background = 'var(--gradient-primary)';
+                    img.style.display = 'none';
+                    
+                    // 添加默认内容
+                    const overlay = item.querySelector('.gallery-overlay');
+                    if (overlay) {
+                        overlay.style.background = 'rgba(102, 126, 234, 0.8)';
+                    }
+                });
+            }
+        });
+    }
+
+
+
+	<div class="hero-background">
+                <div class="image-gallery">
+                    <div class="gallery-container">
+                        <div class="gallery-track">
+                            <div class="gallery-item">
+                                <img src="image/index1.jpg">
+                            </div>
+                            <div class="gallery-item">
+                                <img src="image/index2.jpg">
+                            </div>
+                            <div class="gallery-item">
+                                <img src="image/index3.jpg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>

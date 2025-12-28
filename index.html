@@ -1,0 +1,1756 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心理健康评估系统</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+/* 基础CSS变量和通用样式 */
+:root {
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-secondary: linear-gradient(135deg,#ced5f8 0%,#ffffff 100%);
+    --white: #ffffff;
+    --gray-50: #f9fafb;
+    --gray-600: #6b7280;
+    --gray-900: #111827;
+    --success-color: #10b981;
+    --transition-normal: all 0.3s ease;
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+    --radius-2xl: 1rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: var(--gray-900);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* 导航栏样式 */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    transition: var(--transition-normal);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--gray-600);
+    font-weight: 500;
+    transition: var(--transition-normal);
+    position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--primary-color);
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary-color);
+    border-radius: 1px;
+}
+
+.nav-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-normal);
+}
+
+.nav-btn.primary {
+    background: var(--gradient-primary);
+    color: var(--white);
+}
+
+.nav-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.nav-toggle {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* 按钮样式 */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-normal);
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--white);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-outline:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* 节标题样式 */
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section-subtitle {
+    font-size: 1.25rem;
+    color: var(--gray-600);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.gradient-text {
+    background: var(--gradient-secondary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 页脚样式 */
+.footer {
+    background: var(--gray-900);
+    color: var(--white);
+    padding: 3rem 0 1rem;
+    text-align: center;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.footer-section h4 {
+    margin-bottom: 1rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section ul li a {
+    color: var(--gray-400);
+    text-decoration: none;
+    transition: var(--transition-normal);
+}
+
+.footer-section ul li a:hover {
+    color: var(--white);
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-links a {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    text-decoration: none;
+    transition: var(--transition-normal);
+}
+
+.social-links a:hover {
+    background: var(--primary-color);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--gray-400);
+}
+
+/* 首页专用样式 */
+/* 英雄区域 */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    background: var(--gradient-primary);
+    overflow: hidden;
+}
+
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.particle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: float var(--duration, 10s) ease-in-out infinite;
+    left: var(--x, 50%);
+    top: var(--y, 50%);
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.7;
+    }
+    50% {
+        transform: translateY(-30px) rotate(180deg);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    color: var(--white);
+}
+
+.hero-text {
+    animation: fadeInUp 1s ease-out;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.hero-visual {
+    display: flex;
+    justify-content: center;
+    animation: fadeInUp 1s ease-out 0.3s both;
+}
+
+/* 图片滚动展示 */
+.image-gallery {
+    min-height: 100vh;
+    min-width: 1200px;
+    position: relative;
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-2xl);
+    background: var(--white);
+}
+
+.gallery-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.gallery-track {
+    display: flex;
+    width: 300%;
+    height: 100%;
+    animation: scroll 12s infinite linear;
+}
+
+.gallery-item {
+    flex: 0 0 33.333%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: var(--radius-2xl);
+}
+
+.gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    color: var(--white);
+    padding: 2rem 1.5rem 1.5rem;
+    text-align: center;
+}
+
+.gallery-overlay h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.gallery-overlay p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+    33.333% {
+        transform: translateX(0);
+    }
+    36.666% {
+        transform: translateX(-33.333%);
+    }
+    66.666% {
+        transform: translateX(-33.333%);
+    }
+    70% {
+        transform: translateX(-66.666%);
+    }
+    100% {
+        transform: translateX(-66.666%);
+    }
+}
+
+.gallery-container:hover .gallery-track {
+    animation-play-state: paused;
+}
+
+/* 功能特色 */
+.features {
+    padding: 6rem 0;
+    background: var(--gray-50);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.feature-card {
+    background: var(--white);
+    padding: 2.5rem;
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+    transition: var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gradient-primary);
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-2xl);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-2xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    color: var(--white);
+    font-size: 2rem;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+}
+
+.feature-card p {
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.feature-list {
+    list-style: none;
+}
+
+.feature-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--gray-600);
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.feature-list li::before {
+    content: '✓';
+    color: var(--success-color);
+    font-weight: bold;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* 工作流程 */
+.process {
+    padding: 6rem 0;
+    background: var(--white);
+}
+
+.process-timeline {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.process-timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--gradient-primary);
+    transform: translateX(-50%);
+}
+
+.process-step {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4rem;
+    position: relative;
+}
+
+.process-step:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+.process-step:nth-child(even) .step-content {
+    text-align: right;
+}
+
+.step-number {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 60px;
+    background: var(--gradient-primary);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    z-index: 2;
+    box-shadow: var(--shadow-lg);
+}
+
+.step-content {
+    flex: 1;
+    max-width: 300px;
+    padding: 0 2rem;
+}
+
+.step-content h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 0.5rem;
+}
+
+.step-content p {
+    color: var(--gray-600);
+    line-height: 1.6;
+}
+
+.step-icon {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 2rem;
+}
+
+.step-icon i {
+    font-size: 4rem;
+    color: var(--primary-color);
+    opacity: 0.3;
+}
+
+/* 统计数据 */
+.stats {
+    padding: 4rem 0;
+    background: var(--gradient-primary);
+    color: var(--white);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 2rem;
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-weight: 800;
+    display: block;
+    margin-bottom: 0.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-label {
+    font-size: 1.125rem;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+/* AOS 动画 */
+[data-aos] {
+    opacity: 0;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+[data-aos].aos-animate {
+    opacity: 1;
+}
+
+[data-aos="fade-up"] {
+    transform: translateY(30px);
+}
+
+[data-aos="fade-up"].aos-animate {
+    transform: translateY(0);
+}
+
+[data-aos="fade-left"] {
+    transform: translateX(-30px);
+}
+
+[data-aos="fade-left"].aos-animate {
+    transform: translateX(0);
+}
+
+[data-aos="fade-right"] {
+    transform: translateX(30px);
+}
+
+[data-aos="fade-right"].aos-animate {
+    transform: translateX(0);
+}
+
+[data-aos="zoom-in"] {
+    transform: scale(0.8);
+}
+
+[data-aos="zoom-in"].aos-animate {
+    transform: scale(1);
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    .hero-content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        text-align: center;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .image-gallery {
+        width: 350px;
+        height: 300px;
+    }
+    
+    .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+    
+    .nav-toggle {
+        display: block;
+    }
+    
+    .hero {
+        padding: 2rem 0;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.125rem;
+    }
+    
+    .hero-buttons {
+        justify-content: center;
+    }
+    
+    .image-gallery {
+        width: 280px;
+        height: 250px;
+    }
+    
+    .features {
+        padding: 4rem 0;
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .feature-card {
+        padding: 2rem;
+    }
+    
+    .process {
+        padding: 4rem 0;
+    }
+    
+    .process-timeline::before {
+        left: 30px;
+    }
+    
+    .process-step {
+        flex-direction: row !important;
+        margin-bottom: 3rem;
+    }
+    
+    .process-step:nth-child(even) .step-content {
+        text-align: left;
+    }
+    
+    .step-number {
+        left: 30px;
+    }
+    
+    .step-content {
+        margin-left: 80px;
+        padding: 0;
+        max-width: none;
+    }
+    
+    .step-icon {
+        display: none;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .stat-item {
+        padding: 1.5rem;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-content {
+        padding: 0 1rem;
+    }
+    
+    .hero-title {
+        font-size: 1.75rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .image-gallery {
+        width: 250px;
+        height: 220px;
+    }
+    
+    .feature-card {
+        padding: 1.5rem;
+    }
+    
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-brain"></i>
+                <span>MindCare</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link active">Home Page</a>
+                <a href="#features" class="nav-link">Function</a>
+                <a href="about.html" class="nav-link">Mental Disorders</a>
+                <a href="team.html" class="nav-link">Team</a>
+                <a href="login.html" class="nav-btn primary">Enter The System</a>
+            </div>
+            <div class="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容 -->
+    <main>
+        <!-- 英雄区域 -->
+        <section id="home" class="hero">
+            <div class="hero-background">
+                <div class="image-gallery">
+                    <div class="gallery-container">
+                        <div class="gallery-track">
+                            <div class="gallery-item">
+                                <img src="image/index1.jpg">
+                            </div>
+                            <div class="gallery-item">
+                                <img src="image/index2.jpg">
+                            </div>
+                            <div class="gallery-item">
+                                <img src="image/index3.jpg">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        <span class="gradient-text">Care for mental health</span>
+                        <br>Start with scientific assessment
+                    </h1>
+                    <p class="hero-subtitle">
+                        Combining AI technology with professional psychological theories, we provide you with personalized mental health assessment and advice
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="login.html" class="btn btn-primary">
+                            <i class="fas fa-rocket"></i>
+                            Start evaluation
+                        </a>
+                        <a href="#features" class="btn btn-outline">
+                            <i class="fas fa-info-circle"></i>
+                            Learn more
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 功能特色 -->
+        <section id="features" class="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Main Function</h2>
+                    <p class="section-subtitle">A comprehensive mental health assessment solution</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="0">
+                        <div class="feature-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <h3>Scientific questionnaire</h3>
+                        <p>Based on authoritative psychological scales, multi-dimensional assessment of psychological states is conducted to ensure the scientific and accurate nature of the results</p>
+                        <ul class="feature-list">
+                            <li>Emotional state assessment</li>
+                            <li>Pressure level measurement</li>
+                            <li>Analysis of sleep quality</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Brain image analysis</h3>
+                        <p>Supports brain images in NII and JPG formats, uses AI technology for in-depth analysis and feature extraction</p>
+                        <ul class="feature-list">
+                            <li>Structural anomaly detection</li>
+                            <li>Automatic feature extraction</li>
+                            <li>Intelligent classification diagnosis</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>Artifical intelligent suggestions</h3>
+                        <p>Based on the assessment results, advanced AI technology is utilized to generate personalized suggestions for mental health improvement</p>
+                        <ul class="feature-list">
+                            <li>Personalized solution</li>
+                            <li>Professional guidance and suggestions</li>
+                            <li>Continuous tracking and optimization</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-area"></i>
+                        </div>
+                        <h3>Trend analysis</h3>
+                        <p>Record historical assessment data, generate trend charts, and help users understand changes in their psychological states</p>
+                        <ul class="feature-list">
+                            <li>Comparison of historical data</li>
+                            <li>Improvement effect tracking</li>
+                            <li>Visualization report</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Privacy protection</h3>
+                        <p>Strictly adhere to data security norms to ensure that users' private information is protected at the highest level</p>
+                        <ul class="feature-list">
+                            <li>Encrypted data storage</li>
+                            <li>Anonymization processing</li>
+                            <li>Secure Transmission Protocol</li>
+                        </ul>
+                    </div>
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Multi-terminal support</h3>
+                        <p>Responsive design, supporting multiple devices such as computers, tablets and mobile phones, allowing you to keep track of your mental health anytime and anywhere</p>
+                        <ul class="feature-list">
+                            <li>Cross-platform compatibility</li>
+                            <li>Real-time synchronization</li>
+                            <li>Offline functions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 工作流程 -->
+        <section id="process" class="process">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Evaluation process</h2>
+                    <p class="section-subtitle">Four simple steps to complete a professional mental health assessment</p>
+                </div>
+                <div class="process-timeline">
+                    <div class="process-step" data-aos="fade-right">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Register & Login</h3>
+                            <p>Create your own dedicated account to ensure data security</p>
+                        </div>
+                        <div class="step-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                    </div>
+                    <div class="process-step" data-aos="fade-left">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Fill out the questionnaire</h3>
+                            <p>Complete a scientific mental health assessment questionnaire</p>
+                        </div>
+                        <div class="step-icon">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                    </div>
+                    <div class="process-step" data-aos="fade-right">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Upload the images</h3>
+                            <p>You can choose to upload brain images for in-depth analysis</p>
+                        </div>
+                        <div class="step-icon">
+                            <i class="fas fa-upload"></i>
+                        </div>
+                    </div>
+                    <div class="process-step" data-aos="fade-left">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Get the report</h3>
+                            <p>Receive personalized assessment reports and improvement suggestions</p>
+                        </div>
+                        <div class="step-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 统计数据 -->
+        <section id="stats" class="stats">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="stat-number" data-target="50000">0</div>
+                        <div class="stat-label">The capacity for users</div>
+                    </div>
+                    <div class="stat-item" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="stat-number" data-target="80">0</div>
+                        <div class="stat-label">Accuracy%</div>
+                    </div>
+                    <div class="stat-item" data-aos="zoom-in" data-aos-delay="300">
+                        <div class="stat-number" data-target="24">0</div>
+                        <div class="stat-label">hour service</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-brain"></i>
+                        <span>MindCare</span>
+                    </div>
+                    <p>A professional mental health assessment platform, safeguarding mental health with technology</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Menu</h4>
+                    <ul>
+                        <li><a href="#home">Home page</a></li>
+                        <li><a href="#features">Functions</a></li>
+                        <li><a href="team.html">Team introduction</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact information</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> lyf0234abby@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MindCare. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+// 工具函数库
+const Utils = {
+    // 节流函数
+    throttle: function(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        }
+    },
+
+    // 防抖函数
+    debounce: function(func, delay) {
+        let timeoutId;
+        return function() {
+            const args = arguments;
+            const context = this;
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => func.apply(context, args), delay);
+        }
+    },
+
+    // 生成随机ID
+    generateId: function(length = 8) {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+    },
+
+    // 格式化数字
+    formatNumber: function(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    },
+
+    // 动画数字计数
+    animateNumber: function(element, target, duration = 2000) {
+        const start = parseInt(element.textContent) || 0;
+        const increment = (target - start) / (duration / 16);
+        let current = start;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if ((increment > 0 && current >= target) || (increment < 0 && current <= target)) {
+                current = target;
+                clearInterval(timer);
+            }
+            element.textContent = Math.floor(current);
+        }, 16);
+    }
+};
+
+// 简单的消息提示组件
+const toast = {
+    show: function(message, type = 'info', duration = 3000) {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.textContent = message;
+        toast.style.cssText = `
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            background: var(--white);
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-lg);
+            z-index: 10000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        `;
+
+        if (type === 'success') {
+            toast.style.borderLeft = '4px solid var(--success-color)';
+        } else if (type === 'error') {
+            toast.style.borderLeft = '4px solid #ef4444';
+        } else {
+            toast.style.borderLeft = '4px solid var(--primary-color)';
+        }
+
+        document.body.appendChild(toast);
+
+        // 显示动画
+        setTimeout(() => {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(0)';
+        }, 10);
+
+        // 自动隐藏
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                document.body.removeChild(toast);
+            }, 300);
+        }, duration);
+    },
+
+    success: function(message) {
+        this.show(message, 'success');
+    },
+
+    error: function(message) {
+        this.show(message, 'error');
+    },
+
+    info: function(message) {
+        this.show(message, 'info');
+    }
+};
+
+// 图像画廊组件
+class ImageGallery {
+    constructor(selector) {
+        this.gallery = document.querySelector(selector);
+        if (!this.gallery) return;
+        
+        this.track = this.gallery.querySelector('.gallery-track');
+        this.items = this.gallery.querySelectorAll('.gallery-item');
+        this.isPaused = false;
+        
+        this.init();
+    }
+
+    init() {
+        this.addEventListeners();
+    }
+
+    addEventListeners() {
+        // 鼠标悬停时暂停动画
+        this.gallery.addEventListener('mouseenter', () => {
+            this.track.style.animationPlayState = 'paused';
+            this.isPaused = true;
+        });
+
+        this.gallery.addEventListener('mouseleave', () => {
+            this.track.style.animationPlayState = 'running';
+            this.isPaused = false;
+        });
+
+        // 点击切换暂停/播放
+        this.gallery.addEventListener('click', () => {
+            if (this.isPaused) {
+                this.track.style.animationPlayState = 'running';
+                this.isPaused = false;
+                toast.info('The image scrolling has continued');
+            } else {
+                this.track.style.animationPlayState = 'paused';
+                this.isPaused = true;
+                toast.info('The image scrolling has been paused');
+            }
+        });
+
+        // 键盘控制
+        document.addEventListener('keydown', (e) => {
+            if (e.key === ' ') { // 空格键暂停/播放
+                e.preventDefault();
+                if (this.isPaused) {
+                    this.track.style.animationPlayState = 'running';
+                    this.isPaused = false;
+                    toast.info('The image scrolling has continued');
+                } else {
+                    this.track.style.animationPlayState = 'paused';
+                    this.isPaused = true;
+                    toast.info('The image scrolling has been paused');
+                }
+            }
+        });
+
+        // 图片加载错误处理
+        this.items.forEach((item, index) => {
+            const img = item.querySelector('img');
+            if (img) {
+                img.addEventListener('error', () => {
+                    console.warn(`The image loading ${index + 1} failed. `);
+                    // 使用默认渐变背景
+                    item.style.background = 'var(--gradient-primary)';
+                    img.style.display = 'none';
+                    
+                    // 添加默认内容
+                    const overlay = item.querySelector('.gallery-overlay');
+                    if (overlay) {
+                        overlay.style.background = 'rgba(102, 126, 234, 0.8)';
+                    }
+                });
+            }
+        });
+    }
+
+    destroy() {
+        // 清理事件监听器
+        if (this.gallery) {
+            this.gallery.removeEventListener('mouseenter', null);
+            this.gallery.removeEventListener('mouseleave', null);
+            this.gallery.removeEventListener('click', null);
+        }
+    }
+}
+
+// 特色功能卡片动画
+class FeatureCards {
+    constructor() {
+        this.cards = document.querySelectorAll('.feature-card');
+        this.init();
+    }
+
+    init() {
+        this.cards.forEach((card, index) => {
+            // 鼠标悬停效果
+            card.addEventListener('mouseenter', () => {
+                this.animateCard(card, 'enter');
+            });
+
+            card.addEventListener('mouseleave', () => {
+                this.animateCard(card, 'leave');
+            });
+
+            // 添加延迟动画
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+    }
+
+    animateCard(card, action) {
+        const icon = card.querySelector('.feature-icon');
+        const title = card.querySelector('h3');
+        
+        if (action === 'enter') {
+            card.style.transform = 'translateY(-8px) scale(1.02)';
+            if (icon) {
+                icon.style.transform = 'rotate(5deg) scale(1.1)';
+            }
+            if (title) {
+                title.style.color = 'var(--primary-color)';
+            }
+        } else {
+            card.style.transform = '';
+            if (icon) {
+                icon.style.transform = '';
+            }
+            if (title) {
+                title.style.color = '';
+            }
+        }
+    }
+}
+
+// 平滑滚动导航
+class SmoothNavigation {
+    constructor() {
+        this.navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+        this.sections = document.querySelectorAll('section[id]');
+        this.init();
+    }
+
+    init() {
+        this.setupClickHandlers();
+        this.setupScrollSpy();
+    }
+
+    setupClickHandlers() {
+        this.navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href === '#') return;
+
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    this.scrollToSection(target);
+                }
+            });
+        });
+    }
+
+    scrollToSection(target) {
+        const headerOffset = 80;
+        const elementPosition = target.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+        });
+    }
+
+    setupScrollSpy() {
+        const options = {
+            threshold: 0.3,
+            rootMargin: '-80px 0px -80px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.updateActiveNavLink(entry.target.id);
+                }
+            });
+        }, options);
+
+        this.sections.forEach(section => {
+            observer.observe(section);
+        });
+    }
+
+    updateActiveNavLink(activeId) {
+        this.navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${activeId}`) {
+                link.classList.add('active');
+            }
+        });
+    }
+}
+
+// 视差滚动效果
+class ParallaxEffects {
+    constructor() {
+        this.elements = document.querySelectorAll('.particle');
+        this.init();
+    }
+
+    init() {
+        if (this.elements.length === 0) return;
+
+        window.addEventListener('scroll', Utils.throttle(() => {
+            this.updateParallax();
+        }, 16));
+    }
+
+    updateParallax() {
+        const scrolled = window.pageYOffset;
+
+        this.elements.forEach((element, index) => {
+            const speed = (index + 1) * 0.1;
+            const yPos = -(scrolled * speed);
+            element.style.transform = `translateY(${yPos}px)`;
+        });
+    }
+}
+
+// 数字计数动画
+class CounterAnimation {
+    constructor() {
+        this.counters = document.querySelectorAll('.stat-number');
+        this.init();
+    }
+
+    init() {
+        if ('IntersectionObserver' in window) {
+            this.observer = new IntersectionObserver(
+                this.handleIntersection.bind(this),
+                {
+                    threshold: 0.5
+                }
+            );
+
+            this.counters.forEach(counter => {
+                this.observer.observe(counter);
+            });
+        }
+    }
+
+    handleIntersection(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+                const target = parseInt(entry.target.dataset.target) || 0;
+                this.animateCounter(entry.target, target);
+                entry.target.classList.add('counted');
+            }
+        });
+    }
+
+    animateCounter(element, target) {
+        const duration = 2000;
+        const increment = target / (duration / 16);
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            element.textContent = Math.floor(current);
+        }, 16);
+    }
+}
+
+// AOS动画观察器
+class AOSAnimations {
+    constructor() {
+        this.elements = document.querySelectorAll('[data-aos]');
+        this.init();
+    }
+
+    init() {
+        if ('IntersectionObserver' in window) {
+            this.observer = new IntersectionObserver(
+                this.handleIntersection.bind(this),
+                {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -10% 0px'
+                }
+            );
+
+            this.elements.forEach(element => {
+                this.observer.observe(element);
+            });
+        } else {
+            // 降级处理 - 直接显示所有元素
+            this.elements.forEach(element => {
+                element.classList.add('aos-animate');
+            });
+        }
+    }
+
+    handleIntersection(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const delay = entry.target.dataset.aosDelay || 0;
+                setTimeout(() => {
+                    entry.target.classList.add('aos-animate');
+                }, delay);
+                this.observer.unobserve(entry.target);
+            }
+        });
+    }
+}
+
+// 移动端导航处理
+class MobileNavigation {
+    constructor() {
+        this.navToggle = document.querySelector('.nav-toggle');
+        this.navMenu = document.querySelector('.nav-menu');
+        this.init();
+    }
+
+    init() {
+        if (!this.navToggle || !this.navMenu) return;
+
+        this.navToggle.addEventListener('click', () => {
+            this.toggleMenu();
+        });
+
+        // 点击导航链接时关闭菜单
+        const navLinks = this.navMenu.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                this.closeMenu();
+            });
+        });
+
+        // 点击外部区域关闭菜单
+        document.addEventListener('click', (e) => {
+            if (!this.navToggle.contains(e.target) && !this.navMenu.contains(e.target)) {
+                this.closeMenu();
+            }
+        });
+    }
+
+    toggleMenu() {
+        this.navMenu.classList.toggle('active');
+        const icon = this.navToggle.querySelector('i');
+        
+        if (this.navMenu.classList.contains('active')) {
+            icon.className = 'fas fa-times';
+            this.showMobileMenu();
+        } else {
+            icon.className = 'fas fa-bars';
+            this.hideMobileMenu();
+        }
+    }
+
+    showMobileMenu() {
+        this.navMenu.style.display = 'flex';
+        this.navMenu.style.flexDirection = 'column';
+        this.navMenu.style.position = 'absolute';
+        this.navMenu.style.top = '100%';
+        this.navMenu.style.left = '0';
+        this.navMenu.style.right = '0';
+        this.navMenu.style.background = 'var(--white)';
+        this.navMenu.style.boxShadow = 'var(--shadow-lg)';
+        this.navMenu.style.padding = '1rem';
+        this.navMenu.style.gap = '1rem';
+    }
+
+    hideMobileMenu() {
+        this.navMenu.style.display = '';
+        this.navMenu.style.flexDirection = '';
+        this.navMenu.style.position = '';
+        this.navMenu.style.top = '';
+        this.navMenu.style.left = '';
+        this.navMenu.style.right = '';
+        this.navMenu.style.background = '';
+        this.navMenu.style.boxShadow = '';
+        this.navMenu.style.padding = '';
+        this.navMenu.style.gap = '';
+    }
+
+    closeMenu() {
+        this.navMenu.classList.remove('active');
+        const icon = this.navToggle.querySelector('i');
+        icon.className = 'fas fa-bars';
+        this.hideMobileMenu();
+    }
+}
+
+// 页面初始化
+document.addEventListener('DOMContentLoaded', function() {
+    // 初始化所有功能模块
+    const gallery = new ImageGallery('.image-gallery');
+    const featureCards = new FeatureCards();
+    const smoothNav = new SmoothNavigation();
+    const parallax = new ParallaxEffects();
+    const counter = new CounterAnimation();
+    const aos = new AOSAnimations();
+    const mobileNav = new MobileNavigation();
+
+    // 页面特定的事件处理
+    setupPageSpecificEvents();
+    
+    // 添加页面加载完成的动画
+    setTimeout(() => {
+        document.body.classList.add('page-loaded');
+    }, 100);
+
+    // 保存gallery实例以便后续清理
+    window.imageGallery = gallery;
+});
+
+function setupPageSpecificEvents() {
+    // CTA按钮点击追踪
+    const ctaButtons = document.querySelectorAll('.btn-primary');
+    ctaButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const buttonText = btn.textContent.trim();
+            console.log('CTA clicked:', buttonText);
+            
+            // 添加点击动画
+            btn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                btn.style.transform = '';
+            }, 150);
+        });
+    });
+
+    // 特色功能卡片点击
+    const featureCards = document.querySelectorAll('.feature-card');
+    featureCards.forEach(card => {
+        card.addEventListener('click', () => {
+            const title = card.querySelector('h3').textContent;
+            toast.info(`learn more about"${title}"`);
+        });
+    });
+
+    // 流程步骤点击
+    const processSteps = document.querySelectorAll('.process-step');
+    processSteps.forEach((step, index) => {
+        step.addEventListener('click', () => {
+            const stepTitle = step.querySelector('h3').textContent;
+            toast.info(`step ${index + 1}: ${stepTitle}`);
+        });
+    });
+
+    // 画廊图片点击
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    galleryItems.forEach((item, index) => {
+        item.addEventListener('click', (e) => {
+            e.stopPropagation(); // 防止触发画廊的暂停/播放
+            const title = item.querySelector('h3').textContent;
+            toast.success(`view details of ${title}`);
+        });
+    });
+
+    // 键盘快捷键提示
+    document.addEventListener('keydown', (e) => {
+        if (e.key === '?' || (e.shiftKey && e.key === '/')) {
+            e.preventDefault();
+            toast.info('Shortcut keys: Space bar - Pause/play image scrolling');
+        }
+    });
+
+    // 导航栏滚动效果
+    let lastScrollTop = 0;
+    const navbar = document.querySelector('.navbar');
+    
+    window.addEventListener('scroll', Utils.throttle(() => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+            // 向下滚动，隐藏导航栏
+            navbar.style.transform = 'translateY(-100%)';
+        } else {
+            // 向上滚动，显示导航栏
+            navbar.style.transform = 'translateY(0)';
+        }
+        
+        // 改变导航栏透明度
+        if (scrollTop > 50) {
+            navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+        } else {
+            navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+        }
+        
+        lastScrollTop = scrollTop;
+    }, 100));
+}
+
+// 页面卸载时清理
+window.addEventListener('beforeunload', function() {
+    // 清理定时器和事件监听器
+    if (window.imageGallery) {
+        window.imageGallery.destroy();
+    }
+});
+
+// 错误处理
+window.addEventListener('error', function(e) {
+    console.error('page error:', e.error);
+    if (e.target.tagName === 'IMG') {
+        console.warn('The image loading failed:', e.target.src);
+    }
+});
+
+// 页面性能监控
+window.addEventListener('load', function() {
+    if ('performance' in window) {
+        setTimeout(() => {
+            const perfData = performance.timing;
+            const loadTime = perfData.loadEventEnd - perfData.navigationStart;
+            console.log('Homepage loading time:', loadTime + 'ms');
+        }, 100);
+    }
+});
+    </script>
+</body>
+</html>

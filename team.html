@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Team - MindCare</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+/* 基础CSS变量和通用样式 */
+:root {
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --white: #ffffff;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #6b7280;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --error-color: #ef4444;
+    --transition-normal: all 0.3s ease;
+    --transition-slow: all 0.5s ease;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
+    --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-2xl: 1rem;
+    --radius-3xl: 1.5rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: var(--gray-900);
+    background: var(--white);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* 导航栏样式 */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    transition: var(--transition-normal);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: var(--gray-600);
+    font-weight: 500;
+    transition: var(--transition-normal);
+    position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--primary-color);
+}
+
+.nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary-color);
+    border-radius: 1px;
+}
+
+.nav-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-normal);
+}
+
+.nav-btn.primary {
+    background: var(--gradient-primary);
+    color: var(--white);
+}
+
+.nav-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.nav-toggle {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* 按钮样式 */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-normal);
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background: var(--gradient-primary);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* 节标题样式 */
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section-subtitle {
+    font-size: 1.25rem;
+    color: var(--gray-600);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* 页脚样式 */
+.footer {
+    background: var(--gray-900);
+    color: var(--white);
+    padding: 3rem 0 1rem;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h4 {
+    margin-bottom: 1rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-section ul li a {
+    color: var(--gray-400);
+    text-decoration: none;
+    transition: var(--transition-normal);
+}
+
+.footer-section ul li a:hover {
+    color: var(--white);
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--gray-400);
+}
+
+/* 团队页面特定样式 */
+main {
+    padding-top: 80px;
+}
+
+/* 团队头部 */
+.team-hero {
+    background-image: url(image/team1.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+    color: #ffffff;
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.team-hero-content .hero-title {
+    font-size: 5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 2.5;
+}
+
+.team-hero-content .hero-subtitle {
+    font-size: 2.5rem;
+    opacity: 0.9;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+    line-height: 2;
+}
+
+.team-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-label {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* 团队成员部分 */
+.team-section {
+    padding: 4rem 0;
+    background: var(--gray-50);
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+}
+
+.team-member {
+    background: var(--white);
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transition: var(--transition-normal);
+}
+
+.team-member:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-2xl);
+}
+
+.member-card {
+    position: relative;
+}
+
+.member-image {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+.member-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition-slow);
+}
+
+.member-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(102, 126, 234, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition-normal);
+}
+
+.member-image:hover .member-overlay {
+    opacity: 1;
+}
+
+.member-image:hover img {
+    transform: scale(1.1);
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-links a {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    text-decoration: none;
+    font-size: 1.25rem;
+    transition: var(--transition-normal);
+}
+
+.social-links a:hover {
+    background: var(--white);
+    color: var(--primary-color);
+    transform: scale(1.1);
+}
+
+.member-info {
+    padding: 2rem;
+}
+
+.member-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 0.5rem;
+}
+
+.member-title {
+    font-size: 1.125rem;
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.member-description {
+    color: var(--gray-600);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.member-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.skill-tag {
+    background: var(--gray-100);
+    color: var(--gray-700);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.member-achievements {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.achievement {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--gray-600);
+    font-size: 0.9rem;
+}
+
+.achievement i {
+    color: var(--primary-color);
+    width: 16px;
+}
+
+/* 团队文化 */
+.team-culture {
+    padding: 6rem 0;
+    background: var(--white);
+}
+
+.culture-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.culture-item {
+    text-align: center;
+    padding: 2rem;
+    border-radius: var(--radius-2xl);
+    background: var(--gray-50);
+    transition: var(--transition-normal);
+}
+
+.culture-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.culture-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    color: var(--white);
+    font-size: 2rem;
+}
+
+.culture-item h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: 1rem;
+}
+
+.culture-item p {
+    color: var(--gray-600);
+    line-height: 1.6;
+}
+
+/* 加入我们 */
+.join-us {
+    padding: 6rem 0;
+    background: var(--gradient-primary);
+    color: var(--white);
+    text-align: center;
+}
+
+.join-content h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+}
+
+.join-content > p {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    margin-bottom: 3rem;
+}
+
+.join-positions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.position {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: var(--radius-xl);
+    text-align: left;
+    transition: var(--transition-normal);
+}
+
+.position:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-3px);
+}
+
+.position h4 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.position p {
+    opacity: 0.9;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.location {
+    font-size: 0.875rem;
+    opacity: 0.8;
+    font-weight: 500;
+}
+
+/* AOS 动画 */
+[data-aos] {
+    opacity: 0;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+[data-aos].aos-animate {
+    opacity: 1;
+}
+
+[data-aos="fade-up"] {
+    transform: translateY(30px);
+}
+
+[data-aos="fade-up"].aos-animate {
+    transform: translateY(0);
+}
+
+[data-aos="fade-left"] {
+    transform: translateX(-30px);
+}
+
+[data-aos="fade-left"].aos-animate {
+    transform: translateX(0);
+}
+
+[data-aos="fade-right"] {
+    transform: translateX(30px);
+}
+
+[data-aos="fade-right"].aos-animate {
+    transform: translateX(0);
+}
+
+[data-aos="zoom-in"] {
+    transform: scale(0.8);
+}
+
+[data-aos="zoom-in"].aos-animate {
+    transform: scale(1);
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+    .team-grid {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+    
+    .nav-toggle {
+        display: block;
+    }
+    
+    .team-hero {
+        padding: 4rem 0;
+    }
+    
+    .team-hero-content .hero-title {
+        font-size: 2rem;
+    }
+    
+    .team-hero-content .hero-subtitle {
+        font-size: 1.125rem;
+    }
+    
+    .team-stats {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+    
+    .team-section {
+        padding: 4rem 0;
+    }
+    
+    .team-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .member-image {
+        height: 250px;
+    }
+    
+    .member-info {
+        padding: 1.5rem;
+    }
+    
+    .culture-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .culture-item {
+        padding: 1.5rem;
+    }
+    
+    .join-us {
+        padding: 4rem 0;
+    }
+    
+    .join-content h2 {
+        font-size: 2rem;
+    }
+    
+    .join-positions {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .team-hero-content .hero-title {
+        font-size: 1.75rem;
+    }
+    
+    .team-hero-content .hero-subtitle {
+        font-size: 1rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1.125rem;
+    }
+    
+    .member-name {
+        font-size: 1.25rem;
+    }
+    
+    .culture-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+}
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-brain"></i>
+                <span>MindCare</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="#team" class="nav-link active">Team</a>
+                <a href="login.html" class="nav-btn primary">Enter System</a>
+            </div>
+            <div class="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Team Hero -->
+        <section class="team-hero">
+            <div class="container">
+                <div class="team-hero-content">
+                    <h1 class="hero-title">Our Team</h1>
+                    <p class="hero-subtitle">
+                        Improving mental health services through technology
+                    </p>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Team -->
+        <section id="team" class="team-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Core Members</h2>
+                    <p class="section-subtitle">Each member is an expert in their field</p>
+                </div>
+
+                <div class="team-grid">
+                    <!-- Team Member 1 -->
+                    <div class="team-member" data-aos="fade-up" data-aos-delay="0">
+                        <div class="member-card">
+                            <div class="member-image">
+                                <img src="image/Abby Li.jpg" alt="Abby Li">
+                                <div class="member-overlay">
+                                    <div class="social-links">
+                                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                                        <a href="#"><i class="fas fa-envelope"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Abby Li</h3>
+                                <p class="member-title">CTO & Project Initiator</p>
+                                <p class="member-description">
+                                    40% shareholder and technical core. Proficient in coding, she takes full charge of the company's software development and maintenance.
+                                </p>
+                                <div class="member-skills">
+                                    <span class="skill-tag">Software Development</span>
+                                    <span class="skill-tag">Technical Leadership</span>
+                                    <span class="skill-tag">System Architecture</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Member 2 -->
+                    <div class="team-member" data-aos="fade-up" data-aos-delay="100">
+                        <div class="member-card">
+                            <div class="member-image">
+                                <img src="image/Yue Fei Wu.jpg" alt="Yue Fei Wu">
+                                <div class="member-overlay">
+                                    <div class="social-links">
+                                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                                        <a href="#"><i class="fas fa-envelope"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Yue Fei Wu</h3>
+                                <p class="member-title">CEO & CFO</p>
+                                <p class="member-description">
+                                    30% shareholder, skilled in strategic financial planning. She accurately controls the company's financial direction to support steady growth.
+                                </p>
+                                <div class="member-skills">
+                                    <span class="skill-tag">Financial Planning</span>
+                                    <span class="skill-tag">Strategic Management</span>
+                                    <span class="skill-tag">Business Development</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Member 3 -->
+                    <div class="team-member" data-aos="fade-up" data-aos-delay="200">
+                        <div class="member-card">
+                            <div class="member-image">
+                                <img src="image/Cathy Chen.jpg" alt="Cathy Chen">
+                                <div class="member-overlay">
+                                    <div class="social-links">
+                                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                                        <a href="#"><i class="fas fa-envelope"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="member-info">
+                                <h3 class="member-name">Cathy Chen</h3>
+                                <p class="member-title">CMO & COO</p>
+                                <p class="member-description">
+                                    30% shareholder with expertise in market analysis and operational optimization, driving the company's competitiveness and efficiency.
+                                </p>
+                                <div class="member-skills">
+                                    <span class="skill-tag">Market Analysis</span>
+                                    <span class="skill-tag">Operations</span>
+                                    <span class="skill-tag">Business Strategy</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Team Culture -->
+        <section class="team-culture">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Team Culture</h2>
+                    <p class="section-subtitle">Our values and work philosophy</p>
+                </div>
+
+                <div class="culture-grid">
+                    <div class="culture-item" data-aos="fade-up" data-aos-delay="0">
+                        <div class="culture-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3>People-Centered</h3>
+                        <p>Always prioritize users' mental health and serve each user with dedication</p>
+                    </div>
+
+                    <div class="culture-item" data-aos="fade-up" data-aos-delay="100">
+                        <div class="culture-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>Continuous Innovation</h3>
+                        <p>Constantly explore new technologies to bring breakthroughs in mental health</p>
+                    </div>
+
+                    <div class="culture-item" data-aos="fade-up" data-aos-delay="200">
+                        <div class="culture-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Team Collaboration</h3>
+                        <p>Cross-disciplinary cooperation, leveraging everyone's expertise to grow together</p>
+                    </div>
+
+                    <div class="culture-item" data-aos="fade-up" data-aos-delay="300">
+                        <div class="culture-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Professional Excellence</h3>
+                        <p>Strictly follow academic standards and medical regulations to ensure quality service</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-brain"></i>
+                        <span>MindCare</span>
+                    </div>
+                    <p>Professional mental health assessment platform, using technology to protect mental health</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#team">Team</a></li>
+                        <li><a href="login.html">Login</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><i class="fas fa-envelope"></i> lyf0234abby@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 MindCare. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+// 工具函数库
+const Utils = {
+    // 节流函数
+    throttle: function(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        }
+    },
+
+    // 防抖函数
+    debounce: function(func, delay) {
+        let timeoutId;
+        return function() {
+            const args = arguments;
+            const context = this;
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => func.apply(context, args), delay);
+        }
+    },
+
+    // 生成随机ID
+    generateId: function(length = 8) {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return result;
+    },
+
+    // 格式化数字
+    formatNumber: function(num) {
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    },
+
+    // 动画数字计数
+    animateNumber: function(element, target, duration = 2000) {
+        const start = parseInt(element.textContent) || 0;
+        const increment = (target - start) / (duration / 16);
+        let current = start;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if ((increment > 0 && current >= target) || (increment < 0 && current <= target)) {
+                current = target;
+                clearInterval(timer);
+            }
+            element.textContent = Math.floor(current);
+        }, 16);
+    }
+};
+
+// 简单的消息提示组件
+const toast = {
+    show: function(message, type = 'info', duration = 3000) {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        toast.textContent = message;
+        toast.style.cssText = `
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            background: var(--white);
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow-lg);
+            z-index: 10000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        `;
+
+        if (type === 'success') {
+            toast.style.borderLeft = '4px solid var(--success-color)';
+        } else if (type === 'error') {
+            toast.style.borderLeft = '4px solid #ef4444';
+        } else {
+            toast.style.borderLeft = '4px solid var(--primary-color)';
+        }
+
+        document.body.appendChild(toast);
+
+        // 显示动画
+        setTimeout(() => {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateX(0)';
+        }, 10);
+
+        // 自动隐藏
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                document.body.removeChild(toast);
+            }, 300);
+        }, duration);
+    },
+
+    success: function(message) {
+        this.show(message, 'success');
+    },
+
+    error: function(message) {
+        this.show(message, 'error');
+    },
+
+    info: function(message) {
+        this.show(message, 'info');
+    }
+};
+
+// 平滑滚动导航
+class SmoothNavigation {
+    constructor() {
+        this.navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+        this.sections = document.querySelectorAll('section[id]');
+        this.init();
+    }
+
+    init() {
+        this.setupClickHandlers();
+        this.setupScrollSpy();
+    }
+
+    setupClickHandlers() {
+        this.navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href === '#') return;
+
+                const target = document.querySelector(href);
+                if (target) {
+                    e.preventDefault();
+                    this.scrollToSection(target);
+                }
+            });
+        });
+    }
+
+    scrollToSection(target) {
+        const headerOffset = 80;
+        const elementPosition = target.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+        });
+    }
+
+    setupScrollSpy() {
+        const options = {
+            threshold: 0.3,
+            rootMargin: '-80px 0px -80px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.updateActiveNavLink(entry.target.id);
+                }
+            });
+        }, options);
+
+        this.sections.forEach(section => {
+            observer.observe(section);
+        });
+    }
+
+    updateActiveNavLink(activeId) {
+        this.navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${activeId}`) {
+                link.classList.add('active');
+            }
+        });
+    }
+}
+
+// 团队成员卡片交互
+class TeamMemberCards {
+    constructor() {
+        this.memberCards = document.querySelectorAll('.team-member');
+        this.init();
+    }
+
+    init() {
+        this.memberCards.forEach((card, index) => {
+            // 添加鼠标悬停效果
+            card.addEventListener('mouseenter', () => {
+                this.animateCard(card, 'enter');
+            });
+
+            card.addEventListener('mouseleave', () => {
+                this.animateCard(card, 'leave');
+            });
+
+            // 添加点击效果
+            card.addEventListener('click', () => {
+                this.showMemberDetails(card);
+            });
+        });
+    }
+
+    animateCard(card, action) {
+        const memberInfo = card.querySelector('.member-info');
+        const memberImage = card.querySelector('.member-image img');
+        
+        if (action === 'enter') {
+            card.style.transform = 'translateY(-10px) scale(1.02)';
+            if (memberImage) {
+                memberImage.style.transform = 'scale(1.1)';
+            }
+        } else {
+            card.style.transform = '';
+            if (memberImage) {
+                memberImage.style.transform = '';
+            }
+        }
+    }
+
+    showMemberDetails(card) {
+        const memberName = card.querySelector('.member-name').textContent;
+        const memberTitle = card.querySelector('.member-title').textContent;
+        toast.info(`Learn more about ${memberName} (${memberTitle})`);
+    }
+}
+
+// Number counter animation
+class CounterAnimation {
+    constructor() {
+        this.counters = document.querySelectorAll('.stat-number');
+        this.init();
+    }
+
+    init() {
+        if ('IntersectionObserver' in window) {
+            this.observer = new IntersectionObserver(
+                this.handleIntersection.bind(this),
+                {
+                    threshold: 0.5
+                }
+            );
+
+            this.counters.forEach(counter => {
+                this.observer.observe(counter);
+            });
+        }
+    }
+
+    handleIntersection(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+                const text = entry.target.textContent;
+                const number = parseInt(text.replace(/[^\d]/g, '')) || 0;
+                this.animateCounter(entry.target, number, text);
+                entry.target.classList.add('counted');
+            }
+        });
+    }
+
+    animateCounter(element, target, originalText) {
+        const duration = 2000;
+        const increment = target / (duration / 16);
+        let current = 0;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                current = target;
+                clearInterval(timer);
+            }
+            
+            // Preserve original text format
+            const newText = originalText.replace(/\d+/, Math.floor(current));
+            element.textContent = newText;
+        }, 16);
+    }
+}
+
+// AOS animation observer
+class AOSAnimations {
+    constructor() {
+        this.elements = document.querySelectorAll('[data-aos]');
+        this.init();
+    }
+
+    init() {
+        if ('IntersectionObserver' in window) {
+            this.observer = new IntersectionObserver(
+                this.handleIntersection.bind(this),
+                {
+                    threshold: 0.1,
+                    rootMargin: '0px 0px -10% 0px'
+                }
+            );
+
+            this.elements.forEach(element => {
+                this.observer.observe(element);
+            });
+        } else {
+            // Fallback handling - show all elements directly
+            this.elements.forEach(element => {
+                element.classList.add('aos-animate');
+            });
+        }
+    }
+
+    handleIntersection(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const delay = entry.target.dataset.aosDelay || 0;
+                setTimeout(() => {
+                    entry.target.classList.add('aos-animate');
+                }, delay);
+                this.observer.unobserve(entry.target);
+            }
+        });
+    }
+}
+
+// Social links handler
+class SocialLinksHandler {
+    constructor() {
+        this.socialLinks = document.querySelectorAll('.social-links a');
+        this.init();
+    }
+
+    init() {
+        this.socialLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const icon = link.querySelector('i');
+                const platform = this.getPlatformFromIcon(icon.className);
+                toast.info(`Redirecting to ${platform} page`);
+            });
+        });
+    }
+
+    getPlatformFromIcon(className) {
+        if (className.includes('linkedin')) return 'LinkedIn';
+        if (className.includes('github')) return 'GitHub';
+        if (className.includes('weixin')) return 'WeChat';
+        if (className.includes('envelope')) return 'Email';
+        if (className.includes('dribbble')) return 'Dribbble';
+        if (className.includes('behance')) return 'Behance';
+        if (className.includes('kaggle')) return 'Kaggle';
+        if (className.includes('stack-overflow')) return 'Stack Overflow';
+        if (className.includes('user-md')) return 'Doctor Profile';
+        return 'Social Platform';
+    }
+}
+
+// Job application handler
+class JobApplicationHandler {
+    constructor() {
+        this.positions = document.querySelectorAll('.position');
+        this.applyButton = document.querySelector('.join-us .btn-primary');
+        this.init();
+    }
+
+    init() {
+        // Position card click
+        this.positions.forEach(position => {
+            position.addEventListener('click', () => {
+                const jobTitle = position.querySelector('h4').textContent;
+                toast.info(`Learn more about "${jobTitle}" position`);
+
+                // Add click animation
+                position.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    position.style.transform = '';
+                }, 150);
+            });
+        });
+
+        // Apply button click
+        if (this.applyButton) {
+            this.applyButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                toast.success('Redirecting to careers page');
+            });
+        }
+    }
+}
+
+// Parallax scroll effects
+class ParallaxEffects {
+    constructor() {
+        this.heroSection = document.querySelector('.team-hero');
+        this.init();
+    }
+
+    init() {
+        if (!this.heroSection) return;
+
+        window.addEventListener('scroll', Utils.throttle(() => {
+            this.updateParallax();
+        }, 16));
+    }
+
+    updateParallax() {
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * -0.3;
+        
+        if (this.heroSection) {
+            this.heroSection.style.transform = `translateY(${rate}px)`;
+        }
+    }
+}
+
+// Mobile navigation handler
+class MobileNavigation {
+    constructor() {
+        this.navToggle = document.querySelector('.nav-toggle');
+        this.navMenu = document.querySelector('.nav-menu');
+        this.init();
+    }
+
+    init() {
+        if (!this.navToggle || !this.navMenu) return;
+
+        this.navToggle.addEventListener('click', () => {
+            this.toggleMenu();
+        });
+
+        // Close menu when clicking navigation links
+        const navLinks = this.navMenu.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                this.closeMenu();
+            });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!this.navToggle.contains(e.target) && !this.navMenu.contains(e.target)) {
+                this.closeMenu();
+            }
+        });
+    }
+
+    toggleMenu() {
+        this.navMenu.classList.toggle('active');
+        const icon = this.navToggle.querySelector('i');
+        
+        if (this.navMenu.classList.contains('active')) {
+            icon.className = 'fas fa-times';
+            this.navMenu.style.display = 'flex';
+            this.navMenu.style.flexDirection = 'column';
+            this.navMenu.style.position = 'absolute';
+            this.navMenu.style.top = '100%';
+            this.navMenu.style.left = '0';
+            this.navMenu.style.right = '0';
+            this.navMenu.style.background = 'var(--white)';
+            this.navMenu.style.boxShadow = 'var(--shadow-lg)';
+            this.navMenu.style.padding = '1rem';
+        } else {
+            icon.className = 'fas fa-bars';
+            this.navMenu.style.display = '';
+            this.navMenu.style.flexDirection = '';
+            this.navMenu.style.position = '';
+            this.navMenu.style.top = '';
+            this.navMenu.style.left = '';
+            this.navMenu.style.right = '';
+            this.navMenu.style.background = '';
+            this.navMenu.style.boxShadow = '';
+            this.navMenu.style.padding = '';
+        }
+    }
+
+    closeMenu() {
+        this.navMenu.classList.remove('active');
+        const icon = this.navToggle.querySelector('i');
+        icon.className = 'fas fa-bars';
+
+        // Reset styles
+        this.navMenu.style.display = '';
+        this.navMenu.style.flexDirection = '';
+        this.navMenu.style.position = '';
+        this.navMenu.style.top = '';
+        this.navMenu.style.left = '';
+        this.navMenu.style.right = '';
+        this.navMenu.style.background = '';
+        this.navMenu.style.boxShadow = '';
+        this.navMenu.style.padding = '';
+    }
+}
+
+// Page initialization
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all functional modules
+    const smoothNav = new SmoothNavigation();
+    const teamCards = new TeamMemberCards();
+    const counter = new CounterAnimation();
+    const aos = new AOSAnimations();
+    const socialLinks = new SocialLinksHandler();
+    const jobHandler = new JobApplicationHandler();
+    const parallax = new ParallaxEffects();
+    const mobileNav = new MobileNavigation();
+
+    // Add page load animation
+    setTimeout(() => {
+        document.body.classList.add('page-loaded');
+    }, 100);
+
+    // Page-specific event handlers
+    setupPageSpecificEvents();
+});
+
+function setupPageSpecificEvents() {
+    // Culture card click
+    const cultureItems = document.querySelectorAll('.culture-item');
+    cultureItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const title = item.querySelector('h3').textContent;
+            toast.info(`Learn more about our "${title}" philosophy`);
+        });
+    });
+
+    // Navigation scroll effect
+    let lastScrollTop = 0;
+    const navbar = document.querySelector('.navbar');
+
+    window.addEventListener('scroll', Utils.throttle(() => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+            // Scrolling down, hide navbar
+            navbar.style.transform = 'translateY(-100%)';
+        } else {
+            // Scrolling up, show navbar
+            navbar.style.transform = 'translateY(0)';
+        }
+
+        lastScrollTop = scrollTop;
+    }, 100));
+
+    // Skill tag click
+    const skillTags = document.querySelectorAll('.skill-tag');
+    skillTags.forEach(tag => {
+        tag.addEventListener('click', () => {
+            const skill = tag.textContent;
+            toast.info(`Learn more about "${skill}" skills`);
+        });
+    });
+}
+
+// Page performance monitoring
+window.addEventListener('load', function() {
+    if ('performance' in window) {
+        setTimeout(() => {
+            const perfData = performance.timing;
+            const loadTime = perfData.loadEventEnd - perfData.navigationStart;
+            console.log('Team page load time:', loadTime + 'ms');
+        }, 100);
+    }
+});
+    </script>
+</body>
+</html>
