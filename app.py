@@ -3,6 +3,7 @@ from flask_cors import CORS
 from flask.json.provider import DefaultJSONProvider
 from enum import Enum
 import os
+import sys
 import json
 import uuid
 from datetime import datetime, timedelta
@@ -150,7 +151,7 @@ advisor = None
 def init_components():
     """Initialize system components"""
     global db_manager, analyzer, advisor
-    
+
     try:
         if DatabaseManager:
             logger.info("Initializing database manager...")
@@ -158,24 +159,40 @@ def init_components():
             logger.info("✅ Database manager initialized successfully")
         else:
             logger.error("❌ DatabaseManager class not imported")
+            return
 
         if MDQAnalyzer and db_manager:
             logger.info("Initializing MDQ analyzer...")
             analyzer = MDQAnalyzer(db_manager)
             logger.info("✅ MDQ analyzer initialized successfully")
         else:
-            logger.warning("⚠️ MDQ analyzer not initialized")
+            logger.warning("⚠️ MDQ analyzer not initialized - db_manager may be None")
+            return
 
         if DeepSeekAdvisor and db_manager and analyzer:
             logger.info("Initializing AI advisor...")
-            advisor = DeepSeekAdvisor(db_manager, analyzer)
-            logger.info("✅ AI advisor initialized successfully")
+            try:
+                advisor = DeepSeekAdvisor(db_manager, analyzer)
+                logger.info("✅ AI advisor initialized successfully")
+            except Exception as advisor_error:
+                logger.error(f"⚠️ AI advisor initialization failed: {advisor_error}")
+                logger.error(traceback.format_exc())
+                # Don't fail - advisor will be None and we can handle it gracefully
+                advisor = None
         else:
-            logger.warning("⚠️ AI advisor not initialized")
+            logger.warning("⚠️ AI advisor not initialized - missing dependencies")
+            advisor = None
 
     except Exception as e:
         logger.error(f"❌ Failed to initialize components: {e}")
         logger.error(traceback.format_exc())
+        # Set globals to None to prevent undefined errors
+        if 'db_manager' not in globals():
+            db_manager = None
+        if 'analyzer' not in globals():
+            analyzer = None
+        if 'advisor' not in globals():
+            advisor = None
 
 # Initialize components on application startup
 init_components()
@@ -1332,10 +1349,11 @@ def check_username():
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    """健康检查"""
+    """Health check endpoint"""
     try:
-        # 测试数据库连接
+        # Test database connection
         db_status = False
+        db_error = None
         if db_manager:
             try:
                 conn = db_manager._get_connection()
@@ -1345,26 +1363,46 @@ def health_check():
                 conn.close()
                 db_status = True
             except Exception as e:
-                logger.error(f"数据库健康检查失败: {e}")
-        
-        return jsonify({
-            'status': 'healthy',
+                db_error = str(e)
+                logger.error(f"Database health check failed: {e}")
+
+        # Check advisor API availability
+        advisor_status = {
+            'initialized': advisor is not None,
+            'api_available': advisor.api_available if advisor else False
+        }
+
+        response = {
+            'status': 'healthy' if (db_status and analyzer is not None) else 'degraded',
             'timestamp': datetime.now().isoformat(),
-            'database': db_status,
+            'database': {
+                'connected': db_status,
+                'error': db_error
+            },
             'analyzer': analyzer is not None,
-            'advisor': advisor is not None,
+            'advisor': advisor_status,
             'components': {
                 'database_manager': db_manager is not None,
                 'mdq_analyzer': analyzer is not None,
                 'deepseek_advisor': advisor is not None
+            },
+            'environment': {
+                'python_version': sys.version,
+                'flask_env': app.config.get('ENV', 'production')
             }
-        })
+        }
+
+        status_code = 200 if response['status'] == 'healthy' else 503
+        return jsonify(response), status_code
+
     except Exception as e:
-        logger.error(f"健康检查异常: {e}")
+        logger.error(f"Health check exception: {e}")
+        logger.error(traceback.format_exc())
         return jsonify({
             'status': 'error',
             'timestamp': datetime.now().isoformat(),
-            'error': str(e)
+            'error': str(e),
+            'traceback': traceback.format_exc() if app.debug else None
         }), 500
 
 # ====== 错误处理 ======

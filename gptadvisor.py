@@ -54,22 +54,22 @@ class DeepSeekAdvisor:
         self.client = None
         self.api_available = False
 
-        # 验证API密钥并初始化客户端
+        # Validate API key and initialize client
         try:
             if not DEEPSEEK_API_KEY or DEEPSEEK_API_KEY == "your_deepseek_api_key_here":
-                print("⚠️ DeepSeek API 密钥未设置，将使用备用报告生成模式")
+                print("WARNING: DeepSeek API key not set, using fallback report generation mode")
                 self.api_available = False
             else:
-                # 初始化OpenAI客户端
+                # Initialize OpenAI client
                 self.client = OpenAI(
                     api_key=DEEPSEEK_API_KEY,
                     base_url="https://api.deepseek.com"
                 )
                 self.api_available = True
-                print("✅ DeepSeek API 客户端初始化成功")
+                print("SUCCESS: DeepSeek API client initialized")
         except Exception as e:
-            print(f"⚠️ DeepSeek API 初始化失败: {e}")
-            print("⚠️ 将使用备用报告生成模式")
+            print(f"WARNING: DeepSeek API initialization failed: {e}")
+            print("WARNING: Using fallback report generation mode")
             self.api_available = False
 
         self._init_database_tables()
