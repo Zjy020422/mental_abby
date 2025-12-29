@@ -469,10 +469,10 @@
                 <span>MindCare</span>
             </div>
             <div class="nav-menu">
-                <a href="dashboard.html" class="nav-link">主页</a>
-                <a href="test.html" class="nav-link">开始测试</a>
-                <a href="history.html" class="nav-link">历史记录</a>
-                <a href="#" class="nav-link active">评估报告</a>
+                <a href="dashboard.html" class="nav-link">Home</a>
+                <a href="test.html" class="nav-link">Start Test</a>
+                <a href="history.html" class="nav-link">History</a>
+                <a href="#" class="nav-link active">Assessment Report</a>
             </div>
         </div>
     </nav>
@@ -482,21 +482,21 @@
         <!-- 报告头部 -->
         <section class="report-header">
             <div class="container">
-                <h1 class="report-title">AI 心理健康评估报告</h1>
-                <p class="report-subtitle">基于专业MDQ问卷的智能分析报告</p>
-                
+                <h1 class="report-title">AI Mental Health Assessment Report</h1>
+                <p class="report-subtitle">Intelligent Analysis Based on Professional MDQ Questionnaire</p>
+
                 <div class="report-meta">
                     <div class="meta-item">
                         <i class="fas fa-calendar"></i>
-                        <span id="reportDate">生成中...</span>
+                        <span id="reportDate">Generating...</span>
                     </div>
                     <div class="meta-item">
                         <i class="fas fa-clock"></i>
-                        <span id="reportTime">处理中...</span>
+                        <span id="reportTime">Processing...</span>
                     </div>
                     <div class="meta-item">
                         <i class="fas fa-robot"></i>
-                        <span>DeepSeek AI 分析</span>
+                        <span>DeepSeek AI Analysis</span>
                     </div>
                 </div>
             </div>
@@ -509,8 +509,8 @@
                     <!-- 加载状态 -->
                     <div id="loadingSection" class="loading-section">
                         <div class="loading-spinner"></div>
-                        <div class="loading-text">正在生成AI分析报告...</div>
-                        <div class="loading-subtitle">请稍候，AI正在深度分析您的测试结果</div>
+                        <div class="loading-text">Generating AI Analysis Report...</div>
+                        <div class="loading-subtitle">Please wait, AI is analyzing your test results</div>
                     </div>
 
                     <!-- 错误状态 -->
@@ -518,18 +518,18 @@
                         <div class="error-icon">
                             <i class="fas fa-exclamation-triangle"></i>
                         </div>
-                        <div class="error-title">报告生成失败</div>
+                        <div class="error-title">Report Generation Failed</div>
                         <div class="error-message" id="errorMessage">
-                            无法生成报告，请稍后重试
+                            Unable to generate report, please try again later
                         </div>
                         <div class="action-buttons">
                             <button class="btn btn-primary" onclick="location.reload()">
                                 <i class="fas fa-redo"></i>
-                                重新生成
+                                Regenerate
                             </button>
                             <a href="test.html" class="btn btn-outline">
                                 <i class="fas fa-arrow-left"></i>
-                                返回测试
+                                Back to Test
                             </a>
                         </div>
                     </div>
@@ -538,15 +538,15 @@
                     <div id="reportStats" class="report-stats hidden">
                         <div class="stat-item">
                             <div class="stat-value" id="confidenceScore">--</div>
-                            <div class="stat-label">AI 置信度</div>
+                            <div class="stat-label">AI Confidence</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-value" id="processingTime">--</div>
-                            <div class="stat-label">处理时间</div>
+                            <div class="stat-label">Processing Time</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-value" id="reportLength">--</div>
-                            <div class="stat-label">报告字数</div>
+                            <div class="stat-label">Report Word Count</div>
                         </div>
                     </div>
 
@@ -556,10 +556,10 @@
                             <div class="section-icon">
                                 <i class="fas fa-clipboard-list"></i>
                             </div>
-                            <div class="section-title">执行摘要</div>
+                            <div class="section-title">Executive Summary</div>
                         </div>
                         <div class="section-content" id="executiveSummary">
-                            <!-- AI生成的执行摘要将在这里显示 -->
+                            <!-- AI generated executive summary will be displayed here -->
                         </div>
                     </div>
 
@@ -569,10 +569,10 @@
                             <div class="section-icon">
                                 <i class="fas fa-stethoscope"></i>
                             </div>
-                            <div class="section-title">临床评估</div>
+                            <div class="section-title">Clinical Assessment</div>
                         </div>
                         <div class="section-content" id="clinicalAssessment">
-                            <!-- AI生成的临床评估将在这里显示 -->
+                            <!-- AI generated clinical assessment will be displayed here -->
                         </div>
                     </div>
 
@@ -582,10 +582,10 @@
                             <div class="section-icon">
                                 <i class="fas fa-exclamation-triangle"></i>
                             </div>
-                            <div class="section-title">风险评估</div>
+                            <div class="section-title">Risk Assessment</div>
                         </div>
                         <div class="section-content" id="riskEvaluation">
-                            <!-- AI生成的风险评估将在这里显示 -->
+                            <!-- AI generated risk assessment will be displayed here -->
                         </div>
                     </div>
 
@@ -595,10 +595,10 @@
                             <div class="section-icon">
                                 <i class="fas fa-pills"></i>
                             </div>
-                            <div class="section-title">治疗建议</div>
+                            <div class="section-title">Treatment Recommendations</div>
                         </div>
                         <div class="section-content" id="treatmentRecommendations">
-                            <!-- AI生成的治疗建议将在这里显示 -->
+                            <!-- AI generated treatment recommendations will be displayed here -->
                         </div>
                     </div>
 
@@ -608,10 +608,10 @@
                             <div class="section-icon">
                                 <i class="fas fa-heart"></i>
                             </div>
-                            <div class="section-title">生活方式建议</div>
+                            <div class="section-title">Lifestyle Recommendations</div>
                         </div>
                         <div class="section-content" id="lifestyleRecommendations">
-                            <!-- AI生成的生活方式建议将在这里显示 -->
+                            <!-- AI generated lifestyle recommendations will be displayed here -->
                         </div>
                     </div>
 
@@ -621,10 +621,10 @@
                             <div class="section-icon">
                                 <i class="fas fa-calendar-check"></i>
                             </div>
-                            <div class="section-title">监测计划</div>
+                            <div class="section-title">Monitoring Plan</div>
                         </div>
                         <div class="section-content" id="monitoringPlan">
-                            <!-- AI生成的监测计划将在这里显示 -->
+                            <!-- AI generated monitoring plan will be displayed here -->
                         </div>
                     </div>
 
@@ -634,10 +634,10 @@
                             <div class="section-icon">
                                 <i class="fas fa-phone-alt"></i>
                             </div>
-                            <div class="section-title">紧急预案</div>
+                            <div class="section-title">Emergency Protocols</div>
                         </div>
                         <div class="section-content" id="emergencyProtocols">
-                            <!-- AI生成的紧急预案将在这里显示 -->
+                            <!-- AI generated emergency protocols will be displayed here -->
                         </div>
                     </div>
 
@@ -645,19 +645,19 @@
                     <div id="actionButtons" class="action-buttons hidden">
                         <button class="btn btn-primary" onclick="window.print()">
                             <i class="fas fa-print"></i>
-                            打印报告
+                            Print Report
                         </button>
                         <button class="btn btn-secondary" onclick="shareReport()">
                             <i class="fas fa-share"></i>
-                            分享报告
+                            Share Report
                         </button>
                         <a href="history.html" class="btn btn-outline">
                             <i class="fas fa-history"></i>
-                            查看历史
+                            View History
                         </a>
                         <a href="test.html" class="btn btn-outline">
                             <i class="fas fa-plus"></i>
-                            新测试
+                            New Test
                         </a>
                     </div>
                 </div>
@@ -671,18 +671,18 @@
 
         // 工具函数
         const Utils = {
-            // 格式化日期
+            // Format date
             formatDate: function(date) {
-                return new Intl.DateTimeFormat('zh-CN', {
+                return new Intl.DateTimeFormat('en-US', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric'
                 }).format(date);
             },
 
-            // 格式化时间
+            // Format time
             formatTime: function(date) {
-                return new Intl.DateTimeFormat('zh-CN', {
+                return new Intl.DateTimeFormat('en-US', {
                     hour: '2-digit',
                     minute: '2-digit',
                     second: '2-digit'
@@ -745,15 +745,24 @@
 
                 try {
                     const response = await fetch(url, config);
-                    const data = await response.json();
-                    
-                    if (!response.ok) {
-                        throw new Error(data.message || '请求失败');
+
+                    // Check if response is JSON
+                    const contentType = response.headers.get('content-type');
+                    if (!contentType || !contentType.includes('application/json')) {
+                        const text = await response.text();
+                        console.error('Server returned non-JSON response:', text.substring(0, 200));
+                        throw new Error(`Server error: Expected JSON but received ${contentType || 'unknown content type'}. The API endpoint may not exist or the server is not running properly.`);
                     }
-                    
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.message || `Request failed with status ${response.status}`);
+                    }
+
                     return data;
                 } catch (error) {
-                    console.error(`API请求失败 [${endpoint}]:`, error);
+                    console.error(`API request failed [${endpoint}]:`, error);
                     throw error;
                 }
             },
@@ -804,54 +813,54 @@
 
             async generateReport() {
                 try {
-                    console.log('开始生成AI报告...');
-                    
-                    // 如果没有analysisId，先获取最新的分析记录
+                    console.log('Starting AI report generation...');
+
+                    // If there's no analysisId, get the latest analysis record first
                     if (!this.analysisId) {
                         try {
                             const latestAnalysis = await API.request('/analysis/latest');
                             if (latestAnalysis.success && latestAnalysis.analysis) {
                                 this.analysisId = latestAnalysis.analysis.analysis_id;
-                                console.log('获取到最新分析ID:', this.analysisId);
+                                console.log('Retrieved latest analysis ID:', this.analysisId);
                             }
                         } catch (error) {
-                            console.warn('无法获取最新分析记录:', error);
+                            console.warn('Unable to retrieve latest analysis record:', error);
                         }
                     }
-                    
-                    // 调用API生成报告
+
+                    // Call API to generate report
                     const result = await API.generateAIReport('single');
-                    
+
                     if (result.success && result.reports && result.reports.single_test_report) {
                         const reportId = result.reports.single_test_report.report_id;
-                        console.log('报告生成成功，报告ID:', reportId);
-                        
-                        // 获取完整的报告数据
+                        console.log('Report generated successfully, report ID:', reportId);
+
+                        // Get complete report data
                         const reportDetail = await API.getAIReport(reportId);
-                        
+
                         if (reportDetail.success) {
                             this.reportData = reportDetail.report;
                             this.displayReport();
                         } else {
-                            throw new Error('获取报告详情失败');
+                            throw new Error('Failed to retrieve report details');
                         }
                     } else {
-                        throw new Error(result.message || '报告生成失败');
+                        throw new Error(result.message || 'Report generation failed');
                     }
-                    
+
                 } catch (error) {
-                    console.error('生成报告失败:', error);
+                    console.error('Report generation failed:', error);
                     this.showError(error.message);
                 }
             }
 
             displayReport() {
                 if (!this.reportData) {
-                    this.showError('报告数据不存在');
+                    this.showError('Report data does not exist');
                     return;
                 }
 
-                console.log('显示报告数据:', this.reportData);
+                console.log('Displaying report data:', this.reportData);
 
                 // 隐藏加载状态
                 document.getElementById('loadingSection').classList.add('hidden');
@@ -958,72 +967,72 @@
             }
         }
 
-        // 分享报告功能
+        // Share report functionality
         function shareReport() {
             if (navigator.share) {
                 navigator.share({
-                    title: '心理健康评估报告 - MindCare',
-                    text: '我刚完成了心理健康评估，查看我的AI分析报告。',
+                    title: 'Mental Health Assessment Report - MindCare',
+                    text: 'I just completed a mental health assessment. Check out my AI analysis report.',
                     url: window.location.href
                 }).catch(console.error);
             } else {
-                // 备用方案：复制链接
+                // Fallback: Copy link
                 if (navigator.clipboard) {
                     navigator.clipboard.writeText(window.location.href).then(() => {
-                        alert('报告链接已复制到剪贴板');
+                        alert('Report link copied to clipboard');
                     }).catch(() => {
-                        alert('无法复制链接，请手动复制地址栏中的链接');
+                        alert('Unable to copy link, please manually copy the URL from the address bar');
                     });
                 } else {
-                    alert('请手动复制地址栏中的链接进行分享');
+                    alert('Please manually copy the URL from the address bar to share');
                 }
             }
         }
 
-        // 页面加载完成后初始化
+        // Initialize after page load
         document.addEventListener('DOMContentLoaded', () => {
             try {
-                // 检查登录状态
+                // Check login status
                 checkLoginStatus();
-                
-                // 初始化报告管理器
+
+                // Initialize report manager
                 const reportManager = new ReportManager();
-                
-                // 将实例绑定到全局，方便调试
+
+                // Bind instance to global for debugging
                 window.reportManager = reportManager;
-                
-                console.log('报告页面初始化完成');
-                
+
+                console.log('Report page initialized successfully');
+
             } catch (error) {
-                console.error('报告页面初始化失败:', error);
-                showError('页面初始化失败，请刷新重试');
+                console.error('Report page initialization failed:', error);
+                showError('Page initialization failed, please refresh and try again');
             }
         });
 
-        // 检查登录状态
+        // Check login status
         async function checkLoginStatus() {
             try {
                 const response = await API.request('/user/profile');
                 if (!response.success) {
-                    throw new Error('未登录');
+                    throw new Error('Not logged in');
                 }
             } catch (error) {
-                console.warn('用户未登录或会话已过期');
-                // 可以选择重定向到登录页面
+                console.warn('User not logged in or session expired');
+                // Can optionally redirect to login page
                 // window.location.href = 'login.html';
             }
         }
 
-        // 处理页面错误
+        // Handle page errors
         window.addEventListener('error', (e) => {
-            console.error('页面错误:', e.error);
-            showError('页面出现错误，请刷新重试');
+            console.error('Page error:', e.error);
+            showError('Page error occurred, please refresh and try again');
         });
 
-        // 处理未捕获的Promise拒绝
+        // Handle unhandled promise rejections
         window.addEventListener('unhandledrejection', (e) => {
-            console.error('未处理的Promise拒绝:', e.reason);
-            showError('网络请求失败，请检查网络连接');
+            console.error('Unhandled promise rejection:', e.reason);
+            showError('Network request failed, please check your connection');
         });
 
         // 全局错误显示函数

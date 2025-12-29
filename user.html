@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人资料 - MindCare</title>
+    <title>Profile - MindCare</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
 /* 基础CSS变量和通用样式 */
@@ -706,10 +706,10 @@ body {
                 <span>MindCare</span>
             </a>
             <div class="nav-menu">
-                <a href="dashboard.html" class="nav-link">主页</a>
-                <a href="test.html" class="nav-link">开始测试</a>
-                <a href="history.html" class="nav-link">历史记录</a>
-                <a href="user.html" class="nav-link active">个人资料</a>
+                <a href="dashboard.html" class="nav-link">Home</a>
+                <a href="test.html" class="nav-link">Start Test</a>
+                <a href="history.html" class="nav-link">History</a>
+                <a href="user.html" class="nav-link active">Profile</a>
             </div>
         </div>
     </nav>
@@ -723,18 +723,18 @@ body {
                     <div>
                         <h1 class="page-title">
                             <i class="fas fa-user-circle" style="color: var(--primary-color); margin-right: 0.5rem;"></i>
-                            个人资料
+                            Profile
                         </h1>
-                        <p class="page-subtitle">管理您的个人信息和账户设置</p>
+                        <p class="page-subtitle">Manage your personal information and account settings</p>
                     </div>
                     <div class="header-actions">
                         <button class="btn btn-outline" id="editBtn">
                             <i class="fas fa-edit"></i>
-                            编辑资料
+                            Edit Profile
                         </button>
                         <a href="dashboard.html" class="btn btn-secondary">
                             <i class="fas fa-arrow-left"></i>
-                            返回主页
+                            Back to Home
                         </a>
                     </div>
                 </div>
@@ -749,29 +749,29 @@ body {
                     <div class="profile-sidebar fade-in-up">
                         <div class="profile-avatar-section">
                             <div class="avatar-container">
-                                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b169?w=120&h=120&fit=crop&crop=face" 
-                                     alt="用户头像" class="profile-avatar" id="profileAvatar">
+                                <img src="https://images.unsplash.com/photo-1494790108755-2616b612b169?w=120&h=120&fit=crop&crop=face"
+                                     alt="User Avatar" class="profile-avatar" id="profileAvatar">
                                 <button class="avatar-upload" id="avatarUploadBtn">
                                     <i class="fas fa-camera"></i>
                                     <input type="file" accept="image/*" id="avatarInput">
                                 </button>
                             </div>
-                            <h2 class="profile-name" id="profileDisplayName">加载中...</h2>
-                            <p class="profile-email" id="profileDisplayEmail">加载中...</p>
+                            <h2 class="profile-name" id="profileDisplayName">Loading...</h2>
+                            <p class="profile-email" id="profileDisplayEmail">Loading...</p>
                             <p class="profile-join-date">
                                 <i class="fas fa-calendar-alt"></i>
-                                加入时间：<span id="profileJoinDate">加载中...</span>
+                                Join Date: <span id="profileJoinDate">Loading...</span>
                             </p>
                         </div>
 
                         <div class="profile-stats">
                             <div class="stat-item">
                                 <span class="stat-number" id="totalTestsCount">0</span>
-                                <span class="stat-label">完成测试</span>
+                                <span class="stat-label">Completed Tests</span>
                             </div>
                             <div class="stat-item">
                                 <span class="stat-number" id="lastLoginDate">--</span>
-                                <span class="stat-label">最后登录</span>
+                                <span class="stat-label">Last Login</span>
                             </div>
                         </div>
                     </div>
@@ -781,93 +781,93 @@ body {
                         <!-- 成功消息 -->
                         <div class="success-message" id="successMessage">
                             <i class="fas fa-check-circle"></i>
-                            <span id="successText">个人资料更新成功！</span>
+                            <span id="successText">Profile updated successfully!</span>
                         </div>
 
                         <!-- 错误消息 -->
                         <div class="error-message" id="errorMessage">
                             <i class="fas fa-exclamation-circle"></i>
-                            <span id="errorText">更新失败，请重试</span>
+                            <span id="errorText">Update failed, please try again</span>
                         </div>
 
                         <form id="profileForm">
                             <h3 class="section-title">
                                 <i class="fas fa-user"></i>
-                                基本信息
+                                Basic Information
                             </h3>
 
                             <div class="form-grid">
                                 <div class="form-group">
-                                    <label class="form-label required" for="username">用户名</label>
+                                    <label class="form-label required" for="username">Username</label>
                                     <input type="text" id="username" class="form-input" readonly required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label required" for="email">邮箱地址</label>
+                                    <label class="form-label required" for="email">Email Address</label>
                                     <input type="email" id="email" class="form-input" readonly required>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label" for="fullName">姓名</label>
+                                    <label class="form-label" for="fullName">Full Name</label>
                                     <input type="text" id="fullName" class="form-input" readonly>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label" for="gender">性别</label>
+                                    <label class="form-label" for="gender">Gender</label>
                                     <select id="gender" class="form-select" disabled>
-                                        <option value="">请选择</option>
-                                        <option value="male">男</option>
-                                        <option value="female">女</option>
-                                        <option value="other">其他</option>
-                                        <option value="prefer_not_to_say">不愿透露</option>
+                                        <option value="">Please Select</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                        <option value="prefer_not_to_say">Prefer Not to Say</option>
                                     </select>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label" for="age">年龄</label>
+                                    <label class="form-label" for="age">Age</label>
                                     <input type="number" id="age" class="form-input" readonly min="0" max="150">
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label" for="phone">手机号码</label>
+                                    <label class="form-label" for="phone">Phone Number</label>
                                     <input type="tel" id="phone" class="form-input" readonly>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label" for="occupation">职业</label>
+                                    <label class="form-label" for="occupation">Occupation</label>
                                     <input type="text" id="occupation" class="form-input" readonly>
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label" for="educationLevel">教育程度</label>
+                                    <label class="form-label" for="educationLevel">Education Level</label>
                                     <select id="educationLevel" class="form-select" disabled>
-                                        <option value="">请选择</option>
-                                        <option value="primary">小学</option>
-                                        <option value="junior_high">初中</option>
-                                        <option value="high_school">高中</option>
-                                        <option value="college">大专</option>
-                                        <option value="bachelor">本科</option>
-                                        <option value="master">硕士</option>
-                                        <option value="doctor">博士</option>
-                                        <option value="other">其他</option>
+                                        <option value="">Please Select</option>
+                                        <option value="primary">Elementary School</option>
+                                        <option value="junior_high">Junior High School</option>
+                                        <option value="high_school">High School</option>
+                                        <option value="college">College</option>
+                                        <option value="bachelor">Bachelor's Degree</option>
+                                        <option value="master">Master's Degree</option>
+                                        <option value="doctor">Doctoral Degree</option>
+                                        <option value="other">Other</option>
                                     </select>
                                 </div>
 
                                 <div class="form-group full-width">
-                                    <label class="form-label" for="emergencyContact">紧急联系人</label>
-                                    <textarea id="emergencyContact" class="form-textarea" readonly 
-                                              placeholder="姓名、关系、联系方式等"></textarea>
+                                    <label class="form-label" for="emergencyContact">Emergency Contact</label>
+                                    <textarea id="emergencyContact" class="form-textarea" readonly
+                                              placeholder="Name, relationship, contact information, etc."></textarea>
                                 </div>
                             </div>
 
                             <div class="form-actions">
                                 <button type="button" class="btn btn-secondary hidden" id="cancelBtn">
                                     <i class="fas fa-times"></i>
-                                    取消
+                                    Cancel
                                 </button>
                                 <button type="submit" class="btn btn-success hidden" id="saveBtn">
                                     <i class="fas fa-save"></i>
-                                    保存更改
+                                    Save Changes
                                 </button>
                             </div>
                         </form>
@@ -876,7 +876,7 @@ body {
                         <div class="security-section">
                             <h3 class="section-title">
                                 <i class="fas fa-shield-alt"></i>
-                                安全设置
+                                Security Settings
                             </h3>
 
                             <div class="security-item">
@@ -885,13 +885,13 @@ body {
                                         <i class="fas fa-key"></i>
                                     </div>
                                     <div class="security-details">
-                                        <h4>修改密码</h4>
-                                        <p>定期更新密码以保护账户安全</p>
+                                        <h4>Change Password</h4>
+                                        <p>Regularly update your password to protect account security</p>
                                     </div>
                                 </div>
                                 <button class="btn btn-outline" id="changePasswordBtn">
                                     <i class="fas fa-edit"></i>
-                                    修改密码
+                                    Change Password
                                 </button>
                             </div>
 
@@ -901,13 +901,13 @@ body {
                                         <i class="fas fa-download"></i>
                                     </div>
                                     <div class="security-details">
-                                        <h4>导出数据</h4>
-                                        <p>下载您的所有个人数据和测试记录</p>
+                                        <h4>Export Data</h4>
+                                        <p>Download all your personal data and test records</p>
                                     </div>
                                 </div>
                                 <button class="btn btn-outline" id="exportDataBtn">
                                     <i class="fas fa-download"></i>
-                                    导出数据
+                                    Export Data
                                 </button>
                             </div>
 
@@ -917,13 +917,13 @@ body {
                                         <i class="fas fa-trash-alt"></i>
                                     </div>
                                     <div class="security-details">
-                                        <h4>删除账户</h4>
-                                        <p>永久删除您的账户和所有相关数据</p>
+                                        <h4>Delete Account</h4>
+                                        <p>Permanently delete your account and all related data</p>
                                     </div>
                                 </div>
                                 <button class="btn" style="background: var(--error-color); color: var(--white);" id="deleteAccountBtn">
                                     <i class="fas fa-trash-alt"></i>
-                                    删除账户
+                                    Delete Account
                                 </button>
                             </div>
                         </div>
@@ -937,7 +937,7 @@ body {
     <div class="modal-overlay" id="passwordModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>修改密码</h3>
+                <h3>Change Password</h3>
                 <button class="modal-close" id="closePasswordModal">
                     <i class="fas fa-times"></i>
                 </button>
@@ -945,21 +945,21 @@ body {
             <form id="passwordForm">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label class="form-label required" for="currentPassword">当前密码</label>
+                        <label class="form-label required" for="currentPassword">Current Password</label>
                         <input type="password" id="currentPassword" class="form-input" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label required" for="newPassword">新密码</label>
+                        <label class="form-label required" for="newPassword">New Password</label>
                         <input type="password" id="newPassword" class="form-input" required minlength="6">
                     </div>
                     <div class="form-group">
-                        <label class="form-label required" for="confirmPassword">确认新密码</label>
+                        <label class="form-label required" for="confirmPassword">Confirm New Password</label>
                         <input type="password" id="confirmPassword" class="form-input" required>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="cancelPasswordBtn">取消</button>
-                    <button type="submit" class="btn btn-primary">确认修改</button>
+                    <button type="button" class="btn btn-secondary" id="cancelPasswordBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Confirm Change</button>
                 </div>
             </form>
         </div>
@@ -1055,7 +1055,7 @@ const Utils = {
             try {
                 const item = localStorage.getItem(key);
                 if (!item) return null;
-                
+
                 const data = JSON.parse(item);
                 if (data.expiry && Date.now() > data.expiry) {
                     localStorage.removeItem(key);
@@ -1063,7 +1063,7 @@ const Utils = {
                 }
                 return data.value;
             } catch (e) {
-                console.warn('无法从本地存储读取:', e);
+                console.warn('Unable to read from local storage:', e);
                 return null;
             }
         },
@@ -1076,46 +1076,46 @@ const Utils = {
             try {
                 localStorage.setItem(key, JSON.stringify(data));
             } catch (e) {
-                console.warn('无法保存到本地存储:', e);
+                console.warn('Unable to save to local storage:', e);
             }
         },
-        
+
         remove: function(key) {
             try {
                 localStorage.removeItem(key);
             } catch (e) {
-                console.warn('无法从本地存储删除:', e);
+                console.warn('Unable to delete from local storage:', e);
             }
         }
     },
 
-    // 格式化日期
+    // Format date
     formatDate: function(dateString) {
         if (!dateString) return '--';
         const date = new Date(dateString);
-        const options = { 
-            year: 'numeric', 
-            month: 'short', 
+        const options = {
+            year: 'numeric',
+            month: 'short',
             day: 'numeric'
         };
-        return date.toLocaleDateString('zh-CN', options);
+        return date.toLocaleDateString('en-US', options);
     },
 
-    // 格式化相对时间
+    // Format relative time
     getRelativeTime: function(dateString) {
         if (!dateString) return '--';
         const date = new Date(dateString);
         const now = new Date();
         const diffInSeconds = Math.floor((now - date) / 1000);
-        
+
         if (diffInSeconds < 60) {
-            return '刚刚';
+            return 'Just now';
         } else if (diffInSeconds < 3600) {
-            return `${Math.floor(diffInSeconds / 60)}分钟前`;
+            return `${Math.floor(diffInSeconds / 60)} minutes ago`;
         } else if (diffInSeconds < 86400) {
-            return `${Math.floor(diffInSeconds / 3600)}小时前`;
+            return `${Math.floor(diffInSeconds / 3600)} hours ago`;
         } else if (diffInSeconds < 604800) {
-            return `${Math.floor(diffInSeconds / 86400)}天前`;
+            return `${Math.floor(diffInSeconds / 86400)} days ago`;
         } else {
             return this.formatDate(dateString);
         }
@@ -1230,15 +1230,24 @@ const API = {
 
         try {
             const response = await fetch(API_BASE + url, config);
-            const data = await response.json();
-            
-            if (!response.ok) {
-                throw new Error(data.message || '请求失败');
+
+            // Check if response is JSON
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                const text = await response.text();
+                console.error('Server returned non-JSON response:', text.substring(0, 200));
+                throw new Error(`Server error: Expected JSON but received ${contentType || 'unknown content type'}. The API endpoint may not exist or the server is not running properly.`);
             }
-            
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || `Request failed with status ${response.status}`);
+            }
+
             return data;
         } catch (error) {
-            console.error('API请求错误:', error);
+            console.error('API request error:', error);
             throw error;
         }
     },
@@ -1314,13 +1323,13 @@ class UserProfileManager {
         }, 100);
     }
 
-    // 检查登录状态
+    // Check login status
     checkLoginStatus() {
         const isLoggedIn = Utils.storage.get('isLoggedIn');
         const currentUser = Utils.storage.get('currentUser');
 
         if (!isLoggedIn || !currentUser) {
-            Toast.error('请先登录');
+            Toast.error('Please log in first');
             setTimeout(() => {
                 window.location.href = 'login.html';
             }, 1000);
@@ -1365,24 +1374,24 @@ class UserProfileManager {
         deleteAccountBtn?.addEventListener('click', () => this.deleteAccount());
     }
 
-    // 加载用户资料
+    // Load user profile
     async loadUserProfile() {
         try {
             this.showLoading(true);
-            
+
             const response = await API.getUserProfile();
-            
+
             if (response.success) {
                 this.populateProfile(response.profile);
                 this.originalData = { ...response.profile };
             } else {
-                throw new Error(response.message || '获取用户资料失败');
+                throw new Error(response.message || 'Failed to retrieve user profile');
             }
         } catch (error) {
-            console.error('加载用户资料失败:', error);
-            Toast.error('加载用户资料失败: ' + error.message);
-            
-            // 使用本地存储的用户数据作为备用
+            console.error('Failed to load user profile:', error);
+            Toast.error('Failed to load user profile: ' + error.message);
+
+            // Use locally stored user data as fallback
             const localUser = Utils.storage.get('currentUser');
             if (localUser) {
                 this.populateProfile(localUser);
@@ -1406,12 +1415,12 @@ class UserProfileManager {
         this.setInputValue('educationLevel', profile.education_level);
         this.setInputValue('emergencyContact', profile.emergency_contact);
 
-        // 显示信息
-        document.getElementById('profileDisplayName').textContent = 
-            profile.full_name || profile.username || '用户';
-        document.getElementById('profileDisplayEmail').textContent = 
-            profile.email || '未设置邮箱';
-        document.getElementById('profileJoinDate').textContent = 
+        // Display information
+        document.getElementById('profileDisplayName').textContent =
+            profile.full_name || profile.username || 'User';
+        document.getElementById('profileDisplayEmail').textContent =
+            profile.email || 'Email not set';
+        document.getElementById('profileJoinDate').textContent =
             Utils.formatDate(profile.registration_date);
     }
 
@@ -1423,17 +1432,17 @@ class UserProfileManager {
         }
     }
 
-    // 加载用户统计
+    // Load user statistics
     async loadUserStatistics() {
         try {
             const response = await API.getUserStatistics();
-            
+
             if (response.success) {
                 this.updateStatistics(response.statistics);
             }
         } catch (error) {
-            console.error('加载用户统计失败:', error);
-            // 使用默认值
+            console.error('Failed to load user statistics:', error);
+            // Use default values
             this.updateStatistics({
                 total_tests: 0,
                 latest_test: null
@@ -1441,15 +1450,15 @@ class UserProfileManager {
         }
     }
 
-    // 更新统计信息
+    // Update statistics
     updateStatistics(stats) {
-        // 更新测试数量
+        // Update test count
         const totalTestsElement = document.getElementById('totalTestsCount');
         if (totalTestsElement) {
             totalTestsElement.textContent = stats.total_tests || 0;
         }
 
-        // 更新最后登录时间
+        // Update last login time
         const lastLoginElement = document.getElementById('lastLoginDate');
         if (lastLoginElement) {
             const currentUser = Utils.storage.get('currentUser');
@@ -1458,34 +1467,34 @@ class UserProfileManager {
         }
     }
 
-    // 切换编辑模式
+    // Toggle edit mode
     toggleEditMode() {
         this.isEditMode = !this.isEditMode;
-        
+
         const editBtn = document.getElementById('editBtn');
         const cancelBtn = document.getElementById('cancelBtn');
         const saveBtn = document.getElementById('saveBtn');
         const form = document.getElementById('profileForm');
 
         if (this.isEditMode) {
-            // 进入编辑模式
+            // Enter edit mode
             form.classList.add('edit-mode');
-            editBtn.textContent = '预览模式';
-            editBtn.innerHTML = '<i class="fas fa-eye"></i> 预览模式';
+            editBtn.textContent = 'Preview Mode';
+            editBtn.innerHTML = '<i class="fas fa-eye"></i> Preview Mode';
             cancelBtn.classList.remove('hidden');
             saveBtn.classList.remove('hidden');
-            
-            // 启用所有输入字段
+
+            // Enable all input fields
             this.enableFormFields(true);
-            
-            Toast.info('已进入编辑模式');
+
+            Toast.info('Entered edit mode');
         } else {
-            // 退出编辑模式
+            // Exit edit mode
             this.exitEditMode();
         }
     }
 
-    // 退出编辑模式
+    // Exit edit mode
     exitEditMode() {
         const editBtn = document.getElementById('editBtn');
         const cancelBtn = document.getElementById('cancelBtn');
@@ -1494,22 +1503,22 @@ class UserProfileManager {
 
         this.isEditMode = false;
         form.classList.remove('edit-mode');
-        editBtn.innerHTML = '<i class="fas fa-edit"></i> 编辑资料';
+        editBtn.innerHTML = '<i class="fas fa-edit"></i> Edit Profile';
         cancelBtn.classList.add('hidden');
         saveBtn.classList.add('hidden');
-        
-        // 禁用所有输入字段
+
+        // Disable all input fields
         this.enableFormFields(false);
     }
 
-    // 启用/禁用表单字段
+    // Enable/disable form fields
     enableFormFields(enable) {
         const textInputs = document.querySelectorAll('#profileForm input[type="text"], #profileForm input[type="email"], #profileForm input[type="number"], #profileForm input[type="tel"], #profileForm textarea');
         const selectInputs = document.querySelectorAll('#profileForm select');
 
         textInputs.forEach(input => {
             if (input.id === 'username') {
-                // 用户名永远不能编辑
+                // Username can never be edited
                 input.readOnly = true;
                 return;
             }
@@ -1521,58 +1530,58 @@ class UserProfileManager {
         });
     }
 
-    // 取消编辑
+    // Cancel edit
     cancelEdit() {
-        if (confirm('确定要取消编辑吗？未保存的更改将丢失。')) {
-            // 恢复原始数据
+        if (confirm('Are you sure you want to cancel editing? Unsaved changes will be lost.')) {
+            // Restore original data
             this.populateProfile(this.originalData);
             this.exitEditMode();
-            Toast.info('已取消编辑');
+            Toast.info('Editing cancelled');
         }
     }
 
-    // 处理表单提交
+    // Handle form submission
     async handleFormSubmit(e) {
         e.preventDefault();
-        
+
         if (!this.isEditMode) return;
 
         try {
             this.showLoading(true);
-            
-            // 收集表单数据
+
+            // Collect form data
             const formData = this.collectFormData();
-            
-            // 验证数据
+
+            // Validate data
             if (!this.validateFormData(formData)) {
                 return;
             }
 
-            // 提交到服务器
+            // Submit to server
             const response = await API.updateUserProfile(formData);
-            
+
             if (response.success) {
-                // 更新成功
+                // Update successful
                 this.originalData = { ...formData };
                 this.exitEditMode();
-                this.showSuccessMessage('个人资料更新成功！');
-                
-                // 更新本地存储
+                this.showSuccessMessage('Profile updated successfully!');
+
+                // Update local storage
                 const currentUser = Utils.storage.get('currentUser');
                 if (currentUser) {
                     Utils.storage.set('currentUser', { ...currentUser, ...formData });
                 }
-                
-                // 更新显示
+
+                // Update display
                 this.populateProfile(formData);
-                
+
             } else {
-                throw new Error(response.message || '更新失败');
+                throw new Error(response.message || 'Update failed');
             }
-            
+
         } catch (error) {
-            console.error('更新用户资料失败:', error);
-            this.showErrorMessage('更新失败: ' + error.message);
+            console.error('Failed to update user profile:', error);
+            this.showErrorMessage('Update failed: ' + error.message);
         } finally {
             this.showLoading(false);
         }
@@ -1592,17 +1601,17 @@ class UserProfileManager {
         };
     }
 
-    // 验证表单数据
+    // Validate form data
     validateFormData(data) {
-        // 验证邮箱
+        // Validate email
         if (data.email && !this.isValidEmail(data.email)) {
-            this.showErrorMessage('请输入有效的邮箱地址');
+            this.showErrorMessage('Please enter a valid email address');
             return false;
         }
 
-        // 验证年龄
+        // Validate age
         if (data.age !== null && (data.age < 0 || data.age > 150)) {
-            this.showErrorMessage('年龄必须在0-150之间');
+            this.showErrorMessage('Age must be between 0 and 150');
             return false;
         }
 
@@ -1615,30 +1624,30 @@ class UserProfileManager {
         return emailRegex.test(email);
     }
 
-    // 处理头像上传
+    // Handle avatar upload
     handleAvatarUpload(e) {
         const file = e.target.files[0];
         if (!file) return;
 
-        // 验证文件类型
+        // Validate file type
         if (!file.type.startsWith('image/')) {
-            Toast.error('请选择图片文件');
+            Toast.error('Please select an image file');
             return;
         }
 
-        // 验证文件大小 (限制为5MB)
+        // Validate file size (limit to 5MB)
         if (file.size > 5 * 1024 * 1024) {
-            Toast.error('图片大小不能超过5MB');
+            Toast.error('Image size cannot exceed 5MB');
             return;
         }
 
-        // 创建文件读取器
+        // Create file reader
         const reader = new FileReader();
         reader.onload = (e) => {
             const profileAvatar = document.getElementById('profileAvatar');
             if (profileAvatar) {
                 profileAvatar.src = e.target.result;
-                Toast.success('头像更新成功！');
+                Toast.success('Avatar updated successfully!');
             }
         };
         reader.readAsDataURL(file);
@@ -1679,89 +1688,89 @@ class UserProfileManager {
         }
     }
 
-    // 处理密码修改
+    // Handle password change
     async handlePasswordChange(e) {
         e.preventDefault();
-        
+
         const currentPassword = document.getElementById('currentPassword').value;
         const newPassword = document.getElementById('newPassword').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
 
-        // 验证新密码
+        // Validate new password
         if (newPassword.length < 6) {
-            Toast.error('新密码至少需要6个字符');
+            Toast.error('New password must be at least 6 characters');
             return;
         }
 
         if (newPassword !== confirmPassword) {
-            Toast.error('两次输入的新密码不一致');
+            Toast.error('New passwords do not match');
             return;
         }
 
         try {
             this.showLoading(true);
-            
+
             const response = await API.changePassword({
                 old_password: currentPassword,
                 new_password: newPassword
             });
 
             if (response.success) {
-                Toast.success('密码修改成功！');
+                Toast.success('Password changed successfully!');
                 document.getElementById('passwordModal').classList.remove('show');
                 document.getElementById('passwordForm').reset();
             } else {
-                throw new Error(response.message || '密码修改失败');
+                throw new Error(response.message || 'Password change failed');
             }
-            
+
         } catch (error) {
-            console.error('密码修改失败:', error);
-            Toast.error('密码修改失败: ' + error.message);
+            console.error('Password change failed:', error);
+            Toast.error('Password change failed: ' + error.message);
         } finally {
             this.showLoading(false);
         }
     }
 
-    // 导出用户数据
+    // Export user data
     async exportUserData() {
         try {
-            Toast.info('正在准备导出数据...');
-            
-            // 模拟数据导出
+            Toast.info('Preparing data export...');
+
+            // Simulate data export
             const userData = {
                 profile: this.originalData,
                 exportDate: new Date().toISOString(),
-                note: '这是您在MindCare平台的个人数据导出文件'
+                note: 'This is your personal data export file from the MindCare platform'
             };
 
             const dataStr = JSON.stringify(userData, null, 2);
             const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            
+
             const link = document.createElement('a');
             link.href = URL.createObjectURL(dataBlob);
             link.download = `mindcare_userdata_${new Date().toISOString().split('T')[0]}.json`;
-            
+
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-            
-            Toast.success('数据导出成功！');
-            
+
+            Toast.success('Data exported successfully!');
+
         } catch (error) {
-            console.error('数据导出失败:', error);
-            Toast.error('数据导出失败');
+            console.error('Data export failed:', error);
+            Toast.error('Data export failed');
         }
     }
 
-    // 删除账户
+    // Delete account
     deleteAccount() {
-        const confirmed = confirm('警告：删除账户将永久清除您的所有数据，此操作不可恢复。确定要继续吗？');
-        
+        const confirmed = confirm('Warning: Deleting your account will permanently remove all your data. This action cannot be undone. Are you sure you want to continue?');
+
         if (confirmed) {
-            const doubleConfirmed = confirm('请再次确认：您真的要删除您的账户吗？');
-            
+            const doubleConfirmed = confirm('Please confirm again: Do you really want to delete your account?');
+
             if (doubleConfirmed) {
-                Toast.warning('账户删除功能暂未开放，如需删除账户请联系客服');
+                Toast.warning('Account deletion feature is not yet available. Please contact customer service to delete your account.');
             }
         }
     }
@@ -1813,26 +1822,26 @@ class UserProfileManager {
     }
 }
 
-// 页面加载完成后初始化
+// Initialize after page load
 document.addEventListener('DOMContentLoaded', () => {
     try {
         const userProfile = new UserProfileManager();
-        
-        // 将实例绑定到全局，方便调试
+
+        // Bind instance to global for debugging
         window.userProfile = userProfile;
-        
-        console.log('用户资料页面初始化完成');
-        
+
+        console.log('User profile page initialized successfully');
+
     } catch (error) {
-        console.error('用户资料页面初始化失败:', error);
-        Toast.error('页面初始化失败，请刷新重试');
+        console.error('User profile page initialization failed:', error);
+        Toast.error('Page initialization failed, please refresh and try again');
     }
 });
 
-// 处理页面错误
+// Handle page errors
 window.addEventListener('error', (e) => {
-    console.error('页面错误:', e.error);
-    Toast.error('页面出现错误，请刷新重试');
+    console.error('Page error:', e.error);
+    Toast.error('Page error occurred, please refresh and try again');
 });
     </script>
 </body>
