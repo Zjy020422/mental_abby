@@ -607,6 +607,9 @@ Based on this historical data, please generate a comprehensive progress assessme
 
             for attempt in range(max_retries):
                 try:
+                    api_start_time = time.time()
+                    print(f"[API Call] Attempt {attempt + 1}/{max_retries} - Starting DeepSeek API request...")
+
                     response = self.client.chat.completions.create(
                         model="deepseek-chat",
                         messages=[
@@ -619,17 +622,22 @@ Based on this historical data, please generate a comprehensive progress assessme
                         timeout=120  # Increased to 120 second timeout for longer responses
                     )
 
-                    return response.choices[0].message.content
+                    api_duration = time.time() - api_start_time
+                    response_content = response.choices[0].message.content
+                    print(f"[API Call] Success - Duration: {api_duration:.2f}s, Response length: {len(response_content)} chars")
+
+                    return response_content
 
                 except Exception as e:
-                    print(f"DeepSeek API call failed (attempt {attempt + 1}/{max_retries}): {e}")
+                    api_duration = time.time() - api_start_time
+                    print(f"[API Call] Failed after {api_duration:.2f}s (attempt {attempt + 1}/{max_retries}): {e}")
                     if attempt < max_retries - 1:
                         time.sleep(1)  # Fixed 1 second wait
                     else:
                         raise e
 
         except Exception as e:
-            print(f"DeepSeek API call ultimately failed: {e}")
+            print(f"[API Call] Ultimately failed: {e}")
             raise Exception(f"DeepSeek API call failed: {str(e)}")
     
     def _parse_single_test_response(self, ai_response: str) -> Dict:
