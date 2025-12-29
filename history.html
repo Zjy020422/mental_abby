@@ -1582,7 +1582,7 @@
                         (stats.latest_test && stats.latest_test.score) || 
                         0
                     );
-                    if (avgScore > 13) avgScore = avgScore / 4; // 0-52 转 0-13
+                    if (avgScore > 13) avgScore = avgScore / 4; // Convert 0-52 to 0-13
                     avgScore = Math.max(0, Math.min(13, avgScore));
                     document.getElementById('avgScore').textContent = avgScore > 0 ? 
                         `${avgScore.toFixed(1)}/13` : '-';
@@ -1602,9 +1602,9 @@
                     }
                     document.getElementById('positiveRate').textContent = `${positiveRate.toFixed(1)}%`;
                     
-                    console.log('统计信息更新完成');
+                    console.log('Statistics update completed');
                 } catch (error) {
-                    console.error('更新统计信息失败:', error);
+                    console.error('Failed to update statistics:', error);
                     document.getElementById('totalTests').textContent = '-';
                     document.getElementById('avgScore').textContent = '-';
                     document.getElementById('lastTestDate').textContent = '-';
@@ -1614,7 +1614,7 @@
 
             renderHistoryItem(item) {
                 try {
-                    console.log('渲染历史记录项:', item);
+                    console.log('Rendering history item:', item);
                     
                     const testId = item.test_id || '';
                     const testDate = item.test_date || item.test_timestamp || '';
@@ -1633,7 +1633,7 @@
                     const formattedCompletionTime = Utils.formatCompletionTime(completionTime);
                     const formattedDate = Utils.formatDate(testDate);
 
-                    console.log(`格式化完成 - MDQ分数: ${mdqScore}/13, 级别: ${scoreInfo.level}, 状态: ${isCompleted ? '已完成' : '未完成'}`);
+                    console.log(`Formatting completed - MDQ score: ${mdqScore}/13, Level: ${scoreInfo.level}, Status: ${isCompleted ? 'Completed' : 'Incomplete'}`);
 
                     return `
                         <div class="history-item" data-test-id="${testId}">
@@ -1642,7 +1642,7 @@
                                     <i class="fas fa-calendar"></i>
                                     <span>${formattedDate}</span>
                                     <span class="history-status ${isCompleted ? 'status-completed' : 'status-incomplete'}">
-                                        ${isCompleted ? '已完成' : '未完成'}
+                                        ${isCompleted ? 'Completed' : 'Incomplete'}
                                     </span>
                                 </div>
                             </div>
@@ -1650,11 +1650,11 @@
                             <div class="history-content-grid">
                                 <div class="history-details">
                                     <div class="detail-row">
-                                        <span class="detail-label">测试ID</span>
+                                        <span class="detail-label">Test ID</span>
                                         <span class="detail-value">${testId.substring(0, 8)}...</span>
                                     </div>
                                     <div class="detail-row">
-                                        <span class="detail-label">MDQ得分</span>
+                                        <span class="detail-label">MDQ Score</span>
                                         <span class="detail-value">
                                             <span class="score-badge ${scoreInfo.color}">
                                                 <i class="fas fa-chart-pie"></i>
@@ -1699,7 +1699,7 @@
                         <div class="history-item">
                             <div style="text-align: center; padding: 2rem; color: #ef4444;">
                                 <i class="fas fa-exclamation-triangle"></i>
-                                数据显示异常，请刷新重试
+                                Error displaying data, please refresh and try again
                             </div>
                         </div>
                     `;
@@ -1782,16 +1782,16 @@
                     this.filteredData = filtered;
                     this.currentPage = 1;
 
-                    // **新增: 详细打印过滤结果**
-                    console.log(`过滤完成: ${this.historyData.length} -> ${filtered.length}`);
-                    console.log('当前过滤器设置:', this.filters);
+                    // **Added: Detailed filter result logging**
+                    console.log(`Filtering completed: ${this.historyData.length} -> ${filtered.length}`);
+                    console.log('Current filter settings:', this.filters);
                     if (filtered.length === 0 && this.historyData.length > 0) {
-                        console.warn('⚠️ 过滤后数据为空! 请检查过滤器设置是否过于严格');
+                        console.warn('⚠️ No data after filtering! Please check if filter settings are too strict');
                     }
 
                     this.renderHistory();
                 } catch (error) {
-                    console.error('应用过滤器失败:', error);
+                    console.error('Failed to apply filters:', error);
                     Toast.error('Data filtering failed');
                 }
             }
@@ -1800,7 +1800,7 @@
                 const historyList = document.getElementById('historyList');
 
                 if (this.filteredData.length === 0) {
-                    console.log('没有数据需要渲染,显示空状态页面');
+                    console.log('No data to render, showing empty state page');
                     this.showEmptyState();
                     return;
                 }
@@ -1809,21 +1809,21 @@
                 const endIndex = startIndex + this.pageSize;
                 const pageData = this.filteredData.slice(startIndex, endIndex);
 
-                console.log(`渲染历史记录: 第${this.currentPage}页, 显示 ${startIndex}-${endIndex} 项, 共 ${pageData.length} 条`);
-                console.log('页面数据详情:', pageData);
+                console.log(`Rendering history: Page ${this.currentPage}, Showing ${startIndex}-${endIndex} items, Total ${pageData.length} entries`);
+                console.log('Page data details:', pageData);
 
-                // **新增: 检查渲染元素是否存在**
+                // **Added: Check if render element exists**
                 if (!historyList) {
-                    console.error('❌ 错误: historyList 元素不存在! 请检查HTML中是否有 id="historyList" 的元素');
+                    console.error('❌ Error: historyList element does not exist! Please check if there is an element with id="historyList" in the HTML');
                     return;
                 }
 
                 try {
                     historyList.innerHTML = pageData.map(item => this.renderHistoryItem(item)).join('');
-                    console.log('✅ 历史记录渲染完成');
+                    console.log('✅ History records rendered successfully');
                 } catch (error) {
-                    console.error('❌ 渲染历史记录失败:', error);
-                    historyList.innerHTML = '<div class="error-message">渲染数据失败,请刷新页面重试</div>';
+                    console.error('❌ Failed to render history records:', error);
+                    historyList.innerHTML = '<div class="error-message">Failed to render data, please refresh the page and try again</div>';
                 }
             }
 
@@ -1867,21 +1867,21 @@
                     this.applyFilters();
                 });
 
-                // 搜索（防抖）
+                // Search (debounced)
                 const searchInput = document.getElementById('searchInput');
                 searchInput.addEventListener('input', Utils.debounce((e) => {
                     this.filters.search = e.target.value.trim();
                     this.applyFilters();
                 }, 300));
 
-                // 图表时间范围
+                // Chart time range
                 document.getElementById('chartTimeRange').addEventListener('change', (e) => {
                     if (this.chartManager) {
                         this.chartManager.updateCharts(this.historyData, e.target.value);
                     }
                 });
 
-                // 按钮事件
+                // Button events
                 document.getElementById('refreshBtn').addEventListener('click', () => {
                     this.loadData();
                 });
@@ -1894,7 +1894,7 @@
                     this.generateHistoricalReport();
                 });
 
-                // 登出按钮
+                // Logout button
                 document.getElementById('logoutLink').addEventListener('click', (e) => {
                     e.preventDefault();
                     this.logout();
@@ -1915,28 +1915,28 @@
 
             async viewDetail(testId) {
                 try {
-                    console.log('查看测试详情:', testId);
-                    this.showLoading('正在加载测试详情...', '请稍候');
+                    console.log('Viewing test details:', testId);
+                    this.showLoading('Loading test details...', 'Please wait');
                     const result = await API.getTestDetail(testId);
                     this.hideLoading();
 
-                    console.log('测试详情结果:', result);
+                    console.log('Test details result:', result);
 
                     if (result.success) {
                         this.showDetailModal(result.detail);
                     } else {
-                        Toast.error('获取测试详情失败: ' + (result.message || '未知错误'));
+                        Toast.error('Failed to get test details: ' + (result.message || 'Unknown error'));
                     }
                 } catch (error) {
                     this.hideLoading();
-                    console.error('获取详情失败:', error);
-                    Toast.error('获取测试详情失败，请重试: ' + error.message);
+                    console.error('Failed to get details:', error);
+                    Toast.error('Failed to get test details, please try again: ' + error.message);
                 }
             }
 
             showDetailModal(detail) {
                 try {
-                    console.log('显示详情模态框:', detail);
+                    console.log('Showing detail modal:', detail);
                     
                     const testId = detail.test_id || '';
                     const testDate = detail.test_date || detail.test_timestamp || '';
@@ -1976,48 +1976,48 @@
                             position: relative;
                         ">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                                <h2 style="color: #1f2937; margin: 0;">MDQ测试详情</h2>
-                                <button onclick="document.body.removeChild(this.closest('div').parentElement)" 
+                                <h2 style="color: #1f2937; margin: 0;">MDQ Test Details</h2>
+                                <button onclick="document.body.removeChild(this.closest('div').parentElement)"
                                     style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #6b7280;">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
-                            
+
                             <div style="display: grid; gap: 1.5rem;">
                                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
                                     <div style="padding: 1rem; background: #f9fafb; border-radius: 0.5rem;">
-                                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem;">测试时间</div>
+                                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem;">Test Time</div>
                                         <div style="font-weight: 600;">${formattedDate}</div>
                                     </div>
                                     <div style="padding: 1rem; background: #f9fafb; border-radius: 0.5rem;">
-                                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem;">MDQ得分</div>
+                                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem;">MDQ Score</div>
                                         <div style="font-weight: 600;">${mdqScore}/13 (${scoreInfo.description})</div>
                                     </div>
                                     <div style="padding: 1rem; background: #f9fafb; border-radius: 0.5rem;">
-                                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem;">完成问题</div>
+                                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem;">Completed Questions</div>
                                         <div style="font-weight: 600;">${questionCount}/13</div>
                                     </div>
                                     <div style="padding: 1rem; background: #f9fafb; border-radius: 0.5rem;">
-                                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem;">完成时间</div>
+                                        <div style="font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem;">Completion Time</div>
                                         <div style="font-weight: 600;">${formattedCompletionTime}</div>
                                     </div>
                                 </div>
-                                
+
                                 <div style="padding: 1.5rem; background: #f9fafb; border-radius: 0.75rem;">
-                                    <h3 style="margin: 0 0 1rem 0; color: #1f2937;">问卷答案</h3>
+                                    <h3 style="margin: 0 0 1rem 0; color: #1f2937;">Questionnaire Answers</h3>
                                     <div style="display: grid; gap: 0.5rem; font-size: 0.875rem;">
                                         ${Object.entries(questions).map(([key, value]) => `
                                             <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid #e5e7eb;">
-                                                <span>问题${key.replace('q', '')}</span>
+                                                <span>Question ${key.replace('q', '')}</span>
                                                 <span style="font-weight: 600;">${this.formatAnswer(value)}</span>
                                             </div>
                                         `).join('')}
                                     </div>
                                 </div>
-                                
+
                                 <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                                     <button class="btn btn-outline" onclick="document.body.removeChild(this.closest('div').parentElement)">
-                                        关闭
+                                        Close
                                     </button>
                                 </div>
                             </div>
@@ -2032,74 +2032,74 @@
                         }
                     });
                 } catch (error) {
-                    console.error('显示详情模态框失败:', error);
-                    Toast.error('显示测试详情失败');
+                    console.error('Failed to display detail modal:', error);
+                    Toast.error('Failed to display test details');
                 }
             }
 
             formatAnswer(value) {
                 const mapping = {
-                    'no': '从未',
-                    'rarely': '很少',
-                    'sometimes': '有时',
-                    'often': '经常',
-                    'always': '总是',
-                    'yes': '是',
-                    'minor': '轻微',
-                    'moderate': '中等',
-                    'serious': '严重'
+                    'no': 'Never',
+                    'rarely': 'Rarely',
+                    'sometimes': 'Sometimes',
+                    'often': 'Often',
+                    'always': 'Always',
+                    'yes': 'Yes',
+                    'minor': 'Minor',
+                    'moderate': 'Moderate',
+                    'serious': 'Serious'
                 };
                 return mapping[value] || value || '-';
             }
 
             generateReport(testId) {
-                this.showAnalysisModal('AI正在分析中...', '大约需要数秒，请耐心等待');
+                this.showAnalysisModal('AI Analysis in Progress...', 'This will take a few seconds, please wait patiently');
 
                 (async () => {
                     try {
                         const gen = await API.generateAIReport('single');
                         if (!gen.success || !gen.reports || !gen.reports.single_test_report) {
-                            throw new Error(gen.message || '报告生成失败');
+                            throw new Error(gen.message || 'Report generation failed');
                         }
 
                         const reportId = gen.reports.single_test_report.report_id;
                         const detail = await API.getAIReport(reportId);
                         if (!detail.success || !detail.report) {
-                            throw new Error(detail.message || '获取报告详情失败');
+                            throw new Error(detail.message || 'Failed to get report details');
                         }
 
                         this.updateAnalysisModalWithSingle(detail.report);
                     } catch (e) {
                         console.error(e);
-                        this.updateAnalysisModalWithError(e.message || 'AI分析失败，请稍后重试');
+                        this.updateAnalysisModalWithError(e.message || 'AI analysis failed, please try again later');
                     }
                 })();
             }
 
             generateHistoricalReport() {
                 if (this.historyData.length < 1) {
-                    Toast.warning('需要至少1次测试记录才能生成历史分析报告');
+                    Toast.warning('At least 1 test record is required to generate a historical analysis report');
                     return;
                 }
-                this.showAnalysisModal('正在生成历史分析报告...', '这将基于您的历史测试进行综合分析', '历史分析报告');
+                this.showAnalysisModal('Generating Historical Analysis Report...', 'This will perform comprehensive analysis based on your historical tests', 'Historical Analysis Report');
 
                 (async () => {
                     try {
                         const gen = await API.generateAIReport('historical');
                         if (!gen.success || !gen.reports || !gen.reports.historical_report) {
-                            throw new Error(gen.message || '历史报告生成失败');
+                            throw new Error(gen.message || 'Failed to generate historical report');
                         }
 
                         const reportId = gen.reports.historical_report.report_id;
                         const detail = await API.getAIReport(reportId);
                         if (!detail.success || !detail.report) {
-                            throw new Error(detail.message || '获取历史报告详情失败');
+                            throw new Error(detail.message || 'Failed to get historical report details');
                         }
 
                         this.updateAnalysisModalWithHistorical(detail.report);
                     } catch (e) {
                         console.error(e);
-                        this.updateAnalysisModalWithError(e.message || '生成历史分析报告失败，请稍后重试');
+                        this.updateAnalysisModalWithError(e.message || 'Failed to generate historical analysis report, please try again later');
                     }
                 })();
             }
@@ -2107,7 +2107,7 @@
             compareWithPrevious(testId) {
                 const currentIndex = this.historyData.findIndex(item => item.test_id === testId);
                 if (currentIndex === -1 || currentIndex === this.historyData.length - 1) {
-                    Toast.warning('没有更早的测试记录进行对比');
+                    Toast.warning('No earlier test records available for comparison');
                     return;
                 }
 
@@ -2117,27 +2117,27 @@
                 const currentScore = Utils.getScoreFromItem(currentTest);
                 const previousScore = Utils.getScoreFromItem(previousTest);
                 const scoreDiff = currentScore - previousScore;
-                
+
                 const currentScoreInfo = Utils.formatScore(currentScore);
                 const previousScoreInfo = Utils.formatScore(previousScore);
-                
-                let message = `当前得分: ${currentScore}/13 (${currentScoreInfo.description})\n`;
-                message += `上次得分: ${previousScore}/13 (${previousScoreInfo.description})\n`;
-                
+
+                let message = `Current score: ${currentScore}/13 (${currentScoreInfo.description})\n`;
+                message += `Previous score: ${previousScore}/13 (${previousScoreInfo.description})\n`;
+
                 if (scoreDiff > 0) {
-                    message += `得分上升了 ${scoreDiff} 分`;
+                    message += `Score increased by ${scoreDiff} points`;
                 } else if (scoreDiff < 0) {
-                    message += `得分下降了 ${Math.abs(scoreDiff)} 分`;
+                    message += `Score decreased by ${Math.abs(scoreDiff)} points`;
                 } else {
-                    message += '得分保持不变';
+                    message += 'Score remained unchanged';
                 }
-                
+
                 Toast.info(message);
             }
 
             exportData() {
                 if (this.historyData.length === 0) {
-                    Toast.warning('没有数据可以导出');
+                    Toast.warning('No data available to export');
                     return;
                 }
 
@@ -2147,14 +2147,14 @@
                         const scoreInfo = Utils.formatScore(mdqScore);
                         
                         return {
-                            '测试ID': item.test_id,
-                            '测试时间': Utils.formatDate(item.test_date || item.test_timestamp),
-                            'MDQ得分': mdqScore,
-                            '得分级别': scoreInfo.description,
-                            '完成时间': Utils.formatCompletionTime(item.completion_time),
-                            '症状同现': this.formatCoOccurrence(item.co_occurrence),
-                            '影响程度': this.formatSeverity(item.severity),
-                            '完成状态': item.completion_status === 'completed' ? '已完成' : '未完成'
+                            'Test ID': item.test_id,
+                            'Test Time': Utils.formatDate(item.test_date || item.test_timestamp),
+                            'MDQ Score': mdqScore,
+                            'Score Level': scoreInfo.description,
+                            'Completion Time': Utils.formatCompletionTime(item.completion_time),
+                            'Symptom Co-occurrence': this.formatCoOccurrence(item.co_occurrence),
+                            'Impact Level': this.formatSeverity(item.severity),
+                            'Completion Status': item.completion_status === 'completed' ? 'Completed' : 'Incomplete'
                         };
                     });
 
@@ -2165,17 +2165,17 @@
                     if (link.download !== undefined) {
                         const url = URL.createObjectURL(blob);
                         link.setAttribute('href', url);
-                        link.setAttribute('download', `MDQ测试记录_${new Date().toISOString().split('T')[0]}.csv`);
+                        link.setAttribute('download', `MDQ_Test_Records_${new Date().toISOString().split('T')[0]}.csv`);
                         link.style.visibility = 'hidden';
                         document.body.appendChild(link);
                         link.click();
                         document.body.removeChild(link);
-                        
-                        Toast.success('数据导出成功！');
+
+                        Toast.success('Data exported successfully!');
                     }
                 } catch (error) {
-                    console.error('导出失败:', error);
-                    Toast.error('数据导出失败，请重试');
+                    console.error('Export failed:', error);
+                    Toast.error('Data export failed, please try again');
                 }
             }
 
@@ -2194,11 +2194,11 @@
             async logout() {
                 try {
                     await API.logout();
-                    Toast.success('已成功退出登录');
+                    Toast.success('Logged out successfully');
                     window.location.href = 'login.html';
                 } catch (error) {
-                    console.error('登出失败:', error);
-                    Toast.error('登出失败，请重试');
+                    console.error('Logout failed:', error);
+                    Toast.error('Logout failed, please try again');
                 }
             }
 
@@ -2221,8 +2221,8 @@
                 }
             }
 
-            // ===== 分析弹窗相关 =====
-            showAnalysisModal(titleText = '正在分析...', subtitleText = '请稍候', modalTitle = 'AI分析') {
+            // ===== Analysis Modal Related =====
+            showAnalysisModal(titleText = 'Analyzing...', subtitleText = 'Please wait', modalTitle = 'AI Analysis') {
                 if (this.analysisModal && document.body.contains(this.analysisModal)) {
                     document.body.removeChild(this.analysisModal);
                 }
@@ -2280,36 +2280,36 @@
                 body.innerHTML = `
                     <div style="display:grid; gap:16px;">
                         <div style="padding:16px; background:#f9fafb; border-radius:12px;">
-                            <div style="font-weight:700; margin-bottom:6px;">执行摘要</div>
-                            <div>${report.executive_summary || '无'}</div>
+                            <div style="font-weight:700; margin-bottom:6px;">Executive Summary</div>
+                            <div>${report.executive_summary || 'None'}</div>
                         </div>
                         <div style="display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
                             <div style="padding:16px; background:#ffffff; border:1px solid var(--gray-100); border-radius:12px;">
-                                <div style="font-weight:700; margin-bottom:6px;">临床评估</div>
-                                <div>${report.clinical_assessment || '无'}</div>
+                                <div style="font-weight:700; margin-bottom:6px;">Clinical Assessment</div>
+                                <div>${report.clinical_assessment || 'None'}</div>
                             </div>
                             <div style="padding:16px; background:#ffffff; border:1px solid var(--gray-100); border-radius:12px;">
-                                <div style="font-weight:700; margin-bottom:6px;">风险评估</div>
-                                <div>${report.risk_evaluation || '无'}</div>
+                                <div style="font-weight:700; margin-bottom:6px;">Risk Evaluation</div>
+                                <div>${report.risk_evaluation || 'None'}</div>
                             </div>
                         </div>
                         <div style="display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
                             <div style="padding:16px; background:#ffffff; border:1px solid var(--gray-100); border-radius:12px;">
-                                <div style="font-weight:700; margin-bottom:6px;">治疗建议</div>
+                                <div style="font-weight:700; margin-bottom:6px;">Treatment Recommendations</div>
                                 <ul style="padding-left:20px; margin:0;">${list(report.treatment_recommendations)}</ul>
                             </div>
                             <div style="padding:16px; background:#ffffff; border:1px solid var(--gray-100); border-radius:12px;">
-                                <div style="font-weight:700; margin-bottom:6px;">生活方式建议</div>
+                                <div style="font-weight:700; margin-bottom:6px;">Lifestyle Recommendations</div>
                                 <ul style="padding-left:20px; margin:0;">${list(report.lifestyle_recommendations)}</ul>
                             </div>
                         </div>
                         <div style="padding:16px; background:#ffffff; border:1px solid var(--gray-100); border-radius:12px;">
-                            <div style="font-weight:700; margin-bottom:6px;">监测计划</div>
-                            <div>${report.monitoring_plan || '无'}</div>
+                            <div style="font-weight:700; margin-bottom:6px;">Monitoring Plan</div>
+                            <div>${report.monitoring_plan || 'None'}</div>
                         </div>
                         <div style="padding:16px; background:#fff7ed; border:1px solid #ffedd5; border-radius:12px;">
-                            <div style="font-weight:700; margin-bottom:6px;">紧急处理</div>
-                            <div>${report.emergency_protocols || '无'}</div>
+                            <div style="font-weight:700; margin-bottom:6px;">Emergency Protocols</div>
+                            <div>${report.emergency_protocols || 'None'}</div>
                         </div>
                     </div>
                 `;
@@ -2322,16 +2322,16 @@
                 body.innerHTML = `
                     <div style="display:grid; gap:16px;">
                         <div style="padding:16px; background:#f9fafb; border-radius:12px;">
-                            <div style="font-weight:700; margin-bottom:6px;">进展分析</div>
-                            <div>${report.progress_analysis || '无'}</div>
+                            <div style="font-weight:700; margin-bottom:6px;">Progress Analysis</div>
+                            <div>${report.progress_analysis || 'None'}</div>
                         </div>
                         <div style="padding:16px; background:#ffffff; border:1px solid var(--gray-100); border-radius:12px;">
-                            <div style="font-weight:700; margin-bottom:6px;">趋势解读</div>
-                            <div>${report.trend_interpretation || '无'}</div>
+                            <div style="font-weight:700; margin-bottom:6px;">Trend Interpretation</div>
+                            <div>${report.trend_interpretation || 'None'}</div>
                         </div>
                         <div style="padding:16px; background:#ffffff; border:1px solid var(--gray-100); border-radius:12px;">
-                            <div style="font-weight:700; margin-bottom:6px;">预后评估</div>
-                            <div>${report.prognosis_assessment || '无'}</div>
+                            <div style="font-weight:700; margin-bottom:6px;">Prognosis Assessment</div>
+                            <div>${report.prognosis_assessment || 'None'}</div>
                         </div>
                     </div>
                 `;
@@ -2355,76 +2355,76 @@
             }
         }
 
-        // 全局变量
+        // Global variables
         let historyManager;
 
-        // 页面加载完成后初始化
+        // Initialize after page load
         document.addEventListener('DOMContentLoaded', async () => {
             try {
-                // 检查是否为移动设备
+                // Check if mobile device
                 const isMobile = window.innerWidth <= 768;
                 if (isMobile) {
                     document.body.classList.add('mobile');
                 }
 
-                // 检查Chart.js是否加载
+                // Check if Chart.js is loaded
                 if (typeof Chart === 'undefined') {
-                    console.warn('Chart.js 未加载，图表功能将不可用');
-                    Toast.warning('图表组件加载失败，但基本功能正常');
+                    console.warn('Chart.js not loaded, chart functionality will be unavailable');
+                    Toast.warning('Chart component failed to load, but basic functions are normal');
                 } else {
                     try {
                         const version = Chart && Chart.version ? Chart.version : 'unknown';
-                        console.log('Chart.js 版本:', version);
-                        Toast.info(`Chart.js 已加载 v${version}`);
+                        console.log('Chart.js version:', version);
+                        Toast.info(`Chart.js loaded v${version}`);
                     } catch (e) {
-                        console.log('Chart.js 检测异常', e);
+                        console.log('Chart.js detection error', e);
                     }
                 }
 
-                // 初始化历史记录管理器
+                // Initialize history manager
                 historyManager = new HistoryManager();
                 await historyManager.init();
-                
-                console.log('历史记录页面加载完成');
-                
+
+                console.log('History page loaded successfully');
+
             } catch (error) {
-                console.error('页面初始化失败:', error);
-                Toast.error('页面加载失败，请刷新重试');
+                console.error('Page initialization failed:', error);
+                Toast.error('Page load failed, please refresh and try again');
             }
         });
 
-        // 处理页面错误
+        // Handle page errors
         window.addEventListener('error', (e) => {
-            console.error('页面错误:', e.error);
-            
+            console.error('Page error:', e.error);
+
             if (e.error && e.error.message && e.error.message.includes('Chart')) {
-                Toast.warning('图表功能暂时不可用，但数据显示正常');
+                Toast.warning('Chart functionality temporarily unavailable, but data is displayed normally');
             } else {
-                Toast.error('页面出现错误，请刷新重试');
+                Toast.error('Page encountered an error, please refresh and try again');
             }
         });
 
-        // 处理未捕获的Promise拒绝
+        // Handle unhandled promise rejections
         window.addEventListener('unhandledrejection', (e) => {
-            console.error('未处理的Promise拒绝:', e.reason);
-            
+            console.error('Unhandled promise rejection:', e.reason);
+
             if (e.reason && e.reason.message && e.reason.message.includes('fetch')) {
-                Toast.error('网络请求失败，请检查网络连接');
+                Toast.error('Network request failed, please check your network connection');
             } else if (e.reason && e.reason.message && e.reason.message.includes('Chart')) {
-                Toast.warning('图表加载失败，但数据已正常加载');
+                Toast.warning('Chart loading failed, but data has been loaded normally');
             } else {
-                Toast.error('系统出现异常，请重试');
+                Toast.error('System encountered an exception, please try again');
             }
         });
 
-        // 处理页面卸载
+        // Handle page unload
         window.addEventListener('beforeunload', () => {
             if (historyManager) {
                 historyManager.destroy();
             }
         });
 
-        // 响应式处理
+        // Responsive handling
         window.addEventListener('resize', Utils.debounce(() => {
             const isMobile = window.innerWidth <= 768;
             if (isMobile) {
@@ -2438,7 +2438,7 @@
                     try {
                         historyManager.chartManager.updateCharts(historyManager.historyData);
                     } catch (error) {
-                        console.warn('响应式图表更新失败:', error);
+                        console.warn('Responsive chart update failed:', error);
                     }
                 }, 100);
             }
