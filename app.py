@@ -1118,58 +1118,128 @@ def get_analysis_history():
 @app.route('/api/ai/report', methods=['POST'])
 @login_required
 def generate_ai_report():
-    """生成AI报告"""
+    """Generate AI Report"""
     try:
+        # Check if advisor is available
         if not advisor:
-            return jsonify({'success': False, 'message': 'AI建议服务不可用'}), 500
-            
+            logger.error("AI advisor service not initialized")
+            return jsonify({
+                'success': False,
+                'message': 'AI advisor service unavailable',
+                'error': 'advisor_not_initialized'
+            }), 500
+
+        # Check if analyzer is available
+        if not analyzer:
+            logger.error("Analyzer service not initialized")
+            return jsonify({
+                'success': False,
+                'message': 'Analysis service unavailable',
+                'error': 'analyzer_not_initialized'
+            }), 500
+
         user_id = session['user_id']
         data = request.get_json() or {}
         report_type = data.get('type', 'single')  # single, historical, both
-        
-        # 生成报告
+
+        logger.info(f"Received AI report request: user={user_id}, type={report_type}")
+
+        # Generate report
         result = {'success': True, 'reports': {}}
-        
+
         try:
             if report_type in ['single', 'both']:
-                # 获取最新分析ID
+                # Get latest analysis ID
+                logger.info("Fetching latest analysis record...")
                 analysis_history = analyzer.get_analysis_history(user_id, limit=1)
-                if analysis_history:
-                    analysis_id = analysis_history[0]['analysis_id']
+
+                if not analysis_history:
+                    logger.warning(f"User {user_id} has no test records")
+                    return jsonify({
+                        'success': False,
+                        'message': 'No test records found. Please complete a test first.',
+                        'error': 'no_test_records'
+                    }), 404
+
+                analysis_id = analysis_history[0]['analysis_id']
+                logger.info(f"Starting single test report generation: analysis_id={analysis_id}")
+
+                try:
                     single_report = advisor.generate_single_test_report(analysis_id)
-                    
-                    # 转换枚举对象
+                    logger.info(f"Single test report generated successfully: report_id={single_report.report_id}")
+
+                    # Convert enum objects
                     result['reports']['single_test_report'] = convert_enums_to_strings({
                         'report_id': single_report.report_id,
                         'executive_summary': single_report.executive_summary,
+                        'clinical_assessment': single_report.clinical_assessment,
+                        'risk_evaluation': single_report.risk_evaluation,
                         'treatment_recommendations': single_report.treatment_recommendations,
-                        'emergency_protocols': single_report.emergency_protocols
+                        'lifestyle_recommendations': single_report.lifestyle_recommendations,
+                        'monitoring_plan': single_report.monitoring_plan,
+                        'emergency_protocols': single_report.emergency_protocols,
+                        'confidence_score': single_report.confidence_score,
+                        'processing_time': single_report.processing_time
                     })
-                else:
-                    return jsonify({'success': False, 'message': '没有找到测试记录'}), 404
-            
+                except Exception as report_error:
+                    logger.error(f"Single test report generation failed: {report_error}")
+                    logger.error(traceback.format_exc())
+                    return jsonify({
+                        'success': False,
+                        'message': f'Report generation failed: {str(report_error)}',
+                        'error': 'report_generation_failed',
+                        'details': str(report_error)
+                    }), 500
+
             if report_type in ['historical', 'both']:
-                historical_report = advisor.generate_historical_analysis_report(user_id)
-                
-                # 转换枚举对象
-                result['reports']['historical_report'] = convert_enums_to_strings({
-                    'report_id': historical_report.report_id,
-                    'progress_analysis': historical_report.progress_analysis,
-                    'trend_interpretation': historical_report.trend_interpretation,
-                    'prognosis_assessment': historical_report.prognosis_assessment
-                })
-            
+                logger.info("Starting historical trend report generation...")
+                try:
+                    historical_report = advisor.generate_historical_analysis_report(user_id)
+                    logger.info(f"Historical trend report generated successfully: report_id={historical_report.report_id}")
+
+                    # Convert enum objects
+                    result['reports']['historical_report'] = convert_enums_to_strings({
+                        'report_id': historical_report.report_id,
+                        'progress_analysis': historical_report.progress_analysis,
+                        'trend_interpretation': historical_report.trend_interpretation,
+                        'prognosis_assessment': historical_report.prognosis_assessment
+                    })
+                except Exception as report_error:
+                    logger.error(f"Historical trend report generation failed: {report_error}")
+                    logger.error(traceback.format_exc())
+                    # If only historical report failed but single report succeeded, continue
+                    if report_type == 'both' and 'single_test_report' in result['reports']:
+                        logger.warning("Historical report failed but single report succeeded, continuing")
+                    else:
+                        return jsonify({
+                            'success': False,
+                            'message': f'Historical report generation failed: {str(report_error)}',
+                            'error': 'historical_report_failed',
+                            'details': str(report_error)
+                        }), 500
+
+            logger.info("AI report generation completed")
             return jsonify(result)
-            
+
         except Exception as e:
-            logger.error(f"AI报告生成失败: {e}")
+            logger.error(f"AI report generation process exception: {e}")
             logger.error(traceback.format_exc())
-            return jsonify({'success': False, 'message': f'AI服务暂时不可用: {str(e)}'}), 500
-            
+            return jsonify({
+                'success': False,
+                'message': 'AI service temporarily unavailable. Please try again later.',
+                'error': 'service_unavailable',
+                'details': str(e)
+            }), 500
+
     except Exception as e:
-        logger.error(f"AI报告API异常: {e}")
+        logger.error(f"AI report API top-level exception: {e}")
         logger.error(traceback.format_exc())
-        return handle_error(e)
+        return jsonify({
+            'success': False,
+            'message': 'Internal server error',
+            'error': 'internal_error',
+            'details': str(e)
+        }), 500
 
 @app.route('/api/ai/report/<report_id>', methods=['GET'])
 @login_required
@@ -1300,11 +1370,24 @@ def health_check():
 # ====== 错误处理 ======
 @app.errorhandler(404)
 def not_found(error):
+    # 如果请求的是 API，返回 JSON
+    if request.path.startswith('/api/'):
+        return jsonify({'success': False, 'message': '页面不存在'}), 404
+    # 否则返回 HTML
     return jsonify({'success': False, 'message': '页面不存在'}), 404
 
 @app.errorhandler(500)
 def internal_error(error):
     logger.error(f"内部服务器错误: {error}")
+    logger.error(traceback.format_exc())
+    # 确保 API 请求返回 JSON
+    if request.path.startswith('/api/'):
+        return jsonify({
+            'success': False,
+            'message': '服务器内部错误',
+            'error': 'internal_server_error',
+            'details': str(error) if app.debug else None
+        }), 500
     return jsonify({'success': False, 'message': '服务器内部错误'}), 500
 
 @app.errorhandler(413)
@@ -1314,6 +1397,24 @@ def too_large(error):
 @app.errorhandler(400)
 def bad_request(error):
     return jsonify({'success': False, 'message': '请求格式错误'}), 400
+
+@app.errorhandler(Exception)
+def handle_exception(error):
+    """捕获所有未处理的异常"""
+    logger.error(f"未处理的异常: {error}")
+    logger.error(traceback.format_exc())
+
+    # 如果是 API 请求，返回 JSON
+    if request.path.startswith('/api/'):
+        return jsonify({
+            'success': False,
+            'message': '服务器遇到错误',
+            'error': 'unhandled_exception',
+            'details': str(error) if app.debug else None
+        }), 500
+
+    # 其他请求返回通用错误
+    return jsonify({'success': False, 'message': '服务器遇到错误'}), 500
 
 # ====== 开发辅助功能 ======
 @app.route('/api/dev/init-sample-data', methods=['POST'])

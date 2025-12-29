@@ -1,6 +1,8 @@
 # ====== DeepSeek API 配置 ======
-# 请在这里设置您的 DeepSeek API 密钥
-DEEPSEEK_API_KEY = "sk-cb387c428d9343328cea734e6ae0f9f5"
+# 优先从环境变量读取 API 密钥，如果没有则使用默认值
+import os
+
+DEEPSEEK_API_KEY = os.environ.get('DEEPSEEK_API_KEY', "sk-cb387c428d9343328cea734e6ae0f9f5")
 
 # ====== 导入依赖 ======
 # Please install OpenAI SDK first: `pip3 install openai`
@@ -49,125 +51,135 @@ class DeepSeekAdvisor:
     def __init__(self, db_manager: DatabaseManager, analyzer: MDQAnalyzer):
         self.db_manager = db_manager
         self.analyzer = analyzer
-        
-        # 验证API密钥
-        if DEEPSEEK_API_KEY == "your_deepseek_api_key_here":
-            raise ValueError("请在文件顶部设置有效的 DeepSeek API 密钥")
-        
-        # 初始化OpenAI客户端
-        self.client = OpenAI(
-            api_key=DEEPSEEK_API_KEY, 
-            base_url="https://api.deepseek.com"
-        )
-        
+        self.client = None
+        self.api_available = False
+
+        # 验证API密钥并初始化客户端
+        try:
+            if not DEEPSEEK_API_KEY or DEEPSEEK_API_KEY == "your_deepseek_api_key_here":
+                print("⚠️ DeepSeek API 密钥未设置，将使用备用报告生成模式")
+                self.api_available = False
+            else:
+                # 初始化OpenAI客户端
+                self.client = OpenAI(
+                    api_key=DEEPSEEK_API_KEY,
+                    base_url="https://api.deepseek.com"
+                )
+                self.api_available = True
+                print("✅ DeepSeek API 客户端初始化成功")
+        except Exception as e:
+            print(f"⚠️ DeepSeek API 初始化失败: {e}")
+            print("⚠️ 将使用备用报告生成模式")
+            self.api_available = False
+
         self._init_database_tables()
         
-        # AI提示词模板
+        # AI Prompt Templates
         self.prompts = {
             'single_test': {
-                'system': """你是一位经验丰富的精神科医生和双相情感障碍专家。你需要基于患者的MDQ问卷分析结果，生成专业的临床评估报告和治疗建议。
+                'system': """You are an experienced psychiatrist and bipolar disorder specialist. Based on the patient's MDQ questionnaire analysis results, generate a professional clinical assessment report and treatment recommendations.
 
-请以专业、客观、关怀的语调提供以下7个部分的分析（请严格按照以下格式输出）：
+Please provide analysis in the following 7 sections with a professional, objective, and caring tone (strictly follow this format):
 
-【执行摘要】：简洁概述患者当前状态（2-3句话）
-【临床评估】：详细分析症状表现和严重程度
-【风险评估】：评估当前风险和潜在危险
-【治疗建议】：具体的医疗干预建议（每条建议独立一行，以"-"开头）
-【生活方式建议】：日常管理和自我护理（每条建议独立一行，以"-"开头）
-【监测计划】：后续跟踪和评估计划
-【紧急预案】：危机情况的应对措施
+[EXECUTIVE SUMMARY]: Briefly summarize the patient's current status (2-3 sentences)
+[CLINICAL ASSESSMENT]: Detailed analysis of symptom presentation and severity
+[RISK EVALUATION]: Assessment of current risks and potential dangers
+[TREATMENT RECOMMENDATIONS]: Specific medical intervention recommendations (each recommendation on a separate line, starting with "-")
+[LIFESTYLE RECOMMENDATIONS]: Daily management and self-care (each recommendation on a separate line, starting with "-")
+[MONITORING PLAN]: Follow-up tracking and assessment plan
+[EMERGENCY PROTOCOLS]: Crisis management procedures
 
-请确保建议基于循证医学，符合临床实践指南。""",
-                
-                'user_template': """请为以下患者生成MDQ分析报告：
+Ensure all recommendations are evidence-based and follow clinical practice guidelines.""",
 
-**患者基本信息：**
-- 年龄：{age}岁
-- 性别：{gender}
-- 评估总数：{total_assessments}次
-- 评估时间跨度：{assessment_span_days}天
+                'user_template': """Please generate an MDQ analysis report for the following patient:
 
-**当前临床状态：**
-- MDQ分数：{mdq_score}/13
-- 加权分数：{weighted_score}
-- 严重程度等级：{severity_level}
-- 风险百分比：{risk_percentage}%
-- 功能损害：{functional_impairment}
+**Patient Demographics:**
+- Age: {age} years
+- Gender: {gender}
+- Total Assessments: {total_assessments}
+- Assessment Time Span: {assessment_span_days} days
 
-**症状分布：**
+**Current Clinical Status:**
+- MDQ Score: {mdq_score}/13
+- Weighted Score: {weighted_score}
+- Severity Level: {severity_level}
+- Risk Percentage: {risk_percentage}%
+- Functional Impairment: {functional_impairment}
+
+**Symptom Distribution:**
 {symptom_distribution}
 
-**双相风险指标：**
+**Bipolar Risk Profile:**
 {bipolar_risk_profile}
 
-**阳性症状：**
+**Positive Symptoms:**
 {positive_symptoms}
 
-**紧急情况标识：**{emergency_indicators}
+**Emergency Indicators:** {emergency_indicators}
 
-**监测优先级：**{monitoring_priorities}
+**Monitoring Priorities:** {monitoring_priorities}
 
-**干预目标：**{intervention_targets}
+**Intervention Targets:** {intervention_targets}
 
-请生成完整的临床评估报告和治疗建议。"""
+Please generate a complete clinical assessment report and treatment recommendations."""
             },
             
             'historical': {
-                'system': """你是一位精神科医生，专门从事双相情感障碍的长期治疗和管理。你需要基于患者的历史MDQ评估数据，分析治疗进展和预后，提供综合性的长期治疗建议。
+                'system': """You are a psychiatrist specializing in long-term treatment and management of bipolar disorder. Based on the patient's historical MDQ assessment data, analyze treatment progress and prognosis, and provide comprehensive long-term treatment recommendations.
 
-请严格按照以下格式输出5个部分的分析：
+Please provide analysis in the following 5 sections (strictly follow this format):
 
-【执行摘要】：简洁概述患者整体治疗进展和当前状态（2-3句话）
-【进展分析】：治疗效果和症状变化轨迹分析，包括改善趋势和一致性评估
-【趋势解读】：症状趋势的专业解读和预测，基于历史数据的变化模式
-【治疗建议】：基于历史分析的具体医疗干预和生活方式建议（每条建议独立一行，以"-"开头）
-【预后评估】：长期预后和康复可能性评估，包括风险因素和保护因素
+[EXECUTIVE SUMMARY]: Brief overview of overall treatment progress and current status (2-3 sentences)
+[PROGRESS ANALYSIS]: Analysis of treatment effectiveness and symptom trajectory, including improvement trends and consistency assessment
+[TREND INTERPRETATION]: Professional interpretation and prediction of symptom trends based on historical data patterns
+[TREATMENT RECOMMENDATIONS]: Specific medical interventions and lifestyle recommendations based on historical analysis (each recommendation on a separate line, starting with "-")
+[PROGNOSIS ASSESSMENT]: Long-term prognosis and recovery potential assessment, including risk factors and protective factors
 
-请基于循证医学和长期管理最佳实践提供建议。""",
-                
-                'user_template': """请为以下患者生成历史趋势分析报告：
+Provide recommendations based on evidence-based medicine and long-term management best practices.""",
 
-**患者基本信息：**
-- 年龄：{age}岁
-- 性别：{gender}
-- 评估总数：{total_assessments}次
-- 时间跨度：{assessment_span_days}天
+                'user_template': """Please generate a historical trend analysis report for the following patient:
 
-**当前状态：**
-- 当前MDQ分数：{current_score}/13
-- 严重程度：{severity_level}
-- 风险百分比：{risk_percentage}%
+**Patient Demographics:**
+- Age: {age} years
+- Gender: {gender}
+- Total Assessments: {total_assessments}
+- Time Span: {assessment_span_days} days
 
-**历史轨迹：**
-- 改善趋势：{improvement_trend}
-- 趋势置信度：{trend_confidence}
-- 历史基线：{baseline_score}
-- 改善百分比：{improvement_percentage}%
-- 一致性评分：{consistency_score}
+**Current Status:**
+- Current MDQ Score: {current_score}/13
+- Severity Level: {severity_level}
+- Risk Percentage: {risk_percentage}%
 
-**分数时间线：**
+**Historical Trajectory:**
+- Improvement Trend: {improvement_trend}
+- Trend Confidence: {trend_confidence}
+- Historical Baseline: {baseline_score}
+- Improvement Percentage: {improvement_percentage}%
+- Consistency Score: {consistency_score}
+
+**Score Timeline:**
 {score_timeline}
 
-**治疗反应指标：**
+**Treatment Response Indicators:**
 {treatment_indicators}
 
-**恢复指标：**
+**Recovery Indicators:**
 {recovery_indicators}
 
-**当前风险因素：**
+**Current Risk Factors:**
 {current_risk_factors}
 
-**预后因素：**
-- 积极因素：{positive_factors}
-- 消极因素：{negative_factors}
+**Prognostic Factors:**
+- Positive Factors: {positive_factors}
+- Negative Factors: {negative_factors}
 
-**统计特征：**
-- 平均分数：{score_mean}
-- 标准差：{score_std}
-- 分数范围：{score_range}
-- 变异系数：{variability_coefficient}
+**Statistical Features:**
+- Mean Score: {score_mean}
+- Standard Deviation: {score_std}
+- Score Range: {score_range}
+- Variability Coefficient: {variability_coefficient}
 
-请基于这些历史数据，生成综合性的进展评估报告和长期治疗建议。"""
+Based on this historical data, please generate a comprehensive progress assessment report and long-term treatment recommendations in english."""
             }
         }
     
@@ -311,51 +323,51 @@ class DeepSeekAdvisor:
             traceback.print_exc()
             raise e
     def _generate_fallback_report(self, ai_input: Dict) -> str:
-        """生成备用报告（当API调用失败时）"""
+        """Generate fallback report (when API call fails)"""
         mdq_score = ai_input.get('mdq_score', 0)
         risk_percentage = ai_input.get('risk_percentage', 0)
-        
+
         if mdq_score >= 7:
-            severity = "需要关注"
+            severity = "requires attention"
             recommendations = [
-                "建议尽快咨询专业心理健康医生",
-                "密切关注情绪和行为变化", 
-                "保持规律的作息时间"
+                "Consult with a mental health professional as soon as possible",
+                "Monitor mood and behavioral changes closely",
+                "Maintain regular sleep schedule"
             ]
             lifestyle = [
-                "避免过度刺激和压力",
-                "保持适度运动",
-                "寻求家人朋友的支持"
+                "Avoid excessive stress and overstimulation",
+                "Engage in moderate exercise",
+                "Seek support from family and friends"
             ]
         else:
-            severity = "相对稳定"
+            severity = "relatively stable"
             recommendations = [
-                "继续关注心理健康状况",
-                "如有症状变化及时就诊"
+                "Continue monitoring mental health status",
+                "Seek medical attention if symptoms change"
             ]
             lifestyle = [
-                "保持健康的生活方式",
-                "定期进行心理健康评估"
+                "Maintain healthy lifestyle habits",
+                "Schedule regular mental health assessments"
             ]
-        
+
         return f"""
-    【执行摘要】：根据MDQ评估结果（{mdq_score}/13分），患者当前状态{severity}，建议持续关注和专业评估。
+    [EXECUTIVE SUMMARY]: Based on MDQ assessment results ({mdq_score}/13 points), the patient's current status is {severity}. Continued monitoring and professional evaluation are recommended.
 
-    【临床评估】：MDQ问卷显示患者得分为{mdq_score}分，风险评估为{risk_percentage}%。根据标准MDQ评分标准，{'建议进一步专业评估' if mdq_score >= 7 else '暂无明显异常，但需持续关注'}。
+    [CLINICAL ASSESSMENT]: The MDQ questionnaire shows a patient score of {mdq_score} points, with a risk assessment of {risk_percentage}%. According to standard MDQ scoring criteria, {'further professional evaluation is recommended' if mdq_score >= 7 else 'no obvious abnormalities, but continued monitoring is needed'}.
 
-    【风险评估】：{'中等风险，需要专业医生评估' if mdq_score >= 7 else '低风险，建议定期复查'}。
+    [RISK EVALUATION]: {'Moderate risk - professional medical evaluation needed' if mdq_score >= 7 else 'Low risk - regular follow-up recommended'}.
 
-    【治疗建议】：
+    [TREATMENT RECOMMENDATIONS]:
     {chr(10).join(f'- {rec}' for rec in recommendations)}
 
-    【生活方式建议】：
+    [LIFESTYLE RECOMMENDATIONS]:
     {chr(10).join(f'- {rec}' for rec in lifestyle)}
 
-    【监测计划】：建议{'每月' if mdq_score >= 7 else '每季度'}进行一次心理健康评估，如有症状变化及时就诊。
+    [MONITORING PLAN]: {'Monthly' if mdq_score >= 7 else 'Quarterly'} mental health assessments are recommended. Seek medical attention promptly if symptoms change.
 
-    【紧急预案】：如出现严重情绪波动、自伤自杀想法或严重功能损害，请立即联系专业医生或拨打急救电话。
+    [EMERGENCY PROTOCOLS]: If severe mood swings, self-harm or suicidal thoughts, or severe functional impairment occur, please contact a medical professional immediately or call emergency services.
 
-    *注：本报告由于网络原因采用备用生成模式，建议后续寻求专业医生的详细评估。*
+    *Note: This report uses fallback generation mode due to network issues. Detailed evaluation by a professional physician is recommended.*
     """
     def generate_historical_analysis_report(self, user_id: str) -> AdvisorReport:
         """生成历史趋势分析报告"""
@@ -479,11 +491,11 @@ class DeepSeekAdvisor:
             for category, data in symptom_categories.items():
                 if isinstance(data, dict) and 'positive_count' in data:
                     symptom_text += f"- {category.replace('_', ' ').title()}: {data['positive_count']}/{data['total_count']}\n"
-            
-            # 格式化阳性症状
-            symptoms_text = "\n".join([f"- {symptom}" for symptom in positive_symptoms[:5]])  # 限制显示前5个
+
+            # Format positive symptoms
+            symptoms_text = "\n".join([f"- {symptom}" for symptom in positive_symptoms[:5]])  # Limit to first 5
             if not symptoms_text:
-                symptoms_text = "无明显阳性症状"
+                symptoms_text = "No significant positive symptoms"
             
             # 获取临床上下文
             emergency_indicators = clinical_context.get('emergency_indicators', [])
@@ -496,37 +508,37 @@ class DeepSeekAdvisor:
                 'total_assessments': int(total_assessments),
                 'assessment_span_days': int(assessment_span),
                 'mdq_score': int(mdq_score),
-                'weighted_score': float(mdq_score),  # 简化：使用MDQ分数
+                'weighted_score': float(mdq_score),  # Simplified: use MDQ score
                 'severity_level': str(severity_level).replace('_', ' ').title(),
                 'risk_percentage': float(risk_percentage),
                 'functional_impairment': str(functional_impact).replace('_', ' ').title(),
-                'symptom_distribution': symptom_text if symptom_text else "暂无详细症状分布数据",
-                'bipolar_risk_profile': f"MDQ阳性: {'是' if mdq_score >= 7 else '否'}\n症状共现: {'是' if mdq_standard.get('has_co_occurrence', False) else '否'}",
+                'symptom_distribution': symptom_text if symptom_text else "No detailed symptom distribution data available",
+                'bipolar_risk_profile': f"MDQ Positive: {'Yes' if mdq_score >= 7 else 'No'}\nSymptom Co-occurrence: {'Yes' if mdq_standard.get('has_co_occurrence', False) else 'No'}",
                 'positive_symptoms': symptoms_text,
-                'emergency_indicators': ', '.join(emergency_indicators) if emergency_indicators else '无',
-                'monitoring_priorities': ', '.join(monitoring_priorities) if monitoring_priorities else '常规监测',
-                'intervention_targets': ', '.join(intervention_targets) if intervention_targets else '无特殊干预目标'
+                'emergency_indicators': ', '.join(emergency_indicators) if emergency_indicators else 'None',
+                'monitoring_priorities': ', '.join(monitoring_priorities) if monitoring_priorities else 'Routine monitoring',
+                'intervention_targets': ', '.join(intervention_targets) if intervention_targets else 'No specific intervention targets'
             }
             
         except Exception as e:
-            print(f"准备AI输入数据失败: {e}")
-            # 返回最基本的数据结构
+            print(f"Failed to prepare AI input data: {e}")
+            # Return basic data structure
             return {
-                'age': '未知',
-                'gender': '未知',
+                'age': 'Unknown',
+                'gender': 'Unknown',
                 'total_assessments': 1,
                 'assessment_span_days': 0,
                 'mdq_score': ai_data.get('mdq_part1_score', 0),
                 'weighted_score': ai_data.get('mdq_part1_score', 0),
-                'severity_level': '需要评估',
+                'severity_level': 'Requires assessment',
                 'risk_percentage': ai_data.get('risk_percentage', 0),
-                'functional_impairment': '需要评估',
-                'symptom_distribution': '数据处理中出现错误',
-                'bipolar_risk_profile': '需要重新评估',
-                'positive_symptoms': '数据获取失败',
-                'emergency_indicators': '无',
-                'monitoring_priorities': '建议专业评估',
-                'intervention_targets': '需要进一步评估'
+                'functional_impairment': 'Requires assessment',
+                'symptom_distribution': 'Error occurred during data processing',
+                'bipolar_risk_profile': 'Requires re-assessment',
+                'positive_symptoms': 'Failed to retrieve data',
+                'emergency_indicators': 'None',
+                'monitoring_priorities': 'Professional assessment recommended',
+                'intervention_targets': 'Further assessment required'
             }
     
     def _prepare_historical_input(self, ai_data: Dict) -> Dict:
@@ -538,11 +550,11 @@ class DeepSeekAdvisor:
         stats = ai_data.get('statistical_features', {})
         prognosis = ai_data.get('clinical_context', {}).get('prognosis_factors', {})
         
-        # 格式化分数时间线
+        # Format score timeline
         score_timeline = trajectory.get('score_timeline', [])
         timeline_text = "\n".join([
-            f"- {point['date'][:10]}: {point['score']}分 (偏离基线: {point['baseline_deviation']:+.1f})"
-            for point in score_timeline[-10:]  # 最近10次记录
+            f"- {point['date'][:10]}: {point['score']} points (Baseline deviation: {point['baseline_deviation']:+.1f})"
+            for point in score_timeline[-10:]  # Last 10 records
         ])
         
         # 格式化治疗指标
@@ -558,24 +570,24 @@ class DeepSeekAdvisor:
         risk_text = "\n".join([f"- {factor}" for factor in risk_factors])
         
         return {
-            'age': demographics.get('age', '未知'),
-            'gender': demographics.get('gender', '未知'),
+            'age': demographics.get('age', 'Unknown'),
+            'gender': demographics.get('gender', 'Unknown'),
             'total_assessments': demographics.get('total_assessments', 0),
             'assessment_span_days': demographics.get('assessment_span_days', 0),
             'current_score': clinical_state.get('mdq_score', 0),
-            'severity_level': clinical_state.get('severity_level', '未知'),
+            'severity_level': clinical_state.get('severity_level', 'Unknown'),
             'risk_percentage': clinical_state.get('risk_percentage', 0),
-            'improvement_trend': trajectory.get('improvement_trend', '未知'),
+            'improvement_trend': trajectory.get('improvement_trend', 'Unknown'),
             'trend_confidence': round(trajectory.get('trend_confidence', 0), 2),
             'baseline_score': round(trajectory.get('baseline_score', 0), 1),
             'improvement_percentage': round(treatment_response.get('improvement_percentage', 0), 1),
             'consistency_score': round(treatment_response.get('consistency_score', 0), 2),
-            'score_timeline': timeline_text if timeline_text else '暂无充足历史数据',
-            'treatment_indicators': treatment_text if treatment_text else '暂无治疗反应数据',
-            'recovery_indicators': recovery_text if recovery_text else '暂无明显恢复指标',
-            'current_risk_factors': risk_text if risk_text else '暂无明显风险因素',
-            'positive_factors': ', '.join(prognosis.get('positive_factors', [])) if prognosis.get('positive_factors') else '暂无',
-            'negative_factors': ', '.join(prognosis.get('negative_factors', [])) if prognosis.get('negative_factors') else '暂无',
+            'score_timeline': timeline_text if timeline_text else 'Insufficient historical data available',
+            'treatment_indicators': treatment_text if treatment_text else 'No treatment response data available',
+            'recovery_indicators': recovery_text if recovery_text else 'No significant recovery indicators',
+            'current_risk_factors': risk_text if risk_text else 'No significant risk factors',
+            'positive_factors': ', '.join(prognosis.get('positive_factors', [])) if prognosis.get('positive_factors') else 'None',
+            'negative_factors': ', '.join(prognosis.get('negative_factors', [])) if prognosis.get('negative_factors') else 'None',
             'score_mean': round(stats.get('score_mean', 0), 1),
             'score_std': round(stats.get('score_std', 0), 1),
             'score_range': stats.get('score_range', 0),
@@ -583,12 +595,16 @@ class DeepSeekAdvisor:
         }
     
     def _call_deepseek_api(self, system_prompt: str, user_prompt: str) -> str:
-        """调用DeepSeek API - 增强错误处理"""
+        """Call DeepSeek API - Enhanced error handling"""
+        # If API unavailable, throw exception for fallback
+        if not self.api_available or not self.client:
+            raise Exception("DeepSeek API client not initialized or unavailable")
+
         try:
-            # 添加超时和重试机制
+            # Add timeout and retry mechanism
             import time
-            max_retries = 3
-            
+            max_retries = 2  # Reduced retries for faster failure response
+
             for attempt in range(max_retries):
                 try:
                     response = self.client.chat.completions.create(
@@ -600,23 +616,24 @@ class DeepSeekAdvisor:
                         max_tokens=4000,
                         temperature=0.7,
                         stream=False,
-                        timeout=30  # 30秒超时
+                        timeout=30  # 30 second timeout
                     )
-                    
+
                     return response.choices[0].message.content
-                    
+
                 except Exception as e:
-                    print(f"DeepSeek API调用失败 (尝试 {attempt + 1}/{max_retries}): {e}")
+                    print(f"DeepSeek API call failed (attempt {attempt + 1}/{max_retries}): {e}")
                     if attempt < max_retries - 1:
-                        time.sleep(2 ** attempt)  # 指数退避
+                        time.sleep(1)  # Fixed 1 second wait
                     else:
                         raise e
-                        
+
         except Exception as e:
-            raise Exception(f"DeepSeek API调用最终失败: {e}")
+            print(f"DeepSeek API call ultimately failed: {e}")
+            raise Exception(f"DeepSeek API call failed: {str(e)}")
     
     def _parse_single_test_response(self, ai_response: str) -> Dict:
-        """解析单次测试AI响应"""
+        """Parse single test AI response"""
         sections = {
             'executive_summary': '',
             'clinical_assessment': '',
@@ -627,9 +644,17 @@ class DeepSeekAdvisor:
             'emergency_protocols': '',
             'confidence_score': 0.8
         }
-        
-        # 按章节分割响应
+
+        # Split response by sections - support both English and Chinese formats
         section_patterns = {
+            '[EXECUTIVE SUMMARY]': 'executive_summary',
+            '[CLINICAL ASSESSMENT]': 'clinical_assessment',
+            '[RISK EVALUATION]': 'risk_evaluation',
+            '[TREATMENT RECOMMENDATIONS]': 'treatment_recommendations',
+            '[LIFESTYLE RECOMMENDATIONS]': 'lifestyle_recommendations',
+            '[MONITORING PLAN]': 'monitoring_plan',
+            '[EMERGENCY PROTOCOLS]': 'emergency_protocols',
+            # Fallback to Chinese patterns for compatibility
             '【执行摘要】': 'executive_summary',
             '【临床评估】': 'clinical_assessment',
             '【风险评估】': 'risk_evaluation',
@@ -682,36 +707,42 @@ class DeepSeekAdvisor:
                     else:
                         sections[current_section] = line
         
-        # 确保必要字段不为空
+        # Ensure required fields are not empty
         if not sections['executive_summary']:
-            sections['executive_summary'] = '患者需要专业医生进一步评估'
+            sections['executive_summary'] = 'Patient requires further evaluation by a professional physician'
         if not sections['clinical_assessment']:
-            sections['clinical_assessment'] = '建议进行全面的临床评估'
+            sections['clinical_assessment'] = 'Comprehensive clinical assessment is recommended'
         if not sections['risk_evaluation']:
-            sections['risk_evaluation'] = '风险评估需要专业医生判断'
+            sections['risk_evaluation'] = 'Risk assessment requires professional medical judgment'
         if not sections['treatment_recommendations']:
-            sections['treatment_recommendations'] = ['咨询精神科医生制定个性化治疗方案']
+            sections['treatment_recommendations'] = ['Consult with a psychiatrist to develop a personalized treatment plan']
         if not sections['lifestyle_recommendations']:
-            sections['lifestyle_recommendations'] = ['保持规律作息和健康生活方式']
+            sections['lifestyle_recommendations'] = ['Maintain regular sleep schedule and healthy lifestyle habits']
         if not sections['monitoring_plan']:
-            sections['monitoring_plan'] = '建议定期随访和症状监测'
+            sections['monitoring_plan'] = 'Regular follow-up and symptom monitoring recommended'
         if not sections['emergency_protocols']:
-            sections['emergency_protocols'] = '如有紧急情况，请立即联系医生或拨打急救电话'
-        
+            sections['emergency_protocols'] = 'In case of emergency, contact a physician immediately or call emergency services'
+
         return sections
     
     def _parse_historical_response(self, ai_response: str) -> Dict:
-        """解析历史分析AI响应"""
-        # 定义5个部分的解析模式
+        """Parse historical analysis AI response"""
+        # Define 5 section parsing patterns - support both English and Chinese
         historical_patterns = {
+            '[EXECUTIVE SUMMARY]': 'executive_summary',
+            '[PROGRESS ANALYSIS]': 'progress_analysis',
+            '[TREND INTERPRETATION]': 'trend_interpretation',
+            '[TREATMENT RECOMMENDATIONS]': 'treatment_recommendations',
+            '[PROGNOSIS ASSESSMENT]': 'prognosis_assessment',
+            # Fallback to Chinese patterns for compatibility
             '【执行摘要】': 'executive_summary',
             '【进展分析】': 'progress_analysis',
             '【趋势解读】': 'trend_interpretation',
             '【治疗建议】': 'treatment_recommendations',
             '【预后评估】': 'prognosis_assessment'
         }
-        
-        # 初始化所有字段
+
+        # Initialize all fields
         sections = {
             'executive_summary': '',
             'progress_analysis': '',
@@ -744,18 +775,18 @@ class DeepSeekAdvisor:
                     else:
                         sections[current_section] = line
         
-        # 为空的历史分析字段提供默认值
+        # Provide default values for empty historical analysis fields
         if not sections['executive_summary']:
-            sections['executive_summary'] = '基于历史数据分析，患者整体治疗进展需要持续监测和专业评估'
+            sections['executive_summary'] = 'Based on historical data analysis, overall treatment progress requires continuous monitoring and professional evaluation'
         if not sections['progress_analysis']:
-            sections['progress_analysis'] = '基于现有数据显示患者治疗进展需要持续监测和专业评估'
+            sections['progress_analysis'] = 'Based on available data, treatment progress requires continuous monitoring and professional evaluation'
         if not sections['trend_interpretation']:
-            sections['trend_interpretation'] = '症状趋势变化需要结合临床表现进行综合判断'
+            sections['trend_interpretation'] = 'Symptom trend changes require comprehensive assessment in conjunction with clinical presentation'
         if not sections['treatment_recommendations']:
-            sections['treatment_recommendations'] = '建议继续当前治疗方案，定期评估效果'
+            sections['treatment_recommendations'] = 'Continue current treatment plan with regular effectiveness assessments'
         if not sections['prognosis_assessment']:
-            sections['prognosis_assessment'] = '预后评估需要考虑多个因素，建议定期专业评估'
-        
+            sections['prognosis_assessment'] = 'Prognosis assessment requires consideration of multiple factors. Regular professional evaluation is recommended'
+
         return sections
     
     def _save_report(self, report: AdvisorReport, ai_input: Dict, ai_response: str) -> bool:
