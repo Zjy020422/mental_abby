@@ -616,7 +616,7 @@ Based on this historical data, please generate a comprehensive progress assessme
                         max_tokens=4000,
                         temperature=0.7,
                         stream=False,
-                        timeout=30  # 30 second timeout
+                        timeout=120  # Increased to 120 second timeout for longer responses
                     )
 
                     return response.choices[0].message.content
