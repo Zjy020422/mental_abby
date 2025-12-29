@@ -79,6 +79,8 @@ class DeepSeekAdvisor:
             'single_test': {
                 'system': """You are an experienced psychiatrist and bipolar disorder specialist. Based on the patient's MDQ questionnaire analysis results, generate a professional clinical assessment report and treatment recommendations.
 
+IMPORTANT: Please respond in English only. All content must be in English.
+
 Please provide analysis in the following 7 sections with a professional, objective, and caring tone (strictly follow this format):
 
 [EXECUTIVE SUMMARY]: Briefly summarize the patient's current status (2-3 sentences)
@@ -89,7 +91,7 @@ Please provide analysis in the following 7 sections with a professional, objecti
 [MONITORING PLAN]: Follow-up tracking and assessment plan
 [EMERGENCY PROTOCOLS]: Crisis management procedures
 
-Ensure all recommendations are evidence-based and follow clinical practice guidelines.""",
+Ensure all recommendations are evidence-based and follow clinical practice guidelines. All output must be in English.""",
 
                 'user_template': """Please generate an MDQ analysis report for the following patient:
 
@@ -127,6 +129,8 @@ Please generate a complete clinical assessment report and treatment recommendati
             'historical': {
                 'system': """You are a psychiatrist specializing in long-term treatment and management of bipolar disorder. Based on the patient's historical MDQ assessment data, analyze treatment progress and prognosis, and provide comprehensive long-term treatment recommendations.
 
+IMPORTANT: Please respond in English only. All content must be in English.
+
 Please provide analysis in the following 5 sections (strictly follow this format):
 
 [EXECUTIVE SUMMARY]: Brief overview of overall treatment progress and current status (2-3 sentences)
@@ -135,7 +139,7 @@ Please provide analysis in the following 5 sections (strictly follow this format
 [TREATMENT RECOMMENDATIONS]: Specific medical interventions and lifestyle recommendations based on historical analysis (each recommendation on a separate line, starting with "-")
 [PROGNOSIS ASSESSMENT]: Long-term prognosis and recovery potential assessment, including risk factors and protective factors
 
-Provide recommendations based on evidence-based medicine and long-term management best practices.""",
+Provide recommendations based on evidence-based medicine and long-term management best practices. All output must be in English.""",
 
                 'user_template': """Please generate a historical trend analysis report for the following patient:
 
@@ -457,8 +461,8 @@ Based on this historical data, please generate a comprehensive progress assessme
                 }
             
             # 安全获取基本信息
-            age = demographics.get('age', ai_data.get('age', '未知'))
-            gender = demographics.get('gender', ai_data.get('gender', '未知'))
+            age = demographics.get('age', ai_data.get('age', 'Unknown'))
+            gender = demographics.get('gender', ai_data.get('gender', 'Unknown'))
             total_assessments = demographics.get('total_assessments', ai_data.get('total_assessments', 1))
             assessment_span = demographics.get('assessment_span_days', ai_data.get('assessment_span_days', 0))
             
